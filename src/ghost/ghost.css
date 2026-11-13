@@ -1,0 +1,27 @@
+.ghost {
+  --gpx: 4px;
+  display: block;
+  flex: none;
+  overflow: visible;
+}
+
+/* Two frames, one sprite pixel apart: the way an idle sprite floats. */
+.ghost--bob {
+  animation: ghost-bob 1.5s steps(1, end) infinite;
+}
+
+@keyframes ghost-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 calc(var(--gpx) * -1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghost--bob {
+    animation: none;
+  }
+}

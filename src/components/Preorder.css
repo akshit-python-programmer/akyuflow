@@ -1,0 +1,106 @@
+.preorder__grid {
+  display: grid;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .preorder__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+}
+
+.preorder__more {
+  margin-top: 1rem;
+}
+
+/* The reservation itself: the one boxed object on the page you can act on. */
+
+.preorder__ticket {
+  --px: 5px;
+}
+
+.preorder__ticket-in {
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.preorder__terms {
+  margin: 0;
+}
+
+.preorder__terms > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 0.8rem;
+}
+
+.preorder__terms > div + div {
+  border-top: 2px dotted var(--line);
+}
+
+.preorder__terms > div:first-child {
+  padding-top: 0;
+}
+
+.preorder__terms dt {
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.preorder__terms dd .small {
+  display: block;
+}
+
+/* Prices are the page's own words, so they are set in the text face, not the ghost's. */
+.preorder__sum {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.preorder__pay {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.preorder__paybtn {
+  display: block;
+}
+
+.preorder__closed {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1rem;
+  background: var(--mist);
+  font-weight: 650;
+}
+
+.preorder__waitlist {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 3px solid var(--ink);
+}
+
+.preorder__thanks {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.preorder__thanks h3 {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 26rem) {
+  .preorder__terms > div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}

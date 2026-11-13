@@ -1,0 +1,120 @@
+.daystrip__lede {
+  max-width: 36ch;
+}
+
+.daystrip__line {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Phones: a vertical line down the left. Wide screens: a line across. */
+.daystrip__line::before {
+  content: '';
+  position: absolute;
+  left: calc(5.45rem - 1.5px);
+  top: 1.25rem;
+  bottom: 1.25rem;
+  border-left: 3px dotted var(--ink);
+}
+
+.daystrip__item {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+}
+
+.daystrip__link {
+  display: grid;
+  grid-template-columns: 3.4rem auto minmax(0, 1fr);
+  grid-template-areas: 'time dot what' 'time dot go';
+  align-items: center;
+  column-gap: 0.75rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem 0.5rem 0;
+  text-decoration: none;
+}
+
+.daystrip__time {
+  grid-area: time;
+  font-size: 1.5rem;
+  text-align: right;
+}
+
+.daystrip__dot {
+  grid-area: dot;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+}
+
+.daystrip__what {
+  grid-area: what;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.daystrip__go {
+  grid-area: go;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.daystrip__link:hover .daystrip__dot {
+  background: var(--mint-pale);
+}
+
+.daystrip__link:hover .daystrip__what {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.daystrip__tag {
+  margin-left: 7.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 52rem) {
+  .daystrip__line {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .daystrip__line::before {
+    left: 10%;
+    right: 10%;
+    top: calc(4.1rem - 1.5px);
+    bottom: auto;
+    border-left: 0;
+    border-top: 3px dotted var(--ink);
+  }
+
+  .daystrip__item {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .daystrip__link {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'time' 'dot' 'what' 'go';
+    justify-items: center;
+    row-gap: 0.6rem;
+    padding: 0.5rem;
+  }
+
+  .daystrip__time {
+    text-align: center;
+  }
+
+  .daystrip__tag {
+    margin-left: 0;
+  }
+}

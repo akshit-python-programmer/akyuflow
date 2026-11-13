@@ -1,0 +1,395 @@
+.ask__lede {
+  max-width: 40ch;
+}
+
+.ask__promises {
+  display: grid;
+  gap: 0.9rem 2.5rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 52rem) {
+  .ask__promises {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ask__promises li {
+  padding-left: 1.1rem;
+  border-left: 4px solid var(--mint);
+}
+
+.ask__promises strong {
+  display: block;
+}
+
+.ask__demo {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.ask__demo:focus {
+  outline: none;
+}
+
+/* ---------- tabs ---------- */
+
+.ask__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ask__tab {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  min-height: 2.9rem;
+  padding: 0.4em 0.9em;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.ask__tab:hover {
+  background: var(--mint-wash);
+}
+
+.ask__tab[aria-selected='true'] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.ask__tab .captag {
+  font-size: 0.875rem;
+}
+
+/* ---------- the mock desktop window ---------- */
+
+.ask__frame {
+  --px: 5px;
+}
+
+.ask__window {
+  background: #eceefb;
+}
+
+.ask__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 2.5rem;
+  padding-inline: 0.9rem;
+  border-bottom: 3px solid var(--ink);
+  background: var(--mist);
+  font-size: var(--step--1);
+  font-weight: 650;
+}
+
+.ask__icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--mint);
+}
+
+.ask__panel {
+  padding: clamp(0.9rem, 2.5vw, 1.5rem);
+}
+
+.ask__grid {
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (min-width: 52rem) {
+  .ask__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 1.5rem;
+  }
+}
+
+/* The app window Akyu is asked about. */
+.screen {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  background: #fff;
+}
+
+.screen[data-looking] {
+  outline: 3px solid var(--mint-deep);
+  outline-offset: 3px;
+}
+
+/* A band of mint that passes once over the window while Akyu reads it. */
+.scan {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgb(95 227 192 / 0.05) 40%,
+    rgb(95 227 192 / 0.45) 50%,
+    transparent 52%
+  );
+  background-size: 100% 200%;
+  animation: scan 1.4s cubic-bezier(0.45, 0, 0.55, 1) both;
+}
+
+@keyframes scan {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 -100%;
+  }
+}
+
+.looking {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25em 0.6em;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.looking__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--mint);
+  animation: blink 0.8s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Mail */
+
+.mail,
+.chat {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.mail__subject {
+  font-size: var(--step-1);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.mail__body {
+  display: grid;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px dotted var(--line);
+}
+
+.mail__label,
+.chat__label {
+  font-weight: 650;
+}
+
+.mail__reply,
+.chat__box {
+  min-height: 0;
+  resize: none;
+  font-size: var(--step--1);
+  line-height: 1.45;
+}
+
+.mail__reply[data-typing] {
+  border-color: var(--mint-deep);
+}
+
+.mail__send {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.mail__sendbtn {
+  font-weight: 650;
+}
+
+.mail__sendbtn[aria-disabled='true'] {
+  color: var(--ink-soft);
+  border-color: var(--line);
+  cursor: default;
+}
+
+.mail__sendbtn[data-ready] {
+  box-shadow: 4px 4px 0 var(--mint);
+}
+
+/* Chat */
+
+.chat__msg {
+  max-width: 30rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--mist);
+}
+
+/* Error dialog */
+
+.dialog {
+  display: grid;
+  gap: 0.75rem;
+  margin: clamp(1rem, 4vw, 2.5rem);
+  padding: 1rem 1.1rem;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--line);
+  background: #fff;
+}
+
+.dialog__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 650;
+}
+
+.dialog__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: var(--peach);
+  font-weight: 700;
+}
+
+.dialog__btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* ---------- Akyu's side ---------- */
+
+.ask__side {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.ask__say {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  width: 100%;
+}
+
+.ask__say > svg {
+  margin-top: 0.4rem;
+}
+
+.ask__bubble {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+  border: 3px solid var(--ink);
+  background: #fff;
+}
+
+.ask__bubble .pixel {
+  font-size: 1.1875rem;
+}
+
+.ask__label {
+  margin-bottom: 0.35rem;
+  color: var(--ink-soft);
+}
+
+.ask__draft {
+  font-size: var(--step--1);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.ask__next {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 2px dotted var(--line);
+  font-size: var(--step--1);
+}
+
+.fixed mark {
+  padding: 0 0.12em;
+  background: var(--mint-pale);
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--mint-deep);
+}
+
+.ask__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip--go {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 650;
+}
+
+.chip--go:hover {
+  background: var(--ink-soft);
+}
+
+.chip[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--mint-pale);
+}
+
+.ask__note {
+  font-size: 1.0625rem;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.12em;
+  background: var(--ink);
+  animation: blink 0.8s steps(1, end) infinite;
+}
+
+.ask__meta {
+  margin-top: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan,
+  .looking__dot,
+  .caret {
+    animation: none;
+  }
+
+  .scan {
+    background: rgb(95 227 192 / 0.14);
+  }
+}

@@ -1,0 +1,55 @@
+.faq__list {
+  max-width: 46rem;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  border-top: 3px solid var(--ink);
+}
+
+.faq__item {
+  border-bottom: 2px solid var(--line);
+}
+
+.faq__item:last-child {
+  border-bottom: 3px solid var(--ink);
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.15rem;
+  font-size: var(--step-1);
+  font-weight: 650;
+  line-height: 1.3;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* A pixel plus that loses its upright when the answer is open. */
+.faq__item summary::after {
+  content: '';
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(var(--ink) 0 0) center / 100% 4px no-repeat,
+    linear-gradient(var(--ink) 0 0) center / 4px 100% no-repeat;
+}
+
+.faq__item[open] summary::after {
+  background: linear-gradient(var(--ink) 0 0) center / 100% 4px no-repeat;
+}
+
+.faq__item summary:hover {
+  background: var(--mint-wash);
+}
+
+.faq__answer {
+  display: grid;
+  gap: 0.85rem;
+  padding-bottom: 1.5rem;
+}

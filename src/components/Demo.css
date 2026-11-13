@@ -1,0 +1,866 @@
+/* Everything inside the scene is sized in cqw, so the whole picture scales
+   with the frame like a video would. */
+.demo {
+  container: demo / inline-size;
+}
+
+.demo__frame {
+  --px: 6px;
+}
+
+.demo__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--mist);
+}
+
+.demo__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem 2rem;
+  margin-top: 1.5rem;
+}
+
+.demo__ctl {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+/* Twenty squares across the whole loop. */
+.demo__played {
+  --played: 0;
+  width: 200px;
+  height: 8px;
+  background: linear-gradient(to right, var(--ink) calc(var(--played) * 100%), var(--line) 0);
+  -webkit-mask: repeating-linear-gradient(to right, #000 0 6px, transparent 6px 10px);
+  mask: repeating-linear-gradient(to right, #000 0 6px, transparent 6px 10px);
+}
+
+.demo__toggle {
+  min-width: 4.75rem;
+  min-height: 2.5rem;
+  padding: 0.3em 0.9em;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font-size: var(--step--1);
+  font-weight: 650;
+}
+
+.demo__toggle:hover {
+  background: var(--mint-pale);
+}
+
+/* ---------- the scene ---------- */
+
+.scene {
+  --typed: 0;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #eceefb;
+  color: var(--ink);
+  font-size: 1.5cqw;
+  line-height: 1.3;
+  user-select: none;
+}
+
+.scene__all {
+  position: absolute;
+  inset: 0;
+}
+
+/* Windows */
+
+.win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 0.3cqw solid var(--ink);
+  background: #fff;
+}
+
+.win__bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.8cqw;
+  height: 3.4cqw;
+  padding-inline: 1cqw;
+  border-bottom: 0.3cqw solid var(--ink);
+  background: var(--mist);
+  font-size: 1.35cqw;
+  font-weight: 650;
+}
+
+.win__icon {
+  width: 1.5cqw;
+  height: 1.5cqw;
+  background: var(--mint);
+}
+
+.win__icon--peach {
+  background: var(--peach);
+}
+
+.win__body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.win--task {
+  left: 5%;
+  top: 8%;
+  width: 60%;
+  height: 72%;
+}
+
+.win--drift {
+  left: 13%;
+  top: 5%;
+  width: 63%;
+  height: 76%;
+  opacity: 0;
+  translate: 5% 7%;
+  transition:
+    opacity 300ms,
+    translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.scene[data-phase='drift'] .win--drift,
+.scene[data-phase='nudge'] .win--drift,
+.scene[data-phase='aim'] .win--drift,
+.scene[data-phase='click'] .win--drift {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* The report being typed: bars that grow as --typed goes from 0 to 1. */
+
+.doc {
+  display: flex;
+  flex-direction: column;
+  gap: 1.45cqw;
+  padding: 2.6cqw 3cqw;
+  animation: doc-in 500ms both;
+}
+
+@keyframes doc-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.doc__title {
+  flex: none;
+  width: 46%;
+  height: 2.2cqw;
+  margin-bottom: 0.6cqw;
+  background: var(--ink);
+}
+
+.doc__line {
+  flex: none;
+  width: calc(clamp(0, var(--typed) * 6 - var(--i) + 3, 1) * var(--w));
+  height: 1.1cqw;
+  background: var(--line);
+}
+
+/* The video site that pulls you away */
+
+.feed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: start;
+  gap: 1.7cqw 1.5cqw;
+  padding: 1.9cqw;
+}
+
+.feed__tile {
+  display: grid;
+  gap: 0.7cqw;
+}
+
+.feed__thumb {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  background: var(--c);
+}
+
+.feed__thumb::after {
+  content: '';
+  border-left: 1.7cqw solid #fff;
+  border-block: 1.05cqw solid transparent;
+}
+
+.feed__tile b {
+  display: block;
+  height: 0.9cqw;
+  background: var(--line);
+}
+
+.feed__tile b + b {
+  width: 60%;
+}
+
+/* Taskbar */
+
+.scene__taskbar {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1cqw;
+  height: 7.5%;
+  border-top: 0.3cqw solid var(--ink);
+  background: #fff;
+}
+
+.scene__taskbar i {
+  width: 2.1cqw;
+  height: 2.1cqw;
+  background: var(--line);
+}
+
+.scene__taskbar i:first-child {
+  background: var(--ink);
+}
+
+.scene__clock {
+  position: absolute;
+  right: 2cqw;
+  font-size: 1.5cqw;
+}
+
+/* The ghost and its timer, bottom right, above the taskbar */
+
+.scene__dock {
+  position: absolute;
+  right: 3%;
+  bottom: 10.5%;
+  display: flex;
+  align-items: flex-end;
+  gap: 1cqw;
+}
+
+.scene__ghost {
+  width: 9cqw;
+  height: auto;
+}
+
+.scene__pill {
+  display: flex;
+  align-items: baseline;
+  gap: 1cqw;
+  margin-bottom: 1.2cqw;
+  padding: 0.55cqw 1.2cqw;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.95cqw;
+}
+
+.scene__pill span {
+  font-size: 0.78em;
+  opacity: 0.78;
+}
+
+.scene__pill b {
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.scene__hello {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 1.2cqw;
+  padding: 0.6cqw 1.2cqw;
+  border: 0.3cqw solid var(--ink);
+  background: #fff;
+  font-size: 1.8cqw;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 25%;
+  transition:
+    opacity 160ms,
+    translate 200ms steps(3, end);
+}
+
+.scene[data-phase='back'] .scene__hello {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* The nudge. The wrapper only moves; the glass itself fades, because fading a
+   parent would switch off the glass's view of what is behind it. */
+
+.scene__nudge {
+  position: absolute;
+  right: 3%;
+  bottom: 30%;
+  translate: 0 8%;
+  scale: 0.97;
+  transform-origin: 85% 100%;
+  transition:
+    translate 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.scene__nudge .nudge {
+  opacity: 0;
+  transition: opacity 240ms;
+}
+
+.scene[data-phase='nudge'] .scene__nudge,
+.scene[data-phase='aim'] .scene__nudge,
+.scene[data-phase='click'] .scene__nudge {
+  translate: 0 0;
+  scale: 1;
+}
+
+.scene[data-phase='nudge'] .scene__nudge .nudge,
+.scene[data-phase='aim'] .scene__nudge .nudge,
+.scene[data-phase='click'] .scene__nudge .nudge {
+  opacity: 1;
+}
+
+/* Cursor */
+
+.scene__cursor {
+  position: absolute;
+  z-index: 5;
+  width: 1.9cqw;
+  transition:
+    left 1.3s cubic-bezier(0.45, 0, 0.2, 1),
+    top 1.3s cubic-bezier(0.45, 0, 0.2, 1),
+    scale 90ms;
+}
+
+.scene__cursor svg {
+  width: 100%;
+  height: auto;
+}
+
+.scene[data-phase='click'] .scene__cursor {
+  scale: 0.85;
+}
+
+/* ---------- the same scene on a narrow frame ---------- */
+
+@container demo (max-width: 620px) {
+  .scene {
+    aspect-ratio: 10 / 9;
+    font-size: 3.1cqw;
+  }
+
+  .win {
+    border-width: 0.55cqw;
+  }
+
+  .win__bar {
+    gap: 1.6cqw;
+    height: 6.4cqw;
+    padding-inline: 1.8cqw;
+    border-bottom-width: 0.55cqw;
+    font-size: 2.9cqw;
+  }
+
+  .win__icon {
+    width: 3cqw;
+    height: 3cqw;
+  }
+
+  .win--task {
+    left: 4%;
+    top: 5%;
+    width: 80%;
+    height: 56%;
+  }
+
+  .win--drift {
+    left: 9%;
+    top: 3%;
+    width: 86%;
+    height: 59%;
+  }
+
+  .doc {
+    gap: 2.5cqw;
+    padding: 4cqw;
+  }
+
+  .doc__title {
+    height: 3.6cqw;
+  }
+
+  .doc__line {
+    height: 1.9cqw;
+  }
+
+  .feed {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3cqw;
+    padding: 3cqw;
+  }
+
+  .feed__thumb::after {
+    border-left-width: 3.2cqw;
+    border-block-width: 2cqw;
+  }
+
+  .feed__tile b {
+    height: 1.6cqw;
+  }
+
+  .scene__taskbar {
+    gap: 2cqw;
+    height: 9%;
+    border-top-width: 0.55cqw;
+  }
+
+  .scene__taskbar i {
+    width: 3.8cqw;
+    height: 3.8cqw;
+  }
+
+  .scene__clock {
+    right: 3cqw;
+    font-size: 3cqw;
+  }
+
+  .scene__dock {
+    right: 4%;
+    bottom: 12%;
+    gap: 2cqw;
+  }
+
+  .scene__ghost {
+    width: 17cqw;
+  }
+
+  .scene__pill {
+    margin-bottom: 2cqw;
+    padding: 1cqw 2cqw;
+    font-size: 3.7cqw;
+  }
+
+  .scene__hello {
+    padding: 1cqw 2cqw;
+    border-width: 0.55cqw;
+    font-size: 3.4cqw;
+  }
+
+  .scene__nudge {
+    left: 4%;
+    right: 4%;
+    bottom: 35%;
+    font-size: 3.15cqw;
+  }
+
+  .scene__nudge .nudge {
+    width: 100%;
+  }
+
+  .scene__cursor {
+    width: 4cqw;
+  }
+}
+
+/* ---------- act two: ask by voice, Akyu reads the mail ---------- */
+
+.win__icon--sky {
+  background: #9fd8ff;
+}
+
+.win--task {
+  transition: opacity 260ms;
+}
+
+.scene[data-phase='mail'] .win--task,
+.scene[data-phase='look'] .win--task,
+.scene[data-phase='answer'] .win--task {
+  opacity: 0;
+}
+
+.win--mail {
+  left: 14%;
+  top: 9%;
+  width: 54%;
+  height: 58%;
+  opacity: 0;
+  translate: 4% 6%;
+  transition:
+    opacity 300ms,
+    translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.scene[data-phase='mail'] .win--mail,
+.scene[data-phase='look'] .win--mail,
+.scene[data-phase='answer'] .win--mail {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.mail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+  padding: 2.2cqw 2.6cqw;
+}
+
+.mail__from {
+  display: flex;
+  align-items: center;
+  gap: 1cqw;
+  font-size: 1.3cqw;
+}
+
+.mail__from i {
+  width: 2.6cqw;
+  height: 2.6cqw;
+  border-radius: 50%;
+  background: var(--lilac);
+}
+
+.mail__from small {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: 1.1cqw;
+}
+
+.mail__subject {
+  font-size: 1.5cqw;
+  color: var(--ink-soft);
+}
+
+.mail__text {
+  margin: 0.4cqw 0 0.8cqw;
+  font-size: 3cqw;
+  line-height: 1.1;
+}
+
+.mail__line {
+  display: block;
+  width: 90%;
+  height: 1cqw;
+  background: var(--line);
+}
+
+.mail__line--short {
+  width: 55%;
+}
+
+/* The mic button beside the ghost */
+
+.scene__mic {
+  display: grid;
+  flex: none;
+  place-items: center;
+  align-self: flex-end;
+  width: 4.4cqw;
+  height: 4.4cqw;
+  margin-bottom: 1.2cqw;
+  border: 0.3cqw solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0.3cqw 0.3cqw 0 var(--ink);
+  transition:
+    background-color 120ms,
+    scale 120ms;
+}
+
+.scene__mic svg {
+  width: 55%;
+  height: auto;
+}
+
+.scene__mic[data-pressed] {
+  background: var(--peach);
+  scale: 0.94;
+  animation: mic-pulse 900ms ease-out infinite;
+}
+
+@keyframes mic-pulse {
+  from {
+    box-shadow:
+      0.3cqw 0.3cqw 0 var(--ink),
+      0 0 0 0 rgb(255 181 140 / 0.8);
+  }
+  to {
+    box-shadow:
+      0.3cqw 0.3cqw 0 var(--ink),
+      0 0 0 1.6cqw rgb(255 181 140 / 0);
+  }
+}
+
+/* What you say */
+
+.scene__voice {
+  position: absolute;
+  right: 3%;
+  bottom: 30%;
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  padding: 0.9cqw 1.6cqw;
+  border: 0.3cqw solid var(--ink);
+  background: #fff;
+  font-size: 2cqw;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 20%;
+  transition:
+    opacity 160ms,
+    translate 200ms steps(3, end);
+}
+
+.scene[data-phase='listen'] .scene__voice,
+.scene[data-phase='mail'] .scene__voice {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.scene__wave {
+  display: flex;
+  align-items: center;
+  gap: 0.35cqw;
+  height: 2.4cqw;
+}
+
+.scene__wave i {
+  width: 0.5cqw;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: center;
+  animation: wave 600ms ease-in-out infinite alternate;
+}
+
+.scene__wave i:nth-child(2) { animation-delay: -150ms; }
+.scene__wave i:nth-child(3) { animation-delay: -300ms; }
+.scene__wave i:nth-child(4) { animation-delay: -450ms; }
+.scene__wave i:nth-child(5) { animation-delay: -75ms; }
+
+@keyframes wave {
+  from { scale: 1 0.25; }
+  to { scale: 1 1; }
+}
+
+.scene__heard {
+  clip-path: inset(0 100% 0 0);
+}
+
+.scene[data-phase='listen'] .scene__heard {
+  animation: heard 2.6s steps(26, end) 300ms forwards;
+}
+
+.scene[data-phase='mail'] .scene__heard {
+  clip-path: inset(0);
+}
+
+@keyframes heard {
+  to { clip-path: inset(0); }
+}
+
+/* Akyu looks at the screen */
+
+.scene__scan {
+  position: absolute;
+  left: 14%;
+  top: 9%;
+  width: 54%;
+  height: 58%;
+  overflow: hidden;
+  outline: 0.4cqw dashed var(--mint-deep);
+  outline-offset: 0.5cqw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+}
+
+.scene[data-phase='look'] .scene__scan {
+  opacity: 1;
+}
+
+.scene__scan::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 22%;
+  background: linear-gradient(to bottom, transparent, rgb(95 227 192 / 0.5));
+  border-bottom: 0.3cqw solid var(--mint-deep);
+  animation: scan 1.3s linear infinite;
+}
+
+@keyframes scan {
+  from { translate: 0 -100%; }
+  to { translate: 0 460%; }
+}
+
+.scene__scantag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0.5cqw 1.2cqw;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.7cqw;
+}
+
+/* Akyu's answer: a reply and the plan */
+
+.scene__answer {
+  position: absolute;
+  right: 3%;
+  bottom: 30%;
+  translate: 0 8%;
+  scale: 0.97;
+  transform-origin: 85% 100%;
+  transition:
+    translate 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.answer {
+  width: max-content;
+  max-width: 100%;
+  padding: 1em 1.1em 1.1em;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 240ms;
+}
+
+.scene[data-phase='answer'] .scene__answer {
+  translate: 0 0;
+  scale: 1;
+}
+
+.scene[data-phase='answer'] .answer {
+  opacity: 1;
+}
+
+.answer__reply {
+  margin: 0.8em 0 0;
+  padding: 0.35em 0.8em;
+  border-radius: 0.8em;
+  background: rgb(255 255 255 / 0.8);
+  font-size: 1.25em;
+}
+
+.answer__todo {
+  margin: 0.7em 0 0;
+  color: var(--ink-soft);
+  font-size: 1em;
+}
+
+.answer__plan {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-top: 0.3em;
+}
+
+.answer__step {
+  padding: 0.3em 0.7em;
+  border-radius: 999px;
+  background: var(--mint-pale);
+  font-size: 1.05em;
+  white-space: nowrap;
+}
+
+.answer__step--fixed {
+  background: var(--peach);
+}
+
+.answer__arrow {
+  width: 0.6em;
+  height: 0.6em;
+  border-top: 0.2em solid var(--ink);
+  border-right: 0.2em solid var(--ink);
+  rotate: 45deg;
+}
+
+@container demo (max-width: 620px) {
+  .win--mail,
+  .scene__scan {
+    left: 9%;
+    top: 4%;
+    width: 86%;
+    height: 54%;
+  }
+
+  .mail { padding: 4cqw; gap: 2cqw; }
+  .mail__from { font-size: 2.8cqw; }
+  .mail__from i { width: 5cqw; height: 5cqw; }
+  .mail__from small { font-size: 2.4cqw; }
+  .mail__subject { font-size: 3cqw; }
+  .mail__text { font-size: 5.4cqw; }
+  .mail__line { height: 1.8cqw; }
+
+  .scene__mic {
+    width: 8cqw;
+    height: 8cqw;
+    margin-bottom: 2cqw;
+    border-width: 0.55cqw;
+    box-shadow: 0.5cqw 0.5cqw 0 var(--ink);
+  }
+
+  .scene__voice {
+    left: 4%;
+    right: 4%;
+    bottom: 35%;
+    padding: 1.5cqw 3cqw;
+    border-width: 0.55cqw;
+    font-size: 3.6cqw;
+  }
+
+  .scene__wave { height: 4cqw; }
+  .scene__wave i { width: 0.9cqw; }
+
+  .scene__scan { outline-width: 0.7cqw; outline-offset: 1cqw; }
+  .scene__scantag { padding: 1cqw 2cqw; font-size: 3.2cqw; }
+
+  .scene__answer {
+    left: 4%;
+    right: 4%;
+    bottom: 35%;
+    font-size: 3.15cqw;
+  }
+
+  .answer { width: 100%; }
+  .answer__step { padding: 0.3em 0.45em; font-size: 0.95em; }
+}
+
+@media (max-width: 30rem) {
+  .demo__played {
+    width: 150px;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-image: repeating-linear-gradient(to right, #000 0 4.5px, transparent 4.5px 7.5px);
+    mask-image: repeating-linear-gradient(to right, #000 0 4.5px, transparent 4.5px 7.5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .win--drift,
+  .scene__nudge,
+  .scene__nudge .nudge,
+  .scene__hello,
+  .scene__cursor,
+  .win--mail,
+  .win--task,
+  .scene__voice,
+  .scene__answer,
+  .answer,
+  .scene__scan,
+  .scene__mic,
+  .doc {
+    transition: none;
+    animation: none;
+  }
+}

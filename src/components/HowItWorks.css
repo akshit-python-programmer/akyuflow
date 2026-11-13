@@ -1,0 +1,182 @@
+.how__steps {
+  display: grid;
+  gap: 4rem 3rem;
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+@media (min-width: 40rem) {
+  .how__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 68rem) {
+  .how__steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4rem 2.25rem;
+  }
+}
+
+/* Each step's little picture stands on the same baseline. */
+.how__art {
+  display: flex;
+  align-items: flex-end;
+  min-height: 10.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.how__n {
+  --px: 3px;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: 0.9rem;
+  background: var(--mint);
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.how__step h3 {
+  margin-bottom: 0.5rem;
+}
+
+/* 1. The plan */
+
+.planart {
+  width: min(100%, 17.5rem);
+}
+
+.planart__said {
+  --px: 3px;
+  padding: 0.55em 0.85em;
+  background: var(--mist);
+  font-size: 1.0625rem;
+}
+
+.planart__list {
+  margin-top: 0.75rem;
+  font-size: var(--step--1);
+}
+
+.planart__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding-block: 0.3rem;
+}
+
+.planart__list li + li {
+  border-top: 2px dotted var(--line);
+}
+
+.planart__list li::before {
+  content: '';
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--mint);
+}
+
+.planart__list b {
+  margin-left: auto;
+  font-size: 1.0625rem;
+}
+
+/* 2. The ghost timer */
+
+.timerart {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.1rem;
+}
+
+.timerart__read {
+  display: grid;
+  padding-bottom: 0.4rem;
+}
+
+.timerart__time {
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+/* 3. The nudge */
+
+.driftart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+.driftart__bubble {
+  position: relative;
+  margin-bottom: 2.6rem;
+  padding: 0.45em 0.8em;
+  border: 3px solid var(--ink);
+  font-size: 1.0625rem;
+  white-space: nowrap;
+}
+
+/* The bubble's tail: two stepped squares towards the ghost. */
+.driftart__bubble::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  bottom: -12px;
+  width: 9px;
+  height: 9px;
+  background: var(--ink);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
+/* 4. Ask about the screen */
+
+.askart {
+  position: relative;
+  width: min(100%, 15rem);
+  height: 9.5rem;
+}
+
+.askart__win {
+  display: grid;
+  gap: 0.55rem;
+  width: 78%;
+  height: 100%;
+  padding: 1.6rem 0.8rem 0.8rem;
+  border: 3px solid var(--ink);
+  background: linear-gradient(var(--mist) 0 1rem, var(--ink) 1rem calc(1rem + 3px), #fff 0);
+  align-content: start;
+}
+
+.askart__win span {
+  height: 0.55rem;
+  background: var(--line);
+}
+
+.askart__win span:nth-child(2) {
+  width: 80%;
+  background: var(--mint-pale);
+}
+
+.askart__win span:nth-child(3) {
+  width: 60%;
+}
+
+.askart__say {
+  position: absolute;
+  right: 0;
+  bottom: -0.3rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.askart__bubble {
+  margin-bottom: 2.4rem;
+  padding: 0.3em 0.6em;
+  border: 3px solid var(--ink);
+  background: #fff;
+  font-size: 1rem;
+  white-space: nowrap;
+}

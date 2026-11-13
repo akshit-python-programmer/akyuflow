@@ -1,0 +1,37 @@
+.waitlist__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.waitlist__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.waitlist__row .field {
+  flex: 1 1 14rem;
+}
+
+.waitlist__trap {
+  position: absolute;
+  left: -200vw;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.waitlist__problem {
+  min-height: 1.5em;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.waitlist__done {
+  padding: 0.9rem 1rem;
+  background: var(--mint-wash);
+  font-weight: 600;
+}

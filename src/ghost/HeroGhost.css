@@ -1,0 +1,77 @@
+.heroghost {
+  /* One sprite pixel. Stepped so the ghost always lands on whole pixels. */
+  --unit: 8px;
+  width: calc(var(--unit) * 21);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 30rem) {
+  .heroghost {
+    --unit: 10px;
+  }
+}
+
+@media (min-width: 56rem) {
+  .heroghost {
+    --unit: 13px;
+  }
+}
+
+@media (min-width: 72rem) {
+  .heroghost {
+    --unit: 16px;
+  }
+}
+
+.heroghost__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(var(--unit) * 21);
+  height: calc(var(--unit) * 19);
+}
+
+.heroghost__flat {
+  --gpx: var(--unit);
+  width: calc(var(--unit) * 17);
+  height: calc(var(--unit) * 15);
+}
+
+.heroghost__flat--hidden {
+  visibility: hidden;
+}
+
+.heroghost__3d {
+  position: absolute;
+  inset: 0;
+}
+
+/* A flat pixel shadow on the "floor", breathing with the float. */
+.heroghost__shadow {
+  --px: calc(var(--unit) / 2);
+  width: calc(var(--unit) * 10);
+  height: calc(var(--unit) * 1.5);
+  margin: calc(var(--unit) * -0.5) auto 0;
+  background: var(--line);
+}
+
+.heroghost__shadow--live {
+  animation: heroghost-shadow 3.3s ease-in-out infinite;
+}
+
+@keyframes heroghost-shadow {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 0.9 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroghost__shadow--live {
+    animation: none;
+  }
+}

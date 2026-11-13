@@ -1,0 +1,103 @@
+.slips__lede {
+  max-width: 44ch;
+}
+
+.slips__demo {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.slips__recap {
+  display: grid;
+  gap: 1.75rem 3.5rem;
+  align-items: center;
+  margin-top: clamp(4rem, 9vw, 6.5rem);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.slips__recap:focus {
+  outline: none;
+}
+
+@media (min-width: 56rem) {
+  .slips__recap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.slips__block h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* A mock of one of Akyu's own panels. */
+
+.mock__in {
+  display: flex;
+  flex-direction: column;
+  min-height: 19.5rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+}
+
+.mock__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: none;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--ink);
+  font-size: 1.25rem;
+}
+
+.mock__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.mock__foot p {
+  font-size: 1.0625rem;
+}
+
+/* The recap */
+
+.recap__row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.6rem;
+}
+
+.recap__row + .recap__row {
+  border-top: 2px dotted var(--line);
+}
+
+.recap__label {
+  font-weight: 650;
+}
+
+.recap__bar {
+  width: calc(var(--share) * 100%);
+  height: 0.9rem;
+  background: var(--mint);
+}
+
+.recap__bar--break {
+  background: var(--lilac);
+}
+
+/* Time spent elsewhere is drawn as a plain dither, not a warning colour. */
+.recap__bar--else {
+  background: conic-gradient(var(--ink) 25%, transparent 0 50%, var(--ink) 0 75%, transparent 0) 0 0 / 4px 4px;
+}
+
+.recap__time {
+  font-size: 1.125rem;
+  text-align: right;
+  white-space: nowrap;
+}
+

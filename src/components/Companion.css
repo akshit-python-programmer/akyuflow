@@ -1,0 +1,194 @@
+.companion {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  max-width: calc(100vw - 2rem);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.companion[data-shown] {
+  visibility: visible;
+}
+
+.companion > * {
+  pointer-events: auto;
+}
+
+.companion__live:empty {
+  display: none;
+}
+
+/* The ghost and the time it is holding. */
+.companion__ghost {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  border: 0;
+  background: none;
+}
+
+.companion[data-shown] .companion__ghost {
+  animation: companion-in 280ms steps(4, end) both;
+}
+
+@keyframes companion-in {
+  from {
+    opacity: 0;
+    translate: 0 60%;
+  }
+}
+
+.companion__time {
+  margin-bottom: 0.4rem;
+  padding: 0.2em 0.55em;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.companion__time[data-tone='peach'] {
+  background: var(--peach);
+  color: var(--ink);
+}
+
+.companion__time[data-tone='lilac'] {
+  background: var(--lilac);
+  color: var(--ink);
+}
+
+/* What the ghost says. */
+.companion__card {
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1em 1.1em 1.1em;
+}
+
+.companion__card--info {
+  order: -1;
+}
+
+.companion__card p {
+  max-width: none;
+  font-size: 1.125rem;
+}
+
+.companion__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.85em;
+}
+
+.companion__nudge {
+  max-width: min(27rem, calc(100vw - 2rem));
+}
+
+.companion__note {
+  padding: 0.45em 0.8em;
+  border: 3px solid var(--ink);
+  background: #fff;
+  font-size: 1.0625rem;
+}
+
+/* The four things you can ask for. */
+.companion__asks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5em;
+  margin-top: 0.85em;
+}
+
+.companion__ask {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: 14px;
+  white-space: normal;
+  text-align: left;
+}
+
+.companion__later {
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.companion__fine {
+  margin-top: 0.6em;
+}
+
+.companion__row--quiet {
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.7em;
+  border-top: 2px dotted rgb(30 27 75 / 0.25);
+}
+
+.companion__hide {
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+/* Moods. Asleep gets a little z; celebrating hops. */
+.companion__sprite {
+  position: relative;
+}
+
+.companion__z {
+  position: absolute;
+  right: -0.3rem;
+  top: -0.9rem;
+  font-size: 1.25rem;
+  animation: doze 2.4s steps(3, end) infinite;
+}
+
+@keyframes doze {
+  from {
+    opacity: 0;
+    translate: 0 0.4rem;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    translate: 0.3rem -0.5rem;
+  }
+}
+
+.companion__ghost[data-mood='celebrating'] .ghost {
+  animation: hop 0.6s steps(3, end) 3;
+}
+
+@keyframes hop {
+  50% {
+    translate: 0 -12px;
+  }
+}
+
+@media (max-width: 26rem) {
+  .companion__asks {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion[data-shown] .companion__ghost,
+  .companion__ghost[data-mood='celebrating'] .ghost,
+  .companion__z {
+    animation: none;
+  }
+}

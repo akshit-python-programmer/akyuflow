@@ -1,0 +1,330 @@
+.plandemo {
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.plandemo:focus {
+  outline: none;
+}
+
+.plandemo__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.plandemo__in {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.plandemo__label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-weight: 650;
+}
+
+.plandemo__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.plandemo__field {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.plandemo__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* A small, plain choice: used for example inputs and the ghost's options. */
+.chip {
+  min-height: 2.5rem;
+  padding: 0.3em 0.85em;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font-size: var(--step--1);
+  line-height: 1.3;
+  text-align: left;
+}
+
+.chip:hover {
+  background: var(--mint-wash);
+}
+
+.plandemo__say {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  max-width: none;
+  padding: 0.5rem 0.85rem;
+  background: var(--mist);
+}
+
+.plandemo__say .pixel {
+  font-size: 1.1875rem;
+}
+
+.plandemo__grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+@media (min-width: 48rem) {
+  .plandemo__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 2rem;
+  }
+}
+
+.plandemo__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: none;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 3px solid var(--ink);
+  font-size: 1.25rem;
+}
+
+/* ---------- the to-do list ---------- */
+
+.todo__empty {
+  padding-block: 0.75rem;
+}
+
+.todo__item {
+  padding-block: 0.4rem;
+  animation: plan-in 260ms steps(3, end) both;
+}
+
+.todo__item + .todo__item {
+  border-top: 2px dotted var(--line);
+}
+
+.todo__line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.todo__tick {
+  flex: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0;
+  accent-color: var(--mint-deep);
+  cursor: pointer;
+}
+
+.todo__open {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.5rem;
+  padding: 0.2rem 0.3rem;
+  border: 0;
+  background: none;
+  font-weight: 650;
+  text-align: left;
+}
+
+.todo__open:hover .todo__title {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.todo__item[data-done] .todo__title {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  color: var(--ink-soft);
+}
+
+.todo__when {
+  flex: none;
+  font-size: 1.0625rem;
+  white-space: nowrap;
+}
+
+.todo__notes {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  padding: 0.25rem 0 0.5rem 1.95rem;
+}
+
+.todo__notefield {
+  min-height: 0;
+  resize: vertical;
+  font-size: var(--step--1);
+}
+
+/* ---------- the calendar ---------- */
+
+.cal__tag {
+  font-size: 0.875rem;
+}
+
+.cal__day {
+  --hh: 2.6rem;
+  position: relative;
+  height: calc(var(--hours) * var(--hh) + 0.75rem);
+  margin-top: 0.5rem;
+}
+
+.cal__hour {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--at) * var(--hh));
+  display: block;
+  width: 100%;
+  translate: 0 -0.7em;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.cal__hour::after {
+  content: '';
+  position: absolute;
+  left: 3.4rem;
+  right: 0;
+  top: 0.7em;
+  border-top: 2px dotted var(--line);
+}
+
+.cal__block {
+  position: absolute;
+  left: 3.6rem;
+  right: 0;
+  top: calc(var(--start) * var(--hh) + 1px);
+  height: calc(var(--len) * var(--hh) - 2px);
+  min-height: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  padding: 0.2rem 0.55rem;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  background: var(--mint-pale);
+  font-size: var(--step--1);
+  line-height: 1.25;
+  animation: block-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition:
+    top 700ms cubic-bezier(0.45, 0, 0.2, 1),
+    height 700ms cubic-bezier(0.45, 0, 0.2, 1),
+    background-color 200ms;
+}
+
+.cal__block[data-fixed] {
+  background: var(--lilac);
+}
+
+.cal__block[data-moved] {
+  box-shadow: 4px 4px 0 var(--mint-deep);
+}
+
+.cal__block[data-late] {
+  background: var(--peach);
+}
+
+.cal__block[data-done] {
+  background: repeating-linear-gradient(135deg, var(--paper) 0 6px, var(--mint-wash) 6px 12px);
+  color: var(--ink-soft);
+}
+
+.cal__name {
+  font-weight: 650;
+}
+
+.cal__time {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+@keyframes block-in {
+  from {
+    opacity: 0;
+    translate: -18% 0;
+  }
+}
+
+@keyframes plan-in {
+  from {
+    opacity: 0;
+    translate: 0 40%;
+  }
+}
+
+/* ---------- foot ---------- */
+
+.plandemo__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.plandemo__foot:empty {
+  display: none;
+}
+
+.plandemo__moves {
+  flex-basis: 100%;
+  padding: 0.75rem 0.9rem;
+  border-left: 4px solid var(--mint-deep);
+  background: var(--mint-wash);
+}
+
+.plandemo__moves ul {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.3rem;
+}
+
+.plandemo__moves li::before {
+  content: '→ ';
+}
+
+.plandemo__fine {
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 30rem) {
+  .cal__day {
+    --hh: 2.9rem;
+  }
+
+  .cal__block {
+    left: 3.2rem;
+  }
+
+  .cal__hour::after {
+    left: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .todo__item,
+  .cal__block {
+    animation: none;
+    transition: none;
+  }
+}

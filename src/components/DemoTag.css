@@ -1,0 +1,25 @@
+.demotag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+  max-width: none;
+}
+
+.captag {
+  display: inline-block;
+  flex: none;
+  padding: 0.12em 0.55em 0.08em;
+  border: 2px solid var(--ink);
+  background: var(--mint-pale);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* "Coming after launch" is drawn hollow and dotted: present, but not yet solid. */
+.captag[data-when='later'] {
+  border-style: dashed;
+  background: var(--paper);
+}

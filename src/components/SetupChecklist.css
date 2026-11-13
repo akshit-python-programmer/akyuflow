@@ -1,0 +1,33 @@
+.setup {
+  padding: 0.6rem var(--gutter);
+  background: var(--ink);
+  color: #fff;
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+.setup summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.setup ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+}
+
+.setup p {
+  max-width: none;
+}
+
+.setup code {
+  padding: 0.05em 0.35em;
+  background: rgb(255 255 255 / 0.16);
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.setup :focus-visible {
+  outline-color: #fff;
+}
