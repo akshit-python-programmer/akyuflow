@@ -3,6 +3,7 @@ import { Companion } from './components/Companion'
 import { DaySlips } from './components/DaySlips'
 // import { DayStrip } from './components/DayStrip'
 import { Faq } from './components/Faq'
+import { Familiar } from './components/Familiar'
 import { Footer } from './components/Footer'
 import { FounderNote } from './components/FounderNote'
 import { Header } from './components/Header'
@@ -35,11 +36,12 @@ export function App({ purchase }: AppProps) {
       <Header />
       <main id="main">
         <Hero />
+        <Familiar />
         <HowItWorks />
         {/* <DayStrip /> */}
-        <ScreenHelp />
         <DaySlips />
         <NudgeSection />
+        <ScreenHelp />
         <Privacy />
         <FounderNote />
         <Preorder purchase={purchase} />

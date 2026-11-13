@@ -49,7 +49,10 @@ export function DaySlips() {
   return (
     <section className="section slips" id="slips" data-recap="Plan and replan">
       <div className="wrap">
-        <h2>Say your day in one line. When it slips, replan in one click.</h2>
+        <p>
+          <span className="captag pixel">1 · Runs your day</span>
+        </p>
+        <h2>Say it in plain words. Akyu plans your day, and replans it when it slips.</h2>
         <p className="lede slips__lede">
           Akyu turns what you tell it into a timed plan. Something ran long, or something came up? One click, and it
           replans the rest of your day.

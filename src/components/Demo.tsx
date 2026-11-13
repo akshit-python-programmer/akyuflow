@@ -18,8 +18,9 @@ import './Demo.css'
  * let it read the mail on screen and get a reply, to-dos and a plan; then a short
  * check-in when you drift. The caption says plainly that it is an illustration.
  */
-export function Demo() {
-  return site.demoVideo.src ? <DemoVideo /> : <DemoScene />
+export function Demo({ part = 'all' }: { part?: 'all' | 'drift' }) {
+  // The 'drift' part is the same drawn scene, played from the video's distraction to the check-in.
+  return site.demoVideo.src && part === 'all' ? <DemoVideo /> : <DemoScene part={part} />
 }
 
 function DemoVideo() {
@@ -47,7 +48,7 @@ function DemoVideo() {
   )
 }
 
-const LOOP_MS = 23_000
+const LOOP_MS = 20_300
 /** The ghost timer in the scene starts here and counts down in real seconds. */
 const START_SEC = 24 * 60 + 12
 
@@ -75,18 +76,21 @@ const CUES: ReadonlyArray<readonly [number, Phase]> = [
   [4_000, 'mail'],
   [5_000, 'look'],
   [6_300, 'answer'],
-  [12_200, 'calm'],
-  [12_600, 'lure'],
-  [13_800, 'drift'],
-  [16_400, 'nudge'],
-  [18_000, 'aim'],
-  [19_000, 'click'],
-  [19_400, 'back'],
-  [21_600, 'calm'],
+  [9_500, 'calm'],
+  [9_900, 'lure'],
+  [11_100, 'drift'],
+  [13_700, 'nudge'],
+  [15_300, 'aim'],
+  [16_300, 'click'],
+  [16_700, 'back'],
+  [18_900, 'calm'],
 ]
 
-const DRIFT_STARTS = 13_800
-const WORK_RESUMES = 19_400
+const DRIFT_STARTS = 11_100
+const WORK_RESUMES = 16_700
+
+/** The scene holds the page still until Akyu's first answer has had its moment. */
+const HOLD_UNTIL = 9_500
 
 function phaseAt(t: number): Phase {
   let phase: Phase = 'work'
@@ -177,14 +181,24 @@ const STORY =
   'screen and the ghost asks “Still on the report?” with three buttons: Back to it, 5-min break, and This is part ' +
   'of the task. Back to it is pressed and the report returns.'
 
-function DemoScene() {
+/** Where the loop restarts for the 'drift' part: just before the notification arrives. */
+const DRIFT_PART_FROM = 9_500
+
+const DRIFT_STORY =
+  'Animated illustration. Someone is writing a report with the Akyu ghost and its timer in the corner of the screen. ' +
+  'A notification about funny cat videos arrives and a video player takes over the screen. The ghost timer turns red ' +
+  'and says Off task, then the ghost asks “Still on the report?” with three buttons: Back to it, 5-min break, and This ' +
+  'is part of the task. Back to it is pressed and the report returns.'
+
+function DemoScene({ part }: { part: 'all' | 'drift' }) {
+  const from = part === 'drift' ? DRIFT_PART_FROM : 0
   const calm = useMemo(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches, [])
   const frame = useRef<HTMLDivElement>(null)
   const scene = useRef<HTMLDivElement>(null)
   const time = useRef<HTMLElement>(null)
   const played = useRef<HTMLSpanElement>(null)
-  // With reduced motion the scene opens paused on its most telling frame: Akyu's answer.
-  const t = useRef(calm ? 8_000 : 0)
+  // With reduced motion the scene opens paused on its most telling frame: Akyu's answer (or, for the drift part, the check-in).
+  const t = useRef(calm ? (part === 'drift' ? 14_500 : 8_000) : from)
   const phaseNow = useRef<Phase>(phaseAt(t.current))
   const [phase, setPhase] = useState<Phase>(phaseNow.current)
   const [loop, setLoop] = useState(0)
@@ -227,6 +241,82 @@ function DemoScene() {
     }
   }, [])
 
+  // The first time the scene is properly in view, centre it and keep the page still until the first
+  // story (the question and Akyu's answer) has played. Scrolling hard, or Escape, lets go at once.
+  useEffect(() => {
+    const el = frame.current
+    if (!el || calm || part !== 'all') return
+    let state: 'waiting' | 'holding' | 'done' = 'waiting'
+    let intent = 0
+    let poll = 0
+    let lockY = 0
+    // Where the page must sit so the whole scene is in view, clear of the sticky header.
+    const target = () => {
+      const header = document.querySelector('header')?.getBoundingClientRect().height ?? 0
+      const box = el.getBoundingClientRect()
+      const room = window.innerHeight - header
+      const gap = Math.max(8, (room - box.height) / 2)
+      return Math.max(0, Math.round(window.scrollY + box.top - header - gap))
+    }
+    // Hold the page exactly there, however it was moved (scrollbar, momentum, layout shifting).
+    const keep = () => {
+      if (Math.abs(window.scrollY - lockY) > 1) window.scrollTo({ top: lockY, behavior: 'instant' })
+    }
+    const refit = () => {
+      lockY = target()
+      keep()
+    }
+    const stop = (event: Event) => event.preventDefault()
+    const keys = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') return release()
+      if ([' ', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'End', 'Home'].includes(event.key)) event.preventDefault()
+    }
+    const wheel = (event: WheelEvent) => {
+      event.preventDefault()
+      intent += Math.abs(event.deltaY)
+      if (intent > 900) release()
+    }
+    function release() {
+      if (state !== 'holding') return
+      state = 'done'
+      window.clearInterval(poll)
+      window.removeEventListener('wheel', wheel)
+      window.removeEventListener('scroll', keep)
+      window.removeEventListener('resize', refit)
+      window.removeEventListener('touchmove', stop)
+      window.removeEventListener('keydown', keys)
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (state !== 'waiting' || entry.intersectionRatio < 0.6) return
+        state = 'holding'
+        observer.disconnect()
+        // 'instant' beats any smooth-scroll setting, so the page lands in one step.
+        lockY = target()
+        window.scrollTo({ top: lockY, behavior: 'instant' })
+        // Layout can settle a moment later (fonts, images): measure again once it has.
+        window.requestAnimationFrame(refit)
+        window.addEventListener('scroll', keep, { passive: true })
+        window.addEventListener('resize', refit)
+        t.current = 0
+        paint()
+        window.addEventListener('wheel', wheel, { passive: false })
+        window.addEventListener('touchmove', stop, { passive: false })
+        window.addEventListener('keydown', keys)
+        poll = window.setInterval(() => {
+          if (t.current >= HOLD_UNTIL) release()
+        }, 100)
+      },
+      { threshold: [0.6] },
+    )
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      state = 'holding'
+      release()
+    }
+  }, [calm, paint, part])
+
   useEffect(() => {
     if (!playing || !onScreen) return
     let raf = 0
@@ -237,7 +327,9 @@ function DemoScene() {
       const dt = Math.min(now - last, 1000)
       last = now
       const before = t.current
-      t.current = (before + dt) % LOOP_MS
+      const next = before + dt
+      // Past the end, start again at the loop's own beginning (which is later for a part).
+      t.current = next < LOOP_MS ? next : from + ((next - LOOP_MS) % (LOOP_MS - from))
       if (t.current < before) setLoop((n) => n + 1)
       paint()
       raf = requestAnimationFrame(step)
@@ -269,7 +361,7 @@ function DemoScene() {
     <figure className="demo">
       <div ref={frame}>
         <PixelBox shadow className="demo__frame">
-          <div className="scene" ref={scene} data-phase={phase} role="img" aria-label={STORY}>
+          <div className="scene" ref={scene} data-phase={phase} role="img" aria-label={part === 'drift' ? DRIFT_STORY : STORY}>
             <div className="scene__all" aria-hidden="true">
               <div className="win win--task">
                 <div className="win__bar">
@@ -438,8 +530,9 @@ function DemoScene() {
 
       <figcaption className="demo__meta">
         <p className="small soft">
-          Akyu at work: ask it out loud about an email and it reads your screen, replies and plans; later it checks in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released
-          yet.
+          {part === 'drift'
+            ? 'Akyu checking in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released yet.'
+            : 'Akyu at work: ask it out loud about an email and it reads your screen, replies and plans; later it checks in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released yet.'}
         </p>
         <div className="demo__ctl">
           <span className="demo__played" ref={played} aria-hidden="true" />

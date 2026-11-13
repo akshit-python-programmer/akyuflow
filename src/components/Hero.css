@@ -79,3 +79,21 @@
     text-align: left;
   }
 }
+
+.hero__kicker {
+  display: block;
+  width: fit-content;
+  margin-top: 1rem;
+  margin-bottom: 0.9rem;
+  padding: 0.15rem 0.6rem;
+  background: var(--mint-wash);
+  border-left: 4px solid var(--mint-deep);
+  font-size: 1.25rem;
+}
+
+/* A highlighter swipe behind the words the page is for. */
+.hero__mark {
+  background: linear-gradient(transparent 58%, var(--mint-pale) 58%, var(--mint-pale) 92%, transparent 92%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

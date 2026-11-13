@@ -8,6 +8,7 @@ import { CURSOR_COLORS, CURSOR_ROWS } from './Demo'
 import { OsBar, OsTask } from './Os'
 import { PixelArt } from './PixelArt'
 import { PixelBox } from './PixelBox'
+import { holdPage } from '../lib/hold'
 import './PlanDemo.css'
 
 export const EXAMPLES = [
@@ -51,6 +52,13 @@ export function PlanDemo() {
   const lostAfter = useRef<number | null>(null)
   const stage = useRef<HTMLDivElement>(null)
   const planBtn = useRef<HTMLButtonElement>(null)
+  // The clock the self-starting demo runs on. While it is running, delays are measured on it.
+  const clock = useRef({ v: 0, running: false, queue: [] as { at: number; fn: () => void }[] })
+  const after = (ms: number, fn: () => void) => {
+    const c = clock.current
+    if (c.running) c.queue.push({ at: c.v + ms, fn })
+    else timers.after(ms, fn)
+  }
   const phaseRef = useRef<Phase>('idle')
   phaseRef.current = phase
   const planRef = useRef(plan)
@@ -63,18 +71,21 @@ export function PlanDemo() {
   })
 
   // The first time the demo scrolls into view it starts itself: a pixel cursor
-  // glides to "Plan it", presses it, and the day is planned. Any touch from the
-  // visitor takes over and cancels it.
+  // glides to "Plan it", presses it, and the day is planned. The page is held still
+  // while it plays, and every attempt to scroll speeds the demo up instead. Any touch
+  // of the demo itself takes over and cancels it.
   useEffect(() => {
     const el = stage.current
     if (!el) return
     let ran = false
     let cancelled = false
-    const timeouts: number[] = []
-    const later = (ms: number, fn: () => void) => timeouts.push(window.setTimeout(() => !cancelled && fn(), ms))
+    let finishNow: (() => void) | null = null
+    const c = clock.current
+    const later = (ms: number, fn: () => void) => c.queue.push({ at: ms, fn: () => !cancelled && fn() })
     const stop = () => {
       cancelled = true
       setPointer((p) => ({ ...p, show: false, press: false }))
+      finishNow?.()
     }
     const centre = () => {
       const box = el.getBoundingClientRect()
@@ -91,6 +102,42 @@ export function PlanDemo() {
       }
       const target = centre()
       if (!target) return
+
+      // The demo runs on its own clock so that scrolling can make it faster.
+      c.running = true
+      c.v = 0
+      c.queue = []
+      let boost = 0
+      const began = performance.now()
+      let last = began
+      const release = holdPage((el.closest('.plandemo__box') as HTMLElement | null) ?? el, {
+        onNudge: (n) => {
+          boost = Math.min(9, boost + n)
+        },
+        onRelease: () => finishNow?.(),
+      })
+      const timer = window.setInterval(() => {
+        const now = performance.now()
+        const dt = Math.min(now - last, 200)
+        last = now
+        boost *= Math.exp(-dt / 600)
+        c.v += dt * (1 + boost)
+        c.queue.sort((x, y) => x.at - y.at)
+        while (c.queue.length > 0 && c.queue[0].at <= c.v) c.queue.shift()!.fn()
+        const played = phaseRef.current === 'planned' && c.v > 2_800
+        if (played || now - began > 15_000) finishNow?.()
+      }, 30)
+      finishNow = () => {
+        finishNow = null
+        window.clearInterval(timer)
+        c.running = false
+        // Anything still waiting happens now, so the demo always ends fully drawn.
+        for (const item of c.queue.sort((x, y) => x.at - y.at)) item.fn()
+        c.queue = []
+        release()
+        setPointer((p) => ({ ...p, show: false, press: false }))
+      }
+
       // Begin low and to the left, then head for the button.
       setPointer({ x: 24, y: target.h * 0.7, show: true, press: false })
       later(250, () => setPointer({ x: target.x, y: target.y, show: true, press: false }))
@@ -118,7 +165,7 @@ export function PlanDemo() {
     return () => {
       cancelled = true
       observer.disconnect()
-      timeouts.forEach((id) => window.clearTimeout(id))
+      finishNow?.()
       el.removeEventListener('pointerdown', stop)
       el.removeEventListener('keydown', stop)
     }
@@ -160,7 +207,7 @@ export function PlanDemo() {
       if (lostAfter.current !== null) {
         const minutes = lostAfter.current
         lostAfter.current = null
-        timers.after(calm() ? 0 : 700, () => overrun(tasks, minutes, 'ghost'))
+        after(calm() ? 0 : 700, () => overrun(tasks, minutes, 'ghost'))
       }
     }
 
@@ -171,8 +218,8 @@ export function PlanDemo() {
     }
     setPhase('planning')
     setShown(0)
-    tasks.forEach((_, i) => timers.after(250 + i * STAGGER_MS, () => setShown(i + 1)))
-    timers.after(250 + tasks.length * STAGGER_MS + 500, finish)
+    tasks.forEach((_, i) => after(250 + i * STAGGER_MS, () => setShown(i + 1)))
+    after(250 + tasks.length * STAGGER_MS + 500, finish)
   }
 
   function overrun(from: PlanTask[], minutes: number, via: 'page' | 'ghost' = 'page') {

@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactNode } from 'react'
-import { site, waitlistOpen } from '../site.config'
+import { checkoutOpen, site, waitlistOpen } from '../site.config'
 import { dollars } from '../lib/format'
 import { track } from '../lib/track'
 
@@ -14,8 +14,35 @@ interface ReserveLinkProps {
   small?: boolean
 }
 
-/** Primary call to action. Takes the visitor to the pre-order terms and the checkout button. */
+/** Scrolls to the email field and puts the cursor in it. Does nothing (the link works as a plain anchor) if it is not on the page. */
+function toWaitlist(event: MouseEvent<HTMLAnchorElement>) {
+  const input = document.getElementById('waitlist-email')
+  if (!input) return
+  event.preventDefault()
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  input.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' })
+  input.focus({ preventScroll: true })
+}
+
+/**
+ * Primary call to action. Takes the visitor to the pre-order terms and the checkout button.
+ * While deposits are not open it reads "Join the waitlist" and goes to the email field instead.
+ */
 export function ReserveLink({ placement, small = false }: ReserveLinkProps) {
+  if (!checkoutOpen) {
+    return (
+      <a
+        className={`btn ${small ? 'btn--small' : ''}`}
+        href="#waitlist"
+        onClick={(event) => {
+          track('cta_click', { cta: 'waitlist', placement })
+          toWaitlist(event)
+        }}
+      >
+        <span className="btn__face">Join the waitlist</span>
+      </a>
+    )
+  }
   return (
     <a
       className={`btn ${small ? 'btn--small' : ''}`}
@@ -34,16 +61,12 @@ interface WaitlistLinkProps {
 
 /** Secondary call to action. Scrolls to the email field and puts the cursor in it. */
 export function WaitlistLink({ placement, children = 'Join the waitlist' }: WaitlistLinkProps) {
-  if (!showWaitlist) return null
+  // While deposits are closed the main button already says "Join the waitlist"; do not show it twice.
+  if (!showWaitlist || !checkoutOpen) return null
 
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
     track('cta_click', { cta: 'waitlist', placement })
-    const input = document.getElementById('waitlist-email')
-    if (!input) return
-    event.preventDefault()
-    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    input.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' })
-    input.focus({ preventScroll: true })
+    toWaitlist(event)
   }
 
   return (

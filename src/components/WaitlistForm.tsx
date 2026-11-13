@@ -5,6 +5,8 @@ import './WaitlistForm.css'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
+const FIRST_THINGS = ['Planning my day', 'Keeping me on track', 'Help with emails and messages'] as const
+
 const PROBLEM: Record<Exclude<WaitlistResult, { ok: true }>['reason'], string> = {
   'not-connected': 'The waitlist is not connected yet. Set waitlist.endpoint in src/site.config.ts.',
   rejected: "The waitlist didn't accept that address. Check it and try again.",
@@ -16,6 +18,8 @@ export function WaitlistForm({ placement }: { placement: string }) {
   const [trap, setTrap] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [problem, setProblem] = useState('')
+  const [joined, setJoined] = useState('')
+  const [answer, setAnswer] = useState('')
   const input = useRef<HTMLInputElement>(null)
 
   async function onSubmit(event: FormEvent) {
@@ -36,6 +40,7 @@ export function WaitlistForm({ placement }: { placement: string }) {
     setStatus('sending')
     const result = await joinWaitlist(value)
     if (result.ok) {
+      setJoined(value)
       setStatus('done')
       track('waitlist_signup', { placement })
     } else {
@@ -46,9 +51,29 @@ export function WaitlistForm({ placement }: { placement: string }) {
 
   if (status === 'done') {
     return (
-      <p className="waitlist__done" id="waitlist" role="status">
-        You're on the waitlist. We'll email you when Akyu ships.
-      </p>
+      <div id="waitlist" role="status">
+        <p className="waitlist__done">You're on the waitlist. We'll email you when Akyu ships.</p>
+        {joined && (
+          <div className="plandemo__chips" role="group" aria-label="What would you hand to Akyu first?">
+            <span className="small soft">{answer ? 'Thanks, that helps.' : 'What would you hand to Akyu first?'}</span>
+            {!answer &&
+              FIRST_THINGS.map((thing) => (
+                <button
+                  key={thing}
+                  type="button"
+                  className="chip"
+                  onClick={() => {
+                    setAnswer(thing)
+                    track('waitlist_answer', { placement, answer: thing })
+                    void joinWaitlist(joined, thing)
+                  }}
+                >
+                  {thing}
+                </button>
+              ))}
+          </div>
+        )}
+      </div>
     )
   }
 

@@ -105,8 +105,8 @@ export function Faq() {
       q: 'Is Akyu a treatment for ADHD?',
       a: (
         <p>
-          No. Akyu is a timer and a nudge, built for ADHD brains and time blindness. It is not a medical device, and it
-          does not diagnose or treat anything.
+          No. Akyu is a personal assistant that helps you plan, follow through and stay aware of time, built for ADHD
+          brains. It is not a medical device, and it does not diagnose or treat anything.
         </p>
       ),
     },

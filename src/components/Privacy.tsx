@@ -53,7 +53,7 @@ export function Privacy() {
           <div className="privacy__head">
             <p className="privacy__kicker pixel">Privacy</p>
             <h2>
-              Akyu keeps time on its own. <mark className="privacy__mark">It reads your screen only when you ask.</mark>
+              <mark className="privacy__mark">Akyu reads your screen only when you ask.</mark>
             </h2>
             <ul className="privacy__brief">
               <li>

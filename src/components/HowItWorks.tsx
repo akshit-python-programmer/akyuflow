@@ -68,19 +68,19 @@ const STEPS: ReadonlyArray<{ title: string; body: string; art: ReactNode }> = [
     art: <AskArt />,
   },
   {
-    title: 'It reads your window',
-    body: 'Stuck on an email, a message or an error? Akyu looks at the window in front and works from what it sees. Only when you ask.',
-    art: <ReadArt />,
-  },
-  {
-    title: 'It plans and makes your to-dos',
+    title: 'It plans your day and your week',
     body: 'Say what today holds. Akyu turns it into a timed plan and a to-do list, and replans when something runs over.',
     art: <PlanArt />,
   },
   {
-    title: 'The ghost keeps time and checks in',
+    title: 'It stays beside you and keeps time',
     body: 'It stays on your screen showing your time, and asks if you are still on task when you drift.',
     art: <TimerArt />,
+  },
+  {
+    title: "Stuck? It helps with what's on your screen",
+    body: 'Stuck on an email, a message or an error? Akyu looks at the window in front and works from what it sees. Only when you ask.',
+    art: <ReadArt />,
   },
 ]
 

@@ -518,7 +518,7 @@ const PROMISES = [
 ] as const
 
 export function ScreenHelp() {
-  const [tab, setTab] = useState<TabId>('reply')
+  const [tab, setTab] = useState<TabId>('fix')
   const starters = useRef<Partial<Record<TabId, (via: 'ghost') => void>>>({})
   const pending = useRef<TabId | null>(null)
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ reply: null, fix: null, explain: null })
@@ -557,7 +557,10 @@ export function ScreenHelp() {
   return (
     <section className="section ask" id="screen" data-recap="Ask Akyu">
       <div className="wrap">
-        <h2>Talk to Akyu. It reads your screen and helps.</h2>
+        <p>
+          <span className="captag pixel">3 · Helps when you're stuck</span>
+        </p>
+        <h2>Stuck on something? Ask Akyu to look.</h2>
         <p className="lede ask__lede">
           Press the mic or type. Stuck on an email, a message or an error? Akyu reads the window in front and drafts, fixes or explains.
         </p>

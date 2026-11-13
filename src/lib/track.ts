@@ -1,4 +1,5 @@
 import { site } from '../site.config'
+import { headlineVariant } from './variant'
 
 /**
  * One small wrapper around whichever analytics service site.config.ts names.
@@ -9,6 +10,9 @@ import { site } from '../site.config'
  *   checkout_start the Reserve button that leaves for the payment page
  *   deposit       the visitor came back from checkout (?reserved=1)
  *   waitlist_signup the email form was accepted
+ *   waitlist_answer the visitor picked what they would hand to Akyu first { answer }
+ *
+ * Every event also carries { headline: 'a' | 'b' }, the hero headline test.
  *
  * Email addresses are never passed to analytics.
  */
@@ -74,10 +78,12 @@ export function initAnalytics() {
   }
 }
 
-export function track(event: string, props?: Props) {
+export function track(event: string, base?: Props) {
+  // Every event says which hero headline the visitor saw.
+  const props: Props = { ...base, headline: headlineVariant() }
   // Lets any other tool on the page (a tag manager, a test) listen in.
   window.dispatchEvent(new CustomEvent('akyu:track', { detail: { event, props } }))
-  if (import.meta.env.DEV) console.info('[akyu:track]', event, props ?? {})
+  if (import.meta.env.DEV) console.info('[akyu:track]', event, props)
   if (site.analytics.provider === 'none') return
   if (sender) sender(event, props)
   else waiting.push([event, props])

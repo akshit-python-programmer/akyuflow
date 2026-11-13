@@ -31,6 +31,7 @@ const ASKS: ReadonlyArray<{ id: Target; label: string; capability: Capability }>
 /** How the ghost looks while each section is in the middle of the screen. */
 const SECTION_MOOD: Record<string, AkyuMood> = {
   top: 'focused',
+  adhd: 'focused',
   how: 'focused',
   day: 'focused',
   nudge: 'peeking',
