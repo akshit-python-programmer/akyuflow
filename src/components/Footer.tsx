@@ -41,7 +41,7 @@ export function Footer() {
         </div>
 
         <div className="footer__meta small soft">
-          <p>Akyu is a Windows desktop app. It is not released yet.</p>
+          <p>Akyu is a desktop app. Windows first, Mac to follow. It is not released yet.</p>
           {email && (
             <p>
               <a href={`mailto:${email}`}>{email}</a>

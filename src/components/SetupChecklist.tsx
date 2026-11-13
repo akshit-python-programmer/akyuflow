@@ -1,4 +1,4 @@
-import { checkoutOpen, site, waitlistOpen } from '../site.config'
+import { checkoutOpen, lifetimeOpen, site, waitlistOpen } from '../site.config'
 import './SetupChecklist.css'
 
 /**
@@ -10,6 +10,7 @@ export function SetupChecklist() {
 
   const items: ReadonlyArray<readonly [string, string, boolean]> = [
     ['checkoutUrl', 'Checkout link for the deposit. Until it is set the page says deposits are not open.', checkoutOpen],
+    ['lifetime.checkoutUrl', 'Checkout link for the lifetime deal (redirect back with ?founder=1). Until it is set the page says founding spots are not open.', lifetimeOpen],
     ['waitlist.endpoint', 'Where the email form posts. Until it is set the waitlist is hidden on the live site.', waitlistOpen],
     ['analytics', 'Counts visits, CTA clicks and deposits. Until it is set nothing is counted.', site.analytics.provider !== 'none'],
     ['supportEmail', 'Contact address for refund requests. Until it is set no address is shown.', site.supportEmail.trim() !== ''],

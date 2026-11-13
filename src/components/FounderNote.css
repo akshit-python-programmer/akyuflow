@@ -1,0 +1,102 @@
+.founder {
+  background: var(--mist);
+}
+
+.founder__wrap {
+  display: grid;
+  justify-items: center;
+}
+
+/* A sheet of ruled notebook paper, taped to the page and slightly askew. */
+.founder__paper {
+  --rule: 2.1rem;
+  position: relative;
+  width: min(100%, 44rem);
+  padding: calc(var(--rule) * 1.25) clamp(1.25rem, 5vw, 3.25rem) calc(var(--rule) * 1.1)
+    clamp(2.5rem, 8vw, 4.75rem);
+  background-color: #fffef8;
+  background-image:
+    linear-gradient(90deg, transparent calc(clamp(2.5rem, 8vw, 4.75rem) - 1rem), #ffb3c1 0, #ffb3c1 calc(clamp(2.5rem, 8vw, 4.75rem) - 1rem + 2px), transparent 0),
+    repeating-linear-gradient(transparent 0 calc(var(--rule) - 1px), #cfd8f0 calc(var(--rule) - 1px) var(--rule));
+  background-position: 0 0, 0 calc(var(--rule) * 1.25 - 0.45rem);
+  box-shadow:
+    0 1px 0 var(--line),
+    0 18px 40px -22px rgb(30 27 75 / 0.35);
+  rotate: -0.8deg;
+}
+
+.founder__tape {
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  width: 7rem;
+  height: 1.8rem;
+  translate: -50% 0;
+  rotate: 2deg;
+  background: rgb(169 242 221 / 0.75);
+}
+
+.founder__note {
+  margin: 0;
+  color: #2f2a8a;
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.6rem);
+  line-height: var(--rule);
+}
+
+.founder__note p {
+  max-width: none;
+  text-wrap: pretty;
+}
+
+.founder__note p + p {
+  margin-top: var(--rule);
+}
+
+.founder__hi {
+  font-size: 1.35em;
+  font-weight: 650;
+}
+
+.founder__note u {
+  text-decoration-color: var(--mint-deep);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.18em;
+}
+
+.founder__note em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.founder__sign {
+  position: relative;
+  display: grid;
+  justify-items: end;
+  margin-top: var(--rule);
+  text-align: right;
+}
+
+.founder__sig {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #2f2a8a;
+  rotate: -4deg;
+}
+
+.founder__ghost {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+/* A quick swipe of highlighter, uneven at the ends like a real marker. */
+.founder__note mark {
+  padding: 0 0.12em;
+  margin: 0 -0.06em;
+  color: inherit;
+  background: linear-gradient(100deg, transparent 0.2em, rgb(95 227 192 / 0.5) 0.35em, rgb(95 227 192 / 0.38) 85%, transparent 100%)
+    0 62% / 100% 0.7em no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

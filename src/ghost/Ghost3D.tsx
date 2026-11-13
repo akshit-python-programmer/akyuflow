@@ -150,8 +150,12 @@ function Body({ level, tone, mood, spins, onReady }: Omit<Ghost3DProps, 'unit' |
     p.yaw = MathUtils.damp(p.yaw, yaw, 5, delta)
     p.pitch = MathUtils.damp(p.pitch, pitch, 5, delta)
     p.spin = MathUtils.damp(p.spin, spins * Math.PI * 2, 4.5, delta)
-    g.rotation.set(p.pitch, p.yaw + p.spin, 0)
-    g.position.y = Math.sin(t * 1.9) * 0.35
+    // Small signs of life: a light roll, a slow breath, and a little hop every seven seconds or so.
+    const hop = Math.max(0, Math.sin(t * 0.9)) ** 14 * 0.9
+    g.rotation.set(p.pitch, p.yaw + p.spin, Math.sin(t * 1.3) * 0.035)
+    g.position.y = Math.sin(t * 1.9) * 0.35 + hop
+    const breath = 1 + Math.sin(t * 2.4) * 0.012
+    g.scale.set(breath, 2 - breath, breath)
   })
 
   return (

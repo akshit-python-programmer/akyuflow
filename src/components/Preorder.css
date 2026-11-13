@@ -104,3 +104,250 @@
     gap: 0.15rem;
   }
 }
+
+/* ---------- the thank-you moment ---------- */
+
+.preorder__stamp {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border: 3px solid var(--mint-deep);
+  color: var(--mint-deep);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  rotate: -4deg;
+  animation: stamp 420ms steps(4, end) both;
+}
+
+.preorder__stamp--lilac {
+  border-color: #7d6ff0;
+  color: #5b4fd1;
+}
+
+@keyframes stamp {
+  from {
+    scale: 1.8;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+.preorder__ghost {
+  position: relative;
+  display: inline-block;
+  margin-block: 0.5rem;
+}
+
+.sparks i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  opacity: 0;
+  animation: spark 900ms steps(6, end) calc(200ms + var(--i) * 30ms) both;
+  --a: calc(var(--i) * 45deg);
+}
+
+.sparks i:nth-child(even) {
+  background: var(--peach);
+}
+
+.sparks i:nth-child(3n) {
+  background: var(--lilac);
+}
+
+@keyframes spark {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(4.5rem);
+  }
+}
+
+.preorder__got {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.preorder__got li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+
+.preorder__got li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--mint);
+  box-shadow: inset 0 0 0 3px var(--ink);
+}
+
+.preorder__signed {
+  margin-top: 0.5rem;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: #2f2a8a;
+}
+
+.preorder__sig {
+  display: block;
+  margin-top: 0.2rem;
+  padding-left: 2rem;
+}
+
+.preorder__textbtn {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  color: var(--ink);
+}
+
+/* ---------- founding supporter ---------- */
+
+.lifetime {
+  --px: 5px;
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.lifetime__in {
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+}
+
+.lifetime__in:focus {
+  outline: none;
+}
+
+.lifetime__grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 52rem) {
+  .lifetime__grid {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+}
+
+.lifetime__tag {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  background: var(--lilac);
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+.lifetime__title {
+  margin-top: 0.9rem;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+}
+
+.lifetime__why {
+  margin-top: 0.9rem;
+}
+
+.lifetime__offer {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.lifetime__price .small {
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.lifetime__list {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.lifetime__list li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.lifetime__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--lilac);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.lifetime__offer .preorder__closed {
+  margin-top: 0;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preorder__stamp,
+  .sparks i {
+    animation: none;
+  }
+}
+
+.lifetime__beta {
+  padding: 0.6rem 0.9rem;
+  background: var(--mint-wash);
+  border-left: 4px solid var(--mint-deep);
+}
+
+/* The sparks fly out past the box for a moment; never let them widen the page. */
+.preorder {
+  overflow-x: clip;
+}
+
+/* The normal price, struck through so the locked-in price reads as the deal it is. */
+.preorder__was {
+  position: relative;
+  margin-right: 0.15rem;
+  color: var(--ink-soft);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.preorder__was::after {
+  content: '';
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  top: 52%;
+  height: 3px;
+  background: var(--blush);
+  rotate: -12deg;
+}
+
+.preorder__was--small {
+  font-size: inherit;
+}
+
+.preorder__save {
+  display: block;
+  width: fit-content;
+  margin-top: 0.4rem;
+  padding: 0.1rem 0.5rem;
+  background: var(--mint-wash);
+  color: #1d7a63;
+  font-size: 1.1rem;
+}

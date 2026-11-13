@@ -38,7 +38,7 @@ export function NudgePanel({
   return (
     <Glass className={`nudge ${className}`} radius={24}>
       <div className="nudge__say">
-        <GhostSprite className="nudge__ghost" level={0.55} mood={mood} />
+        <GhostSprite className="nudge__ghost" level={0.55} mood={mood} bob />
         <p className="nudge__line pixel">{line}</p>
       </div>
       {decorative ? (

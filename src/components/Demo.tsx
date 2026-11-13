@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { GhostSprite } from '../ghost/GhostSprite'
+import { GhostSprite, useBlink } from '../ghost/GhostSprite'
 import { INK, type Mood } from '../ghost/sprite'
 import { clock } from '../lib/format'
 import { setOnStage } from '../lib/visit'
@@ -187,6 +187,8 @@ function DemoScene() {
   const [onScreen, setOnScreen] = useState(false)
   const [cursor, setCursor] = useState<readonly [number, number]>(CURSOR_REST.work!)
 
+  const blinked = useBlink(MOOD[phase], !calm)
+
   const paint = useCallback(() => {
     const now = t.current
     const next = phaseAt(now)
@@ -331,7 +333,7 @@ function DemoScene() {
                 <span className="scene__mic" data-mic data-pressed={phase === 'micClick' || phase === 'listen' ? '' : undefined}>
                   <PixelArt rows={MIC_ROWS} colors={MIC_COLORS} />
                 </span>
-                <GhostSprite className="scene__ghost" level={0.54} mood={MOOD[phase]} />
+                <GhostSprite className="scene__ghost" level={0.54} mood={blinked} bob={!calm} />
               </div>
 
               <div className="scene__nudge">
@@ -352,7 +354,7 @@ function DemoScene() {
               <div className="scene__answer">
                 <Glass className="answer" radius={24}>
                   <div className="nudge__say">
-                    <GhostSprite className="nudge__ghost" level={0.55} mood="happy" />
+                    <GhostSprite className="nudge__ghost" level={0.55} mood="happy" bob />
                     <p className="nudge__line pixel">Meeting today. Try this:</p>
                   </div>
                   <p className="answer__reply pixel">“Got it, see you there.”</p>

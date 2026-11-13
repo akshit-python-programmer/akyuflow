@@ -1,0 +1,73 @@
+.say {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.25rem;
+}
+
+.say__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.5rem;
+  padding: 0.2rem 0.9rem 0.2rem 0.8rem;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--mint-wash);
+  color: var(--ink);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.say__btn:hover {
+  background: var(--mint-pale);
+}
+
+.say__sep,
+.say__how {
+  color: var(--ink-soft);
+}
+
+.say__q {
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.say__tip {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: calc(100% + 0.6rem);
+  width: max-content;
+  max-width: min(18rem, 80vw);
+  padding: 0.65rem 0.9rem;
+  border: 2px solid var(--ink);
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: var(--step--1);
+  line-height: 1.35;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -4px;
+  transition:
+    opacity 140ms,
+    translate 180ms steps(3, end),
+    visibility 0s 140ms;
+}
+
+.say__tip[data-open] {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .say__tip {
+    transition: none;
+  }
+}

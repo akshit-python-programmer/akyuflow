@@ -1,6 +1,6 @@
 # Akyu landing page
 
-A single static page for Akyu, the Windows desktop ghost. It is built with Vite, React and
+A single static page for Akyu, the desktop ghost (Windows first, Mac to follow). It is built with Vite, React and
 react-three-fiber, and it deploys to GitHub Pages. There is no server to rent or run.
 
 ## Run it
@@ -23,6 +23,7 @@ Everything lives in [`src/site.config.ts`](src/site.config.ts).
 | Setting | What to paste | Until you do |
 | --- | --- | --- |
 | `checkoutUrl` | Hosted checkout link for the $5 deposit (Stripe Payment Link, Lemon Squeezy, Gumroad, Razorpay page...) | The page says "Deposits are not open yet" |
+| `lifetime.checkoutUrl` | Checkout link for the $199 founding supporter deal. Set its after-payment redirect to the site with `?founder=1` | The page shows the offer but says founding spots are not open yet |
 | `waitlist.endpoint` | A form endpoint that accepts a POST and answers JSON (Formspree, Web3Forms, Getform, Kit...) | The waitlist form and its links are hidden |
 | `analytics` | Umami or Plausible script details | Nothing is counted |
 | `supportEmail` | Public address for refund requests | No address is shown |
@@ -51,6 +52,7 @@ Visits are counted by the analytics script itself. The page sends these events o
 | `cta_click` | Any "Reserve for $5" or "Join the waitlist" control is pressed | `cta` (`reserve` or `waitlist`), `placement` (`header`, `hero`, `preorder`) |
 | `checkout_start` | The Reserve button in the pre-order box sends someone to checkout | `placement` |
 | `deposit` | Someone comes back from checkout with `?reserved=1` (once per browser tab) | `revenue`, `currency` |
+| `lifetime` | Someone comes back from the lifetime checkout with `?founder=1` (once per browser tab) | `revenue`, `currency` |
 | `waitlist_signup` | The email form is accepted | `placement` |
 | `ghost_choice` | A choice in the corner ghost's speech bubble | `choice` (`plan`, `reply`, `fix`, `lost`) |
 | `demo_start` | A demo is started | `demo` (`plan`, `replan`, `reply`, `fix`, `explain`, `nudge`), `via` (`page` or `ghost`) |

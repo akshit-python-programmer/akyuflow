@@ -371,3 +371,9 @@ button {
   color: var(--ink-soft);
   opacity: 1;
 }
+
+/* The founder's own hand: only for things A.K writes personally. */
+.hand {
+  font-family: 'Caveat Variable', 'Segoe Print', 'Bradley Hand', cursive;
+  font-weight: 500;
+}

@@ -22,7 +22,12 @@ export function Faq() {
     },
     {
       q: 'Does Akyu run on Mac or Linux?',
-      a: <p>No. Akyu is a Windows desktop app. It is Windows only.</p>,
+      a: (
+        <p>
+          Windows comes first, in {ship}. The Mac version follows in {shipDateLabel(site.macShipDate)}. There is no
+          Linux version planned.
+        </p>
+      ),
     },
     {
       q: `Can I get my ${deposit} back?`,
@@ -39,6 +44,17 @@ export function Faq() {
               and we'll send it back.
             </>
           )}
+        </p>
+      ),
+    },
+    {
+      q: `What is the ${dollars(site.lifetime.price)} founding supporter deal?`,
+      a: (
+        <p>
+          One payment instead of a monthly price: you get Akyu for life, with every update, and you back the founding
+          team directly while Akyu is being built.
+          {site.lifetime.betaAccess && ' Founding supporters also get the beta straight away, before the full launch.'}
+          {site.lifetime.refundNote.trim() && <> {site.lifetime.refundNote.trim()}.</>}
         </p>
       ),
     },

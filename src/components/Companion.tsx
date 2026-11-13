@@ -37,6 +37,7 @@ const SECTION_MOOD: Record<string, AkyuMood> = {
   slips: 'focused',
   screen: 'peeking',
   privacy: 'asleep',
+  founder: 'focused',
   reserve: 'celebrating',
   faq: 'asleep',
 }

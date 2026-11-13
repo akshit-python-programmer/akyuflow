@@ -52,8 +52,12 @@ export const site = {
   /**
    * When Akyu ships. 'YYYY-MM' shows as "December 2026", 'YYYY-MM-DD' as
    * "14 December 2026"; any other text is shown exactly as written.
+   * This is the Windows launch.
    */
-  shipDate: '2026-12',
+  shipDate: 'late December 2026',
+
+  /** When the Mac version follows the Windows launch. Same format as shipDate. */
+  macShipDate: 'January 2027',
 
   price: {
     /** One-off refundable deposit, in US dollars. */
@@ -77,6 +81,36 @@ export const site = {
 
   /** Name of the query flag the checkout redirects back with (see above). */
   depositReturnFlag: 'reserved',
+
+  /**
+   * The founding supporter deal: pay once, use Akyu for life.
+   * Make a second checkout link for it and set its "after payment" redirect
+   * to the site address with ?founder=1 on the end. While checkoutUrl is
+   * empty the page shows the offer but says it is not open yet.
+   */
+  lifetime: {
+    /** One-off price in US dollars. */
+    price: 199,
+    checkoutUrl: '',
+    returnFlag: 'founder',
+    /**
+     * Shown under the price. Make sure it matches what your checkout and you
+     * will actually honour; set it to '' to show nothing.
+     */
+    refundNote: 'Refundable any time before launch',
+    /** Founding supporters get the beta straight away. Set to false to drop the promise. */
+    betaAccess: true,
+    /** Shown on the thank-you screen after paying: tell them how the beta reaches them. */
+    betaDelivery: 'Your beta download link is on its way to your email.',
+  },
+
+  /** The handwritten note above the pricing. Set `show` to false to hide it. */
+  founder: {
+    show: true,
+    name: 'A.K Lall',
+    /** How the note is signed off. */
+    signature: 'A.K',
+  },
 
   waitlist: {
     /**
@@ -116,3 +150,4 @@ export const site = {
 
 export const waitlistOpen = site.waitlist.endpoint.trim() !== ''
 export const checkoutOpen = site.checkoutUrl.trim() !== ''
+export const lifetimeOpen = site.lifetime.checkoutUrl.trim() !== ''

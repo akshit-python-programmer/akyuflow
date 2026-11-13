@@ -1,9 +1,11 @@
 import { HeroGhost } from '../ghost/HeroGhost'
+import { site } from '../site.config'
 import { shipDateLabel } from '../lib/format'
 import { readout, useVisit } from '../lib/visit'
 import { ReserveLink, WaitlistLink } from './Cta'
 import { Demo } from './Demo'
 import { isLaunch } from './DemoTag'
+import { Pronounce } from './Pronounce'
 import './Hero.css'
 
 /**
@@ -33,6 +35,7 @@ export function Hero() {
     <section className="hero" id="top" data-recap="the top of the page">
       <div className="wrap hero__grid">
         <div className="hero__copy">
+          <Pronounce />
           <h1>
             A tiny ghost on your screen that you can talk to. It reads your window, plans your day and makes your
             to-dos.
@@ -44,7 +47,9 @@ export function Hero() {
             <ReserveLink placement="hero" />
             <WaitlistLink placement="hero" />
           </div>
-          <p className="hero__note small soft">Not released yet. Ships {shipDateLabel()}. Windows only.</p>
+          <p className="hero__note small soft">
+            Not released yet. Windows ships {shipDateLabel()}. Mac follows in {shipDateLabel(site.macShipDate)}.
+          </p>
         </div>
 
         <div className="hero__ghost">
