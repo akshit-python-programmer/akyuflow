@@ -127,8 +127,8 @@
   opacity: 0;
   translate: 5% 7%;
   transition:
-    opacity 300ms,
-    translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 140ms,
+    translate 300ms cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 
 .scene[data-phase='drift'] .win--drift,
@@ -146,7 +146,7 @@
   flex-direction: column;
   gap: 1.45cqw;
   padding: 2.6cqw 3cqw;
-  animation: doc-in 500ms both;
+  animation: doc-in 200ms both;
 }
 
 @keyframes doc-in {
@@ -288,8 +288,8 @@
   opacity: 0;
   translate: 0 25%;
   transition:
-    opacity 160ms,
-    translate 200ms steps(3, end);
+    opacity 80ms,
+    translate 120ms steps(3, end);
 }
 
 .scene[data-phase='back'] .scene__hello {
@@ -305,16 +305,16 @@
   right: 3%;
   bottom: 30%;
   translate: 0 8%;
-  scale: 0.97;
+  scale: 0.8;
   transform-origin: 85% 100%;
   transition:
-    translate 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    scale 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    translate 260ms cubic-bezier(0.34, 1.7, 0.5, 1),
+    scale 260ms cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 
 .scene__nudge .nudge {
   opacity: 0;
-  transition: opacity 240ms;
+  transition: opacity 120ms;
 }
 
 .scene[data-phase='nudge'] .scene__nudge,
@@ -337,8 +337,8 @@
   z-index: 5;
   width: 1.9cqw;
   transition:
-    left 1.3s cubic-bezier(0.45, 0, 0.2, 1),
-    top 1.3s cubic-bezier(0.45, 0, 0.2, 1),
+    left 0.5s cubic-bezier(0.5, 0, 0.1, 1),
+    top 0.5s cubic-bezier(0.5, 0, 0.1, 1),
     scale 90ms;
 }
 
@@ -494,10 +494,12 @@
   width: 54%;
   height: 58%;
   opacity: 0;
-  translate: 4% 6%;
+  translate: 6% 10%;
+  scale: 0.92;
   transition:
-    opacity 300ms,
-    translate 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    scale 300ms cubic-bezier(0.34, 1.7, 0.5, 1),
+    opacity 140ms,
+    translate 300ms cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 
 .scene[data-phase='mail'] .win--mail,
@@ -505,6 +507,7 @@
 .scene[data-phase='answer'] .win--mail {
   opacity: 1;
   translate: 0 0;
+  scale: 1;
 }
 
 .mail {
@@ -583,7 +586,7 @@
 .scene__mic[data-pressed] {
   background: var(--peach);
   scale: 0.94;
-  animation: mic-pulse 900ms ease-out infinite;
+  animation: mic-pulse 450ms ease-out infinite;
 }
 
 @keyframes mic-pulse {
@@ -616,8 +619,8 @@
   opacity: 0;
   translate: 0 20%;
   transition:
-    opacity 160ms,
-    translate 200ms steps(3, end);
+    opacity 80ms,
+    translate 120ms steps(3, end);
 }
 
 .scene[data-phase='listen'] .scene__voice,
@@ -638,7 +641,7 @@
   height: 100%;
   background: var(--ink);
   transform-origin: center;
-  animation: wave 600ms ease-in-out infinite alternate;
+  animation: wave 260ms ease-in-out infinite alternate;
 }
 
 .scene__wave i:nth-child(2) { animation-delay: -150ms; }
@@ -656,7 +659,7 @@
 }
 
 .scene[data-phase='listen'] .scene__heard {
-  animation: heard 2.6s steps(26, end) 300ms forwards;
+  animation: heard 1.1s steps(26, end) 100ms forwards;
 }
 
 .scene[data-phase='mail'] .scene__heard {
@@ -694,7 +697,7 @@
   height: 22%;
   background: linear-gradient(to bottom, transparent, rgb(95 227 192 / 0.5));
   border-bottom: 0.3cqw solid var(--mint-deep);
-  animation: scan 1.3s linear infinite;
+  animation: scan 0.55s linear infinite;
 }
 
 @keyframes scan {
@@ -719,11 +722,11 @@
   right: 3%;
   bottom: 30%;
   translate: 0 8%;
-  scale: 0.97;
+  scale: 0.8;
   transform-origin: 85% 100%;
   transition:
-    translate 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    scale 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    translate 260ms cubic-bezier(0.34, 1.7, 0.5, 1),
+    scale 260ms cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 
 .answer {
@@ -732,7 +735,7 @@
   padding: 1em 1.1em 1.1em;
   color: var(--ink);
   opacity: 0;
-  transition: opacity 240ms;
+  transition: opacity 120ms;
 }
 
 .scene[data-phase='answer'] .scene__answer {
@@ -783,6 +786,25 @@
   border-top: 0.2em solid var(--ink);
   border-right: 0.2em solid var(--ink);
   rotate: 45deg;
+}
+
+/* Little hops on the beats that matter. */
+.scene[data-phase='answer'] .scene__ghost,
+.scene[data-phase='nudge'] .scene__ghost,
+.scene[data-phase='back'] .scene__ghost,
+.scene[data-phase='listen'] .scene__ghost {
+  animation: beat 380ms cubic-bezier(0.34, 1.7, 0.5, 1);
+}
+
+@keyframes beat {
+  30% {
+    translate: 0 -1.6cqw;
+    scale: 1.08 0.94;
+  }
+  60% {
+    translate: 0 0;
+    scale: 0.95 1.06;
+  }
 }
 
 @container demo (max-width: 620px) {
@@ -836,6 +858,526 @@
   .answer__step { padding: 0.3em 0.45em; font-size: 0.95em; }
 }
 
+/* ---------- more detail: the picture drawn properly ---------- */
+
+.scene {
+  background:
+    radial-gradient(ellipse at 15% 10%, rgb(185 176 255 / 0.55), transparent 55%),
+    radial-gradient(ellipse at 90% 85%, rgb(169 242 221 / 0.6), transparent 50%),
+    repeating-linear-gradient(0deg, transparent 0 1.4cqw, rgb(30 27 75 / 0.045) 1.4cqw calc(1.4cqw + 1px)),
+    repeating-linear-gradient(90deg, transparent 0 1.4cqw, rgb(30 27 75 / 0.045) 1.4cqw calc(1.4cqw + 1px)),
+    #eceefb;
+}
+
+.win {
+  box-shadow: 0.7cqw 0.8cqw 0 rgb(30 27 75 / 0.16);
+}
+
+.win__bar {
+  background: linear-gradient(to bottom, #fff, var(--mist));
+}
+
+.win__ctl {
+  width: 0.9cqw;
+  height: 0.9cqw;
+  margin-left: auto;
+  margin-right: 1.8cqw;
+  background: var(--line);
+  box-shadow:
+    -1.7cqw 0 0 var(--line),
+    1.7cqw 0 0 var(--blush);
+}
+
+.doc {
+  position: relative;
+}
+
+.doc__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+  margin: -0.6cqw 0 0.2cqw;
+}
+
+.doc__tools i {
+  width: 1.5cqw;
+  height: 1.5cqw;
+  background: var(--lilac);
+}
+
+.doc__tools i:nth-child(2) {
+  background: var(--peach);
+}
+
+.doc__tools i:nth-child(3) {
+  background: var(--mint);
+}
+
+.doc__tools b {
+  width: 4cqw;
+  height: 1.1cqw;
+  background: var(--line);
+}
+
+.doc__tools b:first-of-type {
+  margin-left: 1.2cqw;
+}
+
+.doc__chart {
+  position: absolute;
+  right: 3cqw;
+  bottom: 2.6cqw;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.7cqw;
+  width: 15cqw;
+  height: 11cqw;
+  padding: 1cqw 1.2cqw 1.8cqw;
+  border: 0.25cqw solid var(--ink);
+  background: #fff;
+  opacity: clamp(0, var(--typed) * 14 - 0.8, 1);
+}
+
+.doc__chart i {
+  flex: 1;
+  height: calc(var(--h) * clamp(0, var(--typed) * 22 - 1 - var(--k) * 0.8, 1));
+  background: var(--mint);
+  border-top: 0.3cqw solid var(--ink);
+}
+
+.doc__chart i:nth-child(even) {
+  background: var(--lilac);
+}
+
+.doc__chart em {
+  position: absolute;
+  left: 1.2cqw;
+  bottom: 0.3cqw;
+  font-size: 1.1cqw;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.feed__thumb {
+  position: relative;
+  background:
+    radial-gradient(circle at 78% 30%, rgb(255 255 255 / 0.85) 0 9%, transparent 10%),
+    linear-gradient(to bottom, var(--c) 0 62%, rgb(30 27 75 / 0.22) 62% 100%);
+}
+
+.feed__thumb small {
+  position: absolute;
+  right: 0.5cqw;
+  bottom: 0.4cqw;
+  padding: 0.1cqw 0.5cqw;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.1cqw;
+  line-height: 1.3;
+}
+
+.feed__row {
+  display: flex;
+  gap: 0.7cqw;
+}
+
+.feed__row > i {
+  flex: none;
+  width: 2cqw;
+  height: 2cqw;
+  border-radius: 50%;
+  background: var(--lilac);
+}
+
+.feed__row > span {
+  display: grid;
+  flex: 1;
+  gap: 0.5cqw;
+}
+
+.feed__tile:nth-child(even) .feed__row > i {
+  background: var(--peach);
+}
+
+.mail__chips {
+  display: flex;
+  gap: 0.7cqw;
+}
+
+.mail__chips em {
+  padding: 0.2cqw 0.9cqw;
+  border: 0.2cqw solid var(--ink);
+  font-size: 1.1cqw;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.mail__chips .mail__new {
+  background: var(--peach);
+}
+
+.mail__from i {
+  display: grid;
+  place-items: center;
+  font-size: 1.4cqw;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.mail__text {
+  position: relative;
+  padding-left: 1.4cqw;
+}
+
+.mail__text::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.2cqw;
+  bottom: 0.2cqw;
+  width: 0.5cqw;
+  background: var(--peach);
+}
+
+.scene__taskbar {
+  background: linear-gradient(to bottom, #fff, var(--mist));
+}
+
+.scene__taskbar i:nth-child(2) {
+  background: var(--mint);
+}
+
+.scene__taskbar i:nth-child(3) {
+  background: var(--peach);
+}
+
+.scene__taskbar i:nth-child(4) {
+  background: var(--lilac);
+}
+
+.scene__wifi {
+  position: absolute;
+  right: 9.5cqw;
+  width: 1.8cqw;
+  height: 1.1cqw;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.scene__ghost {
+  filter: drop-shadow(0 0.6cqw 0 rgb(30 27 75 / 0.16));
+}
+
+@container demo (max-width: 620px) {
+  .win__ctl {
+    width: 1.8cqw;
+    height: 1.8cqw;
+    margin-right: 3.6cqw;
+    box-shadow:
+      -3.4cqw 0 0 var(--line),
+      3.4cqw 0 0 var(--blush);
+  }
+
+  .doc__chart {
+    right: 4cqw;
+    bottom: 4cqw;
+    width: 26cqw;
+    height: 17cqw;
+  }
+
+  .doc__tools i {
+    width: 2.8cqw;
+    height: 2.8cqw;
+  }
+
+  .doc__tools b {
+    height: 1.8cqw;
+  }
+
+  .feed__thumb small {
+    font-size: 2.2cqw;
+  }
+
+  .feed__row > i {
+    width: 3.6cqw;
+    height: 3.6cqw;
+  }
+
+  .mail__chips em {
+    font-size: 2.2cqw;
+  }
+
+  .mail__from i {
+    font-size: 2.6cqw;
+  }
+
+  .scene__wifi {
+    right: 14cqw;
+    width: 3cqw;
+    height: 2cqw;
+  }
+}
+
+/* ---------- the wallpaper, and a distraction you cannot miss ---------- */
+
+.scene {
+  background:
+    url('../assets/wallpaper.png') center bottom / cover no-repeat,
+    #5aa5f0;
+  image-rendering: pixelated;
+}
+
+.win {
+  box-shadow: 0.7cqw 0.8cqw 0 rgb(30 27 75 / 0.28);
+}
+
+/* The report is left behind: it greys out and sinks while the video plays. */
+.win--task {
+  transition:
+    opacity 260ms,
+    filter 200ms,
+    scale 260ms;
+}
+
+.scene[data-phase='drift'] .win--task,
+.scene[data-phase='nudge'] .win--task,
+.scene[data-phase='aim'] .win--task,
+.scene[data-phase='click'] .win--task {
+  filter: grayscale(1) brightness(0.8);
+  scale: 0.97;
+}
+
+/* A notification slides in and catches the eye */
+
+.scene__toast {
+  position: absolute;
+  z-index: 6;
+  right: 3%;
+  top: 6%;
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  padding: 1.1cqw 1.8cqw 1.1cqw 1.2cqw;
+  border: 0.3cqw solid var(--ink);
+  background: #fff;
+  box-shadow: 0.6cqw 0.6cqw 0 var(--ink);
+  font-size: 1.7cqw;
+  line-height: 1.1;
+  opacity: 0;
+  translate: 12% 0;
+  scale: 0.9;
+  transition:
+    opacity 100ms,
+    translate 260ms cubic-bezier(0.34, 1.7, 0.5, 1),
+    scale 260ms cubic-bezier(0.34, 1.7, 0.5, 1);
+}
+
+.scene__toast > span:last-child {
+  display: grid;
+  gap: 0.3cqw;
+}
+
+.scene__toast b {
+  color: #e0405e;
+  font-weight: 400;
+}
+
+.scene__bell {
+  width: 3.2cqw;
+  height: 3.2cqw;
+  background: var(--blush);
+  border: 0.3cqw solid var(--ink);
+  border-radius: 50% 50% 0.6cqw 0.6cqw;
+}
+
+.scene[data-phase='lure'] .scene__toast {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  animation: toast-shake 320ms 260ms 2;
+}
+
+@keyframes toast-shake {
+  25% { rotate: -2deg; }
+  75% { rotate: 2deg; }
+}
+
+/* The video window: a big player, playing, with the next one lined up */
+
+.tube {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 1.8cqw;
+  padding: 1.8cqw;
+}
+
+.tube__main {
+  display: grid;
+  align-content: start;
+  gap: 1cqw;
+}
+
+.tube__screen {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 80% 25%, #ffe08a 0 7%, transparent 8%),
+    linear-gradient(to bottom, #ffb58c 0 68%, #b9784f 68% 100%);
+  border: 0.25cqw solid var(--ink);
+}
+
+/* A little cat face on the video, ears and all */
+.tube__cat {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  width: 14cqw;
+  height: 10cqw;
+  translate: -50% 0;
+  background: #fff;
+  border: 0.3cqw solid var(--ink);
+  clip-path: polygon(0 0, 22% 22%, 78% 22%, 100% 0, 100% 100%, 0 100%);
+  animation: cat-bob 0.5s steps(2, end) infinite;
+}
+
+.tube__cat::before,
+.tube__cat::after {
+  content: '';
+  position: absolute;
+  top: 42%;
+  width: 1.4cqw;
+  height: 1.4cqw;
+  background: var(--ink);
+}
+
+.tube__cat::before { left: 26%; }
+.tube__cat::after { right: 26%; }
+
+@keyframes cat-bob {
+  50% { translate: -50% -0.8cqw; }
+}
+
+.tube__live {
+  position: absolute;
+  left: 0.8cqw;
+  top: 0.8cqw;
+  padding: 0.1cqw 0.8cqw;
+  background: #e0405e;
+  color: #fff;
+  font-size: 1.4cqw;
+}
+
+.tube__bar {
+  display: block;
+  height: 0.9cqw;
+  background: var(--line);
+}
+
+.tube__bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #e0405e;
+}
+
+.scene[data-phase='drift'] .tube__bar i,
+.scene[data-phase='nudge'] .tube__bar i,
+.scene[data-phase='aim'] .tube__bar i,
+.scene[data-phase='click'] .tube__bar i {
+  width: 100%;
+  transition: width 6s linear;
+}
+
+.tube__title {
+  display: grid;
+  gap: 0.7cqw;
+}
+
+.tube__title b {
+  display: block;
+  height: 1cqw;
+  background: var(--line);
+}
+
+.tube__title b + b {
+  width: 55%;
+}
+
+.tube__side {
+  display: grid;
+  align-content: start;
+  gap: 1.2cqw;
+}
+
+.tube__next {
+  font-size: 1.5cqw;
+  color: var(--ink-soft);
+}
+
+/* The ghost's timer says what is happening: you are off task. */
+
+.scene__pill[data-off] {
+  background: #e0405e;
+  animation: pill-alarm 600ms steps(2, end) infinite;
+}
+
+.scene__pill[data-off] span {
+  opacity: 1;
+}
+
+@keyframes pill-alarm {
+  50% { translate: 0 -0.5cqw; }
+}
+
+@container demo (max-width: 620px) {
+  .scene__toast {
+    right: 4%;
+    top: 4%;
+    padding: 2cqw 3cqw 2cqw 2cqw;
+    border-width: 0.55cqw;
+    font-size: 3.2cqw;
+  }
+
+  .scene__bell {
+    width: 6cqw;
+    height: 6cqw;
+  }
+
+  .tube {
+    grid-template-columns: 1fr;
+    gap: 2cqw;
+    padding: 3cqw;
+  }
+
+  .tube__side {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tube__next {
+    display: none;
+  }
+
+  .tube__cat {
+    width: 22cqw;
+    height: 15cqw;
+  }
+
+  .tube__live {
+    font-size: 2.6cqw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tube__cat,
+  .scene__pill[data-off],
+  .scene__toast {
+    animation: none;
+    transition: none;
+  }
+}
+
 @media (max-width: 30rem) {
   .demo__played {
     width: 150px;
@@ -859,6 +1401,7 @@
   .answer,
   .scene__scan,
   .scene__mic,
+  .scene__ghost,
   .doc {
     transition: none;
     animation: none;

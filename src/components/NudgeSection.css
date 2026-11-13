@@ -142,3 +142,21 @@
     display: none;
   }
 }
+
+/* The taskbar sits along the bottom of the drawn screen. */
+.driftwin {
+  min-height: 15rem;
+}
+
+.driftwin .ostask {
+  position: absolute;
+  inset: auto 0 0;
+}
+
+.nudgesec__panel {
+  bottom: 3.1rem;
+}
+
+.driftwin__bar .osbar__ctl {
+  background: var(--line);
+}

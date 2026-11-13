@@ -4,6 +4,7 @@ import type { Choice } from '../lib/visit'
 import { useVisit } from '../lib/visit'
 import { DemoTag } from './DemoTag'
 import { CHOICES, NudgePanel } from './NudgePanel'
+import { OsTask } from './Os'
 import { PixelBox } from './PixelBox'
 import './NudgeSection.css'
 
@@ -53,12 +54,14 @@ export function NudgeSection() {
               <div className="driftwin__bar" aria-hidden="true">
                 <span />
                 Videos
+                <span className="osbar__ctl" />
               </div>
               <div className="driftwin__feed" aria-hidden="true">
                 {TILES.map((color, i) => (
                   <span key={i} style={{ '--c': color } as CSSProperties} />
                 ))}
               </div>
+              <OsTask />
               <div className="nudgesec__panel">
                 <NudgePanel
                   line="Still on the report?"

@@ -1,0 +1,88 @@
+/* Shared bits that make a drawn picture look like it is happening on a computer. */
+
+.osdesk {
+  padding: clamp(0.6rem, 2vw, 1.25rem);
+  background:
+    url('../assets/wallpaper.png') center bottom / cover no-repeat,
+    #5aa5f0;
+  image-rendering: pixelated;
+}
+
+.osbar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 2.3rem;
+  padding-inline: 0.8rem;
+  border-bottom: 3px solid var(--ink);
+  background: linear-gradient(to bottom, #fff, var(--mist));
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.osbar__icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  background: var(--mint);
+}
+
+.osbar__ctl {
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-left: auto;
+  margin-right: 1.3rem;
+  background: var(--line);
+  box-shadow:
+    -1.1rem 0 0 var(--line),
+    1.1rem 0 0 var(--blush);
+}
+
+.ostask {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  height: 2.2rem;
+  border-top: 3px solid var(--ink);
+  background: linear-gradient(to bottom, #fff, var(--mist));
+}
+
+.ostask i {
+  width: 1.05rem;
+  height: 1.05rem;
+  background: var(--ink);
+}
+
+.ostask i:nth-child(2) {
+  background: var(--mint);
+}
+
+.ostask i:nth-child(3) {
+  background: var(--peach);
+}
+
+.ostask i:nth-child(4) {
+  background: var(--lilac);
+}
+
+.ostask__wifi {
+  position: absolute;
+  right: 4.6rem;
+  width: 0.9rem;
+  height: 0.55rem;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.ostask__clock {
+  position: absolute;
+  right: 0.8rem;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 30rem) {
+  .ostask__wifi {
+    display: none;
+  }
+}

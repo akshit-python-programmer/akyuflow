@@ -351,3 +351,47 @@
   color: #1d7a63;
   font-size: 1.1rem;
 }
+
+/* What the deposit gets you */
+.preorder__perks {
+  margin-top: 1.5rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+  border: 3px solid var(--ink);
+  background: var(--mint-wash);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.preorder__perks-title {
+  margin-bottom: 0.8rem;
+}
+
+.preorder__perks ul {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.preorder__perks li {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.preorder__perk-ico {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  background: var(--mint);
+  border: 2px solid var(--ink);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.preorder__perks li:nth-child(2) .preorder__perk-ico {
+  background: var(--peach);
+}
+
+.preorder__perks li:nth-child(3) .preorder__perk-ico {
+  background: var(--lilac);
+}

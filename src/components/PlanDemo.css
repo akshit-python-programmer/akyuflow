@@ -328,3 +328,46 @@
     transition: none;
   }
 }
+
+/* The pixel cursor that starts the demo by itself. */
+.plandemo__in {
+  position: relative;
+}
+
+.plandemo__cursor {
+  position: absolute;
+  z-index: 5;
+  width: 22px;
+  margin: -2px 0 0 -2px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    left 0.9s cubic-bezier(0.5, 0, 0.15, 1),
+    top 0.9s cubic-bezier(0.5, 0, 0.15, 1),
+    opacity 160ms,
+    scale 90ms;
+}
+
+.plandemo__cursor[data-show] {
+  opacity: 1;
+}
+
+.plandemo__cursor[data-press] {
+  scale: 0.85;
+}
+
+.plandemo__cursor svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plandemo .btn[data-press] {
+  translate: 2px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plandemo__cursor {
+    transition: none;
+  }
+}

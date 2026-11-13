@@ -1,9 +1,12 @@
-import { useId, useRef, useState, type CSSProperties, type FormEvent } from 'react'
+import { useEffect, useId, useRef, useState, type CSSProperties, type FormEvent } from 'react'
 import { GhostSprite } from '../ghost/GhostSprite'
 import type { Mood } from '../ghost/sprite'
 import { calm, demoAction, demoCompleted, demoStarted, react, useDemoRequest, useTimers } from '../lib/akyu'
 import { DAY_START, hm, hmFull, length, parseDay, schedule, type PlanTask } from '../lib/plan'
 import { CapTag, DemoTag } from './DemoTag'
+import { CURSOR_COLORS, CURSOR_ROWS } from './Demo'
+import { OsBar, OsTask } from './Os'
+import { PixelArt } from './PixelArt'
 import { PixelBox } from './PixelBox'
 import './PlanDemo.css'
 
@@ -46,6 +49,80 @@ export function PlanDemo() {
     mood: 'idle',
   })
   const lostAfter = useRef<number | null>(null)
+  const stage = useRef<HTMLDivElement>(null)
+  const planBtn = useRef<HTMLButtonElement>(null)
+  const phaseRef = useRef<Phase>('idle')
+  phaseRef.current = phase
+  const planRef = useRef(plan)
+  planRef.current = plan
+  const [pointer, setPointer] = useState<{ x: number; y: number; show: boolean; press: boolean }>({
+    x: 0,
+    y: 0,
+    show: false,
+    press: false,
+  })
+
+  // The first time the demo scrolls into view it starts itself: a pixel cursor
+  // glides to "Plan it", presses it, and the day is planned. Any touch from the
+  // visitor takes over and cancels it.
+  useEffect(() => {
+    const el = stage.current
+    if (!el) return
+    let ran = false
+    let cancelled = false
+    const timeouts: number[] = []
+    const later = (ms: number, fn: () => void) => timeouts.push(window.setTimeout(() => !cancelled && fn(), ms))
+    const stop = () => {
+      cancelled = true
+      setPointer((p) => ({ ...p, show: false, press: false }))
+    }
+    const centre = () => {
+      const box = el.getBoundingClientRect()
+      const btn = planBtn.current?.getBoundingClientRect()
+      if (!btn) return null
+      return { x: btn.left - box.left + btn.width * 0.55, y: btn.top - box.top + btn.height * 0.5, h: box.height }
+    }
+    const start = () => {
+      if (ran || phaseRef.current !== 'idle') return
+      ran = true
+      if (calm()) {
+        planRef.current(EXAMPLES[0])
+        return
+      }
+      const target = centre()
+      if (!target) return
+      // Begin low and to the left, then head for the button.
+      setPointer({ x: 24, y: target.h * 0.7, show: true, press: false })
+      later(250, () => setPointer({ x: target.x, y: target.y, show: true, press: false }))
+      later(1100, () => setPointer({ x: target.x, y: target.y, show: true, press: true }))
+      later(1350, () => {
+        setPointer({ x: target.x, y: target.y, show: true, press: false })
+        planRef.current(EXAMPLES[0])
+      })
+      later(1700, () => setPointer({ x: target.x + 40, y: target.y + 140, show: true, press: false }))
+      later(2600, () => setPointer((p) => ({ ...p, show: false })))
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          observer.disconnect()
+          start()
+        }
+      },
+      { threshold: 1 },
+    )
+    // Watch the button itself: the whole demo is taller than most screens.
+    observer.observe(planBtn.current ?? el)
+    el.addEventListener('pointerdown', stop)
+    el.addEventListener('keydown', stop)
+    return () => {
+      cancelled = true
+      observer.disconnect()
+      timeouts.forEach((id) => window.clearTimeout(id))
+      el.removeEventListener('pointerdown', stop)
+      el.removeEventListener('keydown', stop)
+    }
+  }, [])
 
   function plan(input: string, via: 'page' | 'ghost' = 'page') {
     timers.clear()
@@ -196,7 +273,17 @@ export function PlanDemo() {
       </div>
 
       <PixelBox shadow className="plandemo__box">
-        <div className="plandemo__in">
+        <OsBar title="Akyu · Plan my day" />
+        <div className="plandemo__in" ref={stage}>
+          <span
+            className="plandemo__cursor"
+            data-show={pointer.show ? '' : undefined}
+            data-press={pointer.press ? '' : undefined}
+            style={{ left: pointer.x, top: pointer.y }}
+            aria-hidden="true"
+          >
+            <PixelArt rows={CURSOR_ROWS} colors={CURSOR_COLORS} />
+          </span>
           <form className="plandemo__ask" onSubmit={onSubmit}>
             <label htmlFor={fieldId} className="plandemo__label">
               What does today hold?
@@ -211,7 +298,13 @@ export function PlanDemo() {
                 spellCheck={false}
                 maxLength={200}
               />
-              <button type="submit" className="btn" disabled={phase === 'planning'}>
+              <button
+                ref={planBtn}
+                type="submit"
+                className="btn"
+                data-press={pointer.press ? '' : undefined}
+                disabled={phase === 'planning'}
+              >
                 <span className="btn__face">Plan it</span>
               </button>
             </div>
@@ -389,6 +482,7 @@ export function PlanDemo() {
             )}
           </div>
         </div>
+        <OsTask />
       </PixelBox>
       <p className="small soft plandemo__fine">
         Tick a task to finish it, or press its name to add notes. Nothing you type here leaves this page.

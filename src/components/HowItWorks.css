@@ -180,3 +180,35 @@
   font-size: 1rem;
   white-space: nowrap;
 }
+
+/* The little pictures sit on a drawn desktop. */
+.how__art {
+  align-items: flex-end;
+  padding: 0.9rem 0.9rem 0;
+  border: 3px solid var(--ink);
+  background:
+    linear-gradient(to bottom, transparent calc(100% - 1.4rem), #fff calc(100% - 1.4rem)) bottom / 100% 100% no-repeat,
+    url('../assets/wallpaper.png') center bottom / cover no-repeat,
+    #5aa5f0;
+  image-rendering: pixelated;
+  position: relative;
+}
+
+.how__art::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1.4rem;
+  border-top: 3px solid var(--ink);
+  background:
+    linear-gradient(var(--ink), var(--ink)) 1rem 50% / 0.6rem 0.6rem no-repeat,
+    linear-gradient(var(--mint), var(--mint)) 2rem 50% / 0.6rem 0.6rem no-repeat,
+    linear-gradient(var(--peach), var(--peach)) 3rem 50% / 0.6rem 0.6rem no-repeat,
+    #fff;
+}
+
+.how__art > * {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.8rem;
+}

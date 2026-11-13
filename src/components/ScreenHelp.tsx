@@ -13,6 +13,7 @@ import {
 } from '../lib/akyu'
 import type { Capability } from '../site.config'
 import { CapTag, DemoTag } from './DemoTag'
+import { OsTask } from './Os'
 import { PixelBox } from './PixelBox'
 import './ScreenHelp.css'
 
@@ -593,10 +594,12 @@ export function ScreenHelp() {
           </div>
 
           <PixelBox shadow className="ask__frame">
+            <div className="osdesk">
             <div className="ask__window">
               <div className="ask__bar" aria-hidden="true">
                 <span className="ask__icon" />
                 {current.window}
+                <span className="osbar__ctl" />
               </div>
               {TABS.map((t) => (
                 <div
@@ -613,6 +616,8 @@ export function ScreenHelp() {
                 </div>
               ))}
             </div>
+            </div>
+            <OsTask />
           </PixelBox>
           <div className="ask__meta">
             <DemoTag capability={current.capability} />

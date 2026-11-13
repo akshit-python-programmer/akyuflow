@@ -1,3 +1,6 @@
+import { useId, useState } from 'react'
+import { INK } from '../ghost/sprite'
+import { PixelArt } from './PixelArt'
 import { PixelBox } from './PixelBox'
 import './Privacy.css'
 
@@ -11,6 +14,9 @@ import './Privacy.css'
   AI service, and account and licence checks contact a server.
   Keep this in step with the FAQ. Do not add claims that are merely likely.
   The dev-mode checklist asks the owner to confirm all of it (site.privacyConfirmed).
+
+  The section is compact: the promise and the two kinds of looking in one card,
+  with the full detail one click away.
 */
 
 const EXAMPLE_LOG = [
@@ -19,16 +25,60 @@ const EXAMPLE_LOG = [
   ['2:33 pm', 'Writer', 'Q3 report.docx'],
 ] as const
 
+const LOCK_ROWS = [
+  '...#####...',
+  '..##...##..',
+  '..#.....#..',
+  '..#.....#..',
+  '###########',
+  '#ooooooooo#',
+  '#oooo#oooo#',
+  '#oooo#oooo#',
+  '#ooooooooo#',
+  '###########',
+]
+const LOCK_COLORS = { '#': INK, o: '#5fe3c0' }
+
 export function Privacy() {
+  const [open, setOpen] = useState(false)
+  const detailId = useId()
+
   return (
     <section className="section privacy" id="privacy" data-recap="Privacy">
       <div className="wrap">
-        <div className="privacy__copy">
-          <h2>Akyu keeps time on its own. It reads your screen only when you ask.</h2>
-          <p className="lede">Two kinds of looking, kept apart.</p>
+        <div className="privacy__card">
+          <span className="privacy__lock" aria-hidden="true">
+            <PixelArt rows={LOCK_ROWS} colors={LOCK_COLORS} />
+          </span>
+          <div className="privacy__head">
+            <p className="privacy__kicker pixel">Privacy</p>
+            <h2>
+              Akyu keeps time on its own. <mark className="privacy__mark">It reads your screen only when you ask.</mark>
+            </h2>
+            <ul className="privacy__brief">
+              <li>
+                <strong className="pixel">Always on</strong>
+                App name and window title only. Stored on your PC.
+              </li>
+              <li>
+                <strong className="pixel privacy__ask">Only when you ask</strong>
+                The window in front, sent to a cloud AI to write the answer.
+              </li>
+            </ul>
+            <button
+              type="button"
+              className="privacy__toggle"
+              aria-expanded={open}
+              aria-controls={detailId}
+              onClick={() => setOpen((o) => !o)}
+            >
+              {open ? 'Hide the details' : 'See exactly what it reads'}
+              <span className="privacy__chev" aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
-        <div className="privacy__grid">
+        <div className="privacy__grid" id={detailId} hidden={!open}>
           <div className="privacy__part">
             <p className="privacy__kind pixel">Always on</p>
             <h3>App name and window title. Stored only on your PC.</h3>

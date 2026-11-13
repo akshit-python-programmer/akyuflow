@@ -47,7 +47,7 @@ function DemoVideo() {
   )
 }
 
-const LOOP_MS = 36_000
+const LOOP_MS = 23_000
 /** The ghost timer in the scene starts here and counts down in real seconds. */
 const START_SEC = 24 * 60 + 12
 
@@ -65,26 +65,28 @@ type Phase =
   | 'mail'
   | 'look'
   | 'answer'
+  | 'lure'
 
 const CUES: ReadonlyArray<readonly [number, Phase]> = [
   [0, 'work'],
-  [2_400, 'micAim'],
-  [4_000, 'micClick'],
-  [4_600, 'listen'],
-  [8_200, 'mail'],
-  [10_200, 'look'],
-  [12_800, 'answer'],
-  [21_400, 'calm'],
-  [23_000, 'drift'],
-  [26_000, 'nudge'],
-  [28_800, 'aim'],
-  [30_600, 'click'],
-  [31_300, 'back'],
-  [34_200, 'calm'],
+  [1_000, 'micAim'],
+  [1_800, 'micClick'],
+  [2_200, 'listen'],
+  [4_000, 'mail'],
+  [5_000, 'look'],
+  [6_300, 'answer'],
+  [12_200, 'calm'],
+  [12_600, 'lure'],
+  [13_800, 'drift'],
+  [16_400, 'nudge'],
+  [18_000, 'aim'],
+  [19_000, 'click'],
+  [19_400, 'back'],
+  [21_600, 'calm'],
 ]
 
-const DRIFT_STARTS = 23_000
-const WORK_RESUMES = 31_300
+const DRIFT_STARTS = 13_800
+const WORK_RESUMES = 19_400
 
 function phaseAt(t: number): Phase {
   let phase: Phase = 'work'
@@ -112,23 +114,26 @@ const MOOD: Record<Phase, Mood> = {
   mail: 'left',
   look: 'right',
   answer: 'happy',
+  lure: 'right',
 }
 
 /** Where the cursor rests, as percentages of the scene, when it is not heading for a button. */
 const CURSOR_REST: Partial<Record<Phase, readonly [number, number]>> = {
   work: [38, 60],
-  drift: [46, 42],
-  nudge: [46, 42],
   calm: [38, 60],
   mail: [40, 50],
   look: [40, 50],
   answer: [30, 40],
+  lure: [80, 15],
+  drift: [44, 50],
+  nudge: [44, 50],
 }
 
+const TIMES = ['4:12', '10:03', '0:58', '12:40', '3:21', '8:15']
 const LINE_WIDTHS = [92, 97, 64, 95, 88, 99, 71, 93, 58]
 const TILE_COLORS = ['#ffb58c', '#b9b0ff', '#ffe08a', '#ff8fa8', '#9fd8ff', '#a9f2dd']
 
-const CURSOR_ROWS = [
+export const CURSOR_ROWS = [
   '#..........',
   '##.........',
   '#o#........',
@@ -146,7 +151,7 @@ const CURSOR_ROWS = [
   '#....#oo#..',
   '.....###...',
 ]
-const CURSOR_COLORS = { '#': INK, o: '#ffffff' }
+export const CURSOR_COLORS = { '#': INK, o: '#ffffff' }
 
 const MIC_ROWS = [
   '...###...',
@@ -179,7 +184,7 @@ function DemoScene() {
   const time = useRef<HTMLElement>(null)
   const played = useRef<HTMLSpanElement>(null)
   // With reduced motion the scene opens paused on its most telling frame: Akyu's answer.
-  const t = useRef(calm ? 16_000 : 0)
+  const t = useRef(calm ? 8_000 : 0)
   const phaseNow = useRef<Phase>(phaseAt(t.current))
   const [phase, setPhase] = useState<Phase>(phaseNow.current)
   const [loop, setLoop] = useState(0)
@@ -187,6 +192,7 @@ function DemoScene() {
   const [onScreen, setOnScreen] = useState(false)
   const [cursor, setCursor] = useState<readonly [number, number]>(CURSOR_REST.work!)
 
+  const offTask = phase === 'drift' || phase === 'nudge' || phase === 'aim' || phase === 'click'
   const blinked = useBlink(MOOD[phase], !calm)
 
   const paint = useCallback(() => {
@@ -269,28 +275,74 @@ function DemoScene() {
                 <div className="win__bar">
                   <span className="win__icon" />
                   Q3 report
+                  <span className="win__ctl" />
                 </div>
                 <div className="win__body doc" key={loop}>
+                  <span className="doc__tools">
+                    <i />
+                    <i />
+                    <i />
+                    <b />
+                    <b />
+                  </span>
                   <span className="doc__title" />
                   {LINE_WIDTHS.map((width, i) => (
                     <span key={i} className="doc__line" style={{ '--i': i, '--w': `${width}%` } as CSSProperties} />
                   ))}
+                  <span className="doc__chart">
+                    {[38, 62, 48, 80, 100].map((h, i) => (
+                      <i key={i} style={{ '--h': `${h}%`, '--k': i } as CSSProperties} />
+                    ))}
+                    <em>Q3</em>
+                  </span>
                 </div>
+              </div>
+
+              <div className="scene__toast">
+                <span className="scene__bell" />
+                <span>
+                  <b className="pixel">New for you</b>
+                  <span className="pixel">10 hours of funny cats</span>
+                </span>
               </div>
 
               <div className="win win--drift">
                 <div className="win__bar">
                   <span className="win__icon win__icon--peach" />
-                  Videos
+                  Videos · funny cats
+                  <span className="win__ctl" />
                 </div>
-                <div className="win__body feed">
-                  {TILE_COLORS.map((color) => (
-                    <span key={color} className="feed__tile">
-                      <span className="feed__thumb" style={{ '--c': color } as CSSProperties} />
+                <div className="win__body tube">
+                  <div className="tube__main">
+                    <span className="tube__screen">
+                      <span className="tube__cat" />
+                      <span className="tube__live pixel">Playing</span>
+                    </span>
+                    <span className="tube__bar">
+                      <i />
+                    </span>
+                    <span className="tube__title">
                       <b />
                       <b />
                     </span>
-                  ))}
+                  </div>
+                  <div className="tube__side">
+                    <span className="pixel tube__next">Up next · autoplay</span>
+                    {TILE_COLORS.slice(0, 3).map((color, i) => (
+                      <span key={color} className="feed__tile">
+                        <span className="feed__thumb" style={{ '--c': color } as CSSProperties}>
+                          <small className="pixel">{TIMES[i]}</small>
+                        </span>
+                        <span className="feed__row">
+                          <i />
+                          <span>
+                            <b />
+                            <b />
+                          </span>
+                        </span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -298,10 +350,16 @@ function DemoScene() {
                 <div className="win__bar">
                   <span className="win__icon win__icon--sky" />
                   Inbox
+                  <span className="win__ctl" />
                 </div>
                 <div className="win__body mail">
+                  <span className="mail__chips">
+                    <em>Inbox</em>
+                    <em>Work</em>
+                    <em className="mail__new">New</em>
+                  </span>
                   <span className="mail__from">
-                    <i />
+                    <i>S</i>
                     <b>Sam</b>
                     <small>3:12 PM</small>
                   </span>
@@ -321,13 +379,14 @@ function DemoScene() {
                 <i />
                 <i />
                 <i />
+                <span className="scene__wifi" aria-hidden="true" />
                 <span className="scene__clock pixel">3:14 PM</span>
               </div>
 
               <div className="scene__dock">
                 <span className="scene__hello pixel">Welcome back.</span>
-                <span className="scene__pill pixel">
-                  <span>Report</span>
+                <span className="scene__pill pixel" data-off={offTask ? '' : undefined}>
+                  <span>{offTask ? 'Off task' : 'Report'}</span>
                   <b ref={time}>{clock(START_SEC)}</b>
                 </span>
                 <span className="scene__mic" data-mic data-pressed={phase === 'micClick' || phase === 'listen' ? '' : undefined}>

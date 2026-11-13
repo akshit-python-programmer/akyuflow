@@ -103,3 +103,134 @@
     padding-left: 1.1rem;
   }
 }
+
+/* ---------- the compact card ---------- */
+
+.privacy__card {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 3px solid var(--ink);
+  background: var(--mint-wash);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+@media (min-width: 40rem) {
+  .privacy__card {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+.privacy__lock {
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 3px solid var(--ink);
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--ink);
+  animation: lock-bob 2.2s steps(2, end) infinite;
+}
+
+.privacy__lock svg {
+  width: 3.4rem;
+  height: auto;
+}
+
+@keyframes lock-bob {
+  50% {
+    translate: 0 -3px;
+  }
+}
+
+.privacy__kicker {
+  margin-bottom: 0.4rem;
+  color: var(--ink-soft);
+  font-size: 1.25rem;
+}
+
+.privacy__head h2 {
+  max-width: 24ch;
+}
+
+/* The promise itself, marked like a highlighter pen. */
+.privacy__mark {
+  padding: 0 0.15em;
+  background: linear-gradient(to bottom, transparent 55%, var(--mint) 55%);
+  color: inherit;
+}
+
+.privacy__brief {
+  display: grid;
+  gap: 0.75rem 2rem;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 52rem) {
+  .privacy__brief {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.privacy__brief li {
+  padding-left: 1rem;
+  border-left: 4px solid var(--ink);
+}
+
+.privacy__brief strong {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.privacy__brief li:has(.privacy__ask) {
+  border-left-color: var(--mint-deep);
+}
+
+.privacy__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  margin-top: 1.25rem;
+  padding: 0.3em 1em;
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  font-weight: 650;
+}
+
+.privacy__toggle:hover {
+  background: var(--mint-pale);
+}
+
+.privacy__chev {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  rotate: 45deg;
+  translate: 0 -2px;
+  transition: rotate 160ms;
+}
+
+.privacy__toggle[aria-expanded='true'] .privacy__chev {
+  rotate: 225deg;
+  translate: 0 2px;
+}
+
+.privacy__grid[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .privacy__lock {
+    animation: none;
+  }
+
+  .privacy__chev {
+    transition: none;
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Companion } from './components/Companion'
 import { DaySlips } from './components/DaySlips'
-import { DayStrip } from './components/DayStrip'
+// import { DayStrip } from './components/DayStrip'
 import { Faq } from './components/Faq'
 import { Footer } from './components/Footer'
 import { FounderNote } from './components/FounderNote'
@@ -36,7 +36,7 @@ export function App({ purchase }: AppProps) {
       <main id="main">
         <Hero />
         <HowItWorks />
-        <DayStrip />
+        {/* <DayStrip /> */}
         <ScreenHelp />
         <DaySlips />
         <NudgeSection />

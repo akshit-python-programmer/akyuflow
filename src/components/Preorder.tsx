@@ -69,6 +69,35 @@ export function Preorder({ purchase }: PreorderProps) {
             A {deposit} refundable deposit locks your price at {locked} a month for life. The normal price is {normal} a
             month.
           </p>
+          <div className="preorder__perks">
+            <h3 className="preorder__perks-title">What your {deposit} gets you</h3>
+            <ul>
+              <li>
+                <span className="preorder__perk-ico pixel" aria-hidden="true">
+                  1
+                </span>
+                <span>
+                  <strong>Weekly progress updates.</strong> See what got built, what broke and what's next, every week.
+                </span>
+              </li>
+              <li>
+                <span className="preorder__perk-ico pixel" aria-hidden="true">
+                  2
+                </span>
+                <span>
+                  <strong>Sneak peeks of live demos.</strong> Watch Akyu work before anyone else does.
+                </span>
+              </li>
+              <li>
+                <span className="preorder__perk-ico pixel" aria-hidden="true">
+                  3
+                </span>
+                <span>
+                  <strong>A community for your feedback.</strong> Tell us what to fix, keep or add, and shape what ships.
+                </span>
+              </li>
+            </ul>
+          </div>
           <p className="preorder__more">
             It's the price of a coffee, and to a one-person team it says something no survey can: <em>yes, build this,
             I'll use it.</em>
@@ -107,6 +136,10 @@ export function Preorder({ purchase }: PreorderProps) {
                     Everyone after launch pays {normal}.
                   </li>
                   <li>
+                    <strong>Weekly progress updates, sneak peeks of live demos and the feedback community.</strong>{' '}
+                    Look out for your first update.
+                  </li>
+                  <li>
                     <strong>First to hear when it ships.</strong> We'll email you the moment Akyu is out, {ship}.
                   </li>
                   <li>
@@ -140,6 +173,12 @@ export function Preorder({ purchase }: PreorderProps) {
                       </s>{' '}
                       <span className="preorder__sum">{locked}</span> a month, for life
                       {save > 0 && <span className="preorder__save pixel">You save {dollars(save)} every month</span>}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Includes</dt>
+                    <dd>
+                      Weekly updates, live demo sneak peeks and a feedback community
                     </dd>
                   </div>
                   <div>
