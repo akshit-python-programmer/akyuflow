@@ -1407,3 +1407,133 @@
     animation: none;
   }
 }
+
+/* ---------- the page hold, made visible ----------
+   While the first story plays the page stays still. This notice says so in the
+   ghost's own voice, shows how long is left, and fills a skip bar as you scroll,
+   so pushing against it gets an answer instead of feeling like a broken page. */
+
+.demo__stage {
+  position: relative;
+}
+
+.holdnote {
+  --held: 0;
+  --skip: 0;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  gap: 0.35rem;
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.55rem 0.85rem 0.6rem;
+  translate: -50% -55%;
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--mint);
+  backdrop-filter: blur(4px);
+  animation: holdnote-in 260ms steps(4, end) both;
+}
+
+/* How much of the pause is left, as a thin mint line along the top edge. */
+.holdnote::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  height: 3px;
+  width: calc((1 - var(--held)) * 100%);
+  background: var(--mint);
+}
+
+.holdnote__line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+
+.holdnote__dot {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--mint);
+  animation: holdnote-blink 1.2s steps(2, jump-none) infinite;
+}
+
+.holdnote__skip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgb(255 255 255 / 0.72);
+}
+
+.holdnote__skip .small {
+  font-size: 0.8125rem;
+}
+
+.holdnote__bar {
+  position: relative;
+  flex: none;
+  width: 4.5rem;
+  height: 0.45rem;
+  background: rgb(255 255 255 / 0.18);
+}
+
+.holdnote__bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--skip) * 100%);
+  background: var(--peach);
+  transition: width 120ms linear;
+}
+
+/* A push against the hold: the notice answers with a small hop and a brighter skip line. */
+.holdnote[data-nudged] {
+  animation: holdnote-hop 300ms steps(3, end);
+}
+
+.holdnote[data-nudged] .holdnote__skip {
+  color: #fff;
+}
+
+.holdnote[data-state='done'] {
+  animation: holdnote-out 1.8s steps(6, end) both;
+}
+
+@keyframes holdnote-in {
+  from {
+    opacity: 0;
+    translate: -50% -15%;
+  }
+}
+
+@keyframes holdnote-hop {
+  50% {
+    translate: -50% calc(-55% - 0.3rem);
+  }
+}
+
+@keyframes holdnote-out {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes holdnote-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@container demo (max-width: 30rem) {
+  .holdnote__line {
+    font-size: 1rem;
+  }
+}

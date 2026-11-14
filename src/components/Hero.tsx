@@ -29,7 +29,7 @@ export function Hero() {
           <p className="hero__sub">
             Akyu is a tiny ghost that lives on your screen. Tell it your day in plain words and it plans it, then
             replans it when things change. It stays beside you, keeping time in view so the plan actually happens. Ask,
-            and it fixes your writing too.{!isLaunch('emailReply') && ' After launch it will draft replies.'}
+            and it fixes your writing{isLaunch('emailReply') ? ' and drafts replies' : ''} too.{!isLaunch('emailReply') && ' After launch it will draft replies.'}
           </p>
           <div className="hero__actions">
             <ReserveLink placement="hero" />

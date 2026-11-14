@@ -48,17 +48,6 @@ export function Faq() {
       ),
     },
     {
-      q: `What is the ${dollars(site.lifetime.price)} founding supporter deal?`,
-      a: (
-        <p>
-          One payment instead of a monthly price: you get Akyu for life, with every update, and you back the founding
-          team directly while Akyu is being built.
-          {site.lifetime.betaAccess && ' Founding supporters also get the beta straight away, before the full launch.'}
-          {site.lifetime.refundNote.trim() && <> {site.lifetime.refundNote.trim()}.</>}
-        </p>
-      ),
-    },
-    {
       // Keep in step with the Privacy section. Confirm with the app before publishing (site.privacyConfirmed).
       q: "What can Akyu see, and what can't it?",
       a: (

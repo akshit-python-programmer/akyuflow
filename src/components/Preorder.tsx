@@ -1,9 +1,9 @@
 import { useEffect, type CSSProperties } from 'react'
 import { GhostSprite } from '../ghost/GhostSprite'
-import type { Purchase } from '../lib/deposit'
+import { checkoutHref, type Purchase } from '../lib/deposit'
 import { dollars, shipDateLabel } from '../lib/format'
 import { track } from '../lib/track'
-import { checkoutOpen, lifetimeOpen, site } from '../site.config'
+import { checkoutOpen, site } from '../site.config'
 import { reserveLabel, showWaitlist } from './Cta'
 import { PixelBox } from './PixelBox'
 import { WaitlistForm } from './WaitlistForm'
@@ -36,26 +36,15 @@ function Signed({ line }: { line: string }) {
 
 export function Preorder({ purchase }: PreorderProps) {
   const ship = shipDateLabel()
-  const mac = shipDateLabel(site.macShipDate)
   const deposit = dollars(site.price.deposit)
   const locked = dollars(site.price.lockedPerMonth)
   const normal = dollars(site.price.normalPerMonth)
   const save = site.price.normalPerMonth - site.price.lockedPerMonth
-  const lifetime = dollars(site.lifetime.price)
-  const refundNote = site.lifetime.refundNote.trim()
   const email = site.supportEmail.trim()
 
   useEffect(() => {
     if (purchase) document.getElementById('reserve')?.scrollIntoView({ block: 'start' })
   }, [purchase])
-
-  function goLifetime() {
-    track('cta_click', { cta: 'lifetime', placement: 'preorder' })
-    const el = document.getElementById('lifetime')
-    if (!el) return
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    el.focus({ preventScroll: true })
-  }
 
   return (
     <section className="section preorder" id="reserve" data-recap="Pre-order">
@@ -66,8 +55,8 @@ export function Preorder({ purchase }: PreorderProps) {
             <strong>Akyu is not released yet.</strong> It ships {ship}.
           </p>
           <p className="preorder__more">
-            A {deposit} refundable deposit locks your price at {locked} a month for life. The normal price is {normal} a
-            month.
+            A {deposit} refundable deposit locks your price at {locked} a month for your first year. Seats are limited. The
+            normal price is {normal} a month.
           </p>
           <div className="preorder__perks">
             <h3 className="preorder__perks-title">What your {deposit} gets you</h3>
@@ -131,7 +120,7 @@ export function Preorder({ purchase }: PreorderProps) {
                 <ul className="preorder__got">
                   <li>
                     <strong>
-                      <s className="preorder__was preorder__was--small">{normal}</s> {locked} a month, for life.
+                      <s className="preorder__was preorder__was--small">{normal}</s> {locked} a month, for your first year.
                     </strong>{' '}
                     Everyone after launch pays {normal}.
                   </li>
@@ -147,13 +136,6 @@ export function Preorder({ purchase }: PreorderProps) {
                   </li>
                 </ul>
                 <Signed line="This genuinely made my day. I'll make it worth it." />
-                <p className="small soft">
-                  Want to go all in?{' '}
-                  <button type="button" className="link preorder__textbtn" onClick={goLifetime}>
-                    Become a founding supporter
-                  </button>
-                  .
-                </p>
               </div>
             ) : (
               <>
@@ -171,7 +153,8 @@ export function Preorder({ purchase }: PreorderProps) {
                       <s className="preorder__was" aria-label={`Normal price ${normal}`}>
                         {normal}
                       </s>{' '}
-                      <span className="preorder__sum">{locked}</span> a month, for life
+                      <span className="preorder__sum">{locked}</span> a month, for your first year
+                      <span className="small soft">Limited seats</span>
                       {save > 0 && <span className="preorder__save pixel">You save {dollars(save)} every month</span>}
                     </dd>
                   </div>
@@ -191,7 +174,7 @@ export function Preorder({ purchase }: PreorderProps) {
                   <div className="preorder__pay">
                     <a
                       className="btn preorder__paybtn"
-                      href={site.checkoutUrl}
+                      href={checkoutHref(site.checkoutUrl, site.depositReturnFlag)}
                       onClick={() => {
                         track('cta_click', { cta: 'reserve', placement: 'preorder' })
                         track('checkout_start', { placement: 'preorder' })
@@ -221,73 +204,6 @@ export function Preorder({ purchase }: PreorderProps) {
         </PixelBox>
       </div>
 
-      <div className="wrap">
-        <PixelBox shadow className="lifetime" style={{ '--shadow': 'var(--lilac)' } as CSSProperties}>
-          <div className="lifetime__in" id="lifetime" tabIndex={-1}>
-            {purchase === 'lifetime' ? (
-              <div className="preorder__thanks" role="status">
-                <span className="preorder__stamp preorder__stamp--lilac pixel">Founding supporter</span>
-                <span className="preorder__ghost">
-                  <Sparks />
-                  <GhostSprite unit={5} mood="happy" />
-                </span>
-                <h3>You're one of the people who made Akyu happen.</h3>
-                {site.lifetime.betaAccess && (
-                  <p className="lifetime__beta">
-                    <strong>You're in the beta.</strong> {site.lifetime.betaDelivery}
-                  </p>
-                )}
-                <p>
-                  Akyu is yours for life, with no monthly price. We'll email you when the full version ships in {ship}.
-                  {refundNote && <> {refundNote}.</>}
-                </p>
-                <Signed line="I don't have the words. Thank you for believing in this before anyone else did." />
-              </div>
-            ) : (
-              <div className="lifetime__grid">
-                <div>
-                  <span className="lifetime__tag pixel">Founding supporter · lifetime</span>
-                  <h3 className="lifetime__title">Pay once. Akyu for life.</h3>
-                  <p className="lifetime__why">
-                    For the people who want to do more than reserve: back the founding team directly{site.lifetime.betaAccess && ', start using the beta today,'} and never see a
-                    monthly bill.
-                  </p>
-                </div>
-                <div className="lifetime__offer">
-                  <p className="lifetime__price">
-                    <span className="preorder__sum">{lifetime}</span> once
-                    {refundNote && <span className="small soft">{refundNote}</span>}
-                  </p>
-                  <ul className="lifetime__list">
-                    {site.lifetime.betaAccess && (
-                      <li>
-                        <strong>Instant access to the beta, right now</strong>
-                      </li>
-                    )}
-                    <li>Akyu for life, no monthly price</li>
-                    <li>Every update while Akyu exists</li>
-                    <li>Windows at launch, Mac when it ships ({mac})</li>
-                  </ul>
-                  {lifetimeOpen ? (
-                    <a
-                      className="btn"
-                      href={site.lifetime.checkoutUrl}
-                      onClick={() => {
-                        track('cta_click', { cta: 'lifetime', placement: 'lifetime' })
-                        track('checkout_start', { placement: 'lifetime' })
-                      }}
-                    >
-                      <span className="btn__face">Become a founding supporter</span>
-                    </a>
-                  ) : (
-                    <p className="preorder__closed">Founding supporter spots are not open yet.</p>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </PixelBox>
-      </div>
     </section>
   )
 }

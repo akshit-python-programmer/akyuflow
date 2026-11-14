@@ -55,7 +55,17 @@ export function Footer() {
               </button>
             </p>
           )}
-          <p>© {new Date().getFullYear()} Akyu</p>
+          <p>
+            © {new Date().getFullYear()} Akyu, by {site.founder.name}
+            {site.founder.website && (
+              <>
+                {' · '}
+                <a href={site.founder.website} rel="noopener">
+                  {site.founder.website.replace(/^https?:\/\//, '')}
+                </a>
+              </>
+            )}
+          </p>
         </div>
       </div>
     </footer>

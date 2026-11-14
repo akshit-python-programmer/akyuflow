@@ -91,6 +91,8 @@ const WORK_RESUMES = 16_700
 
 /** The scene holds the page still until Akyu's first answer has had its moment. */
 const HOLD_UNTIL = 9_500
+/** How much scrolling (in wheel pixels) lets go of the hold early. */
+const SKIP_AT = 900
 
 function phaseAt(t: number): Phase {
   let phase: Phase = 'work'
@@ -205,6 +207,9 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
   const [playing, setPlaying] = useState(!calm)
   const [onScreen, setOnScreen] = useState(false)
   const [cursor, setCursor] = useState<readonly [number, number]>(CURSOR_REST.work!)
+  // The page hold, shown so a still page reads as a choice, not a bug: 'on' while held, 'done' for a moment after.
+  const [held, setHeld] = useState<'off' | 'on' | 'done'>('off')
+  const holdNote = useRef<HTMLDivElement>(null)
 
   const offTask = phase === 'drift' || phase === 'nudge' || phase === 'aim' || phase === 'click'
   const blinked = useBlink(MOOD[phase], !calm)
@@ -219,6 +224,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
     if (time.current) time.current.textContent = clock(START_SEC - Math.floor(now / 1000))
     scene.current?.style.setProperty('--typed', typedAt(now).toFixed(3))
     played.current?.style.setProperty('--played', String(Math.min(1, (Math.floor(now / 1000) + 1) / (LOOP_MS / 1000))))
+    holdNote.current?.style.setProperty('--held', Math.min(1, now / HOLD_UNTIL).toFixed(3))
   }, [])
 
   useLayoutEffect(paint, [paint])
@@ -266,21 +272,50 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
       lockY = target()
       keep()
     }
-    const stop = (event: Event) => event.preventDefault()
+    // Every push against the hold fills the "keep scrolling to skip" bar, so it answers instead of feeling stuck.
+    let nudgeTimer = 0
+    const push = (amount: number) => {
+      intent += amount
+      const note = holdNote.current
+      if (note) {
+        note.style.setProperty('--skip', Math.min(1, intent / SKIP_AT).toFixed(3))
+        note.dataset.nudged = ''
+        window.clearTimeout(nudgeTimer)
+        nudgeTimer = window.setTimeout(() => delete note.dataset.nudged, 450)
+      }
+      if (intent > SKIP_AT) release()
+    }
+    let touchY: number | null = null
+    const touchStart = (event: TouchEvent) => {
+      touchY = event.touches[0]?.clientY ?? null
+    }
+    const stop = (event: TouchEvent) => {
+      event.preventDefault()
+      const y = event.touches[0]?.clientY
+      if (y === undefined) return
+      if (touchY !== null) push(Math.abs(y - touchY) * 3)
+      touchY = y
+    }
     const keys = (event: KeyboardEvent) => {
       if (event.key === 'Escape') return release()
-      if ([' ', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'End', 'Home'].includes(event.key)) event.preventDefault()
+      if ([' ', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'End', 'Home'].includes(event.key)) {
+        event.preventDefault()
+        push(300)
+      }
     }
     const wheel = (event: WheelEvent) => {
       event.preventDefault()
-      intent += Math.abs(event.deltaY)
-      if (intent > 900) release()
+      push(Math.abs(event.deltaY))
     }
     function release() {
       if (state !== 'holding') return
       state = 'done'
       window.clearInterval(poll)
+      window.clearTimeout(nudgeTimer)
+      setHeld('done')
+      window.setTimeout(() => setHeld((h) => (h === 'done' ? 'off' : h)), 1800)
       window.removeEventListener('wheel', wheel)
+      window.removeEventListener('touchstart', touchStart)
       window.removeEventListener('scroll', keep)
       window.removeEventListener('resize', refit)
       window.removeEventListener('touchmove', stop)
@@ -299,8 +334,10 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
         window.addEventListener('scroll', keep, { passive: true })
         window.addEventListener('resize', refit)
         t.current = 0
+        setHeld('on')
         paint()
         window.addEventListener('wheel', wheel, { passive: false })
+        window.addEventListener('touchstart', touchStart, { passive: true })
         window.addEventListener('touchmove', stop, { passive: false })
         window.addEventListener('keydown', keys)
         poll = window.setInterval(() => {
@@ -312,8 +349,8 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
     observer.observe(el)
     return () => {
       observer.disconnect()
-      state = 'holding'
-      release()
+      if (state === 'holding') release()
+      setHeld('off')
     }
   }, [calm, paint, part])
 
@@ -359,7 +396,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
 
   return (
     <figure className="demo">
-      <div ref={frame}>
+      <div ref={frame} className="demo__stage">
         <PixelBox shadow className="demo__frame">
           <div className="scene" ref={scene} data-phase={phase} role="img" aria-label={part === 'drift' ? DRIFT_STORY : STORY}>
             <div className="scene__all" aria-hidden="true">
@@ -526,6 +563,26 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
             </div>
           </div>
         </PixelBox>
+        {held !== 'off' && (
+          <div className="holdnote" ref={holdNote} data-state={held} role="status">
+            {held === 'on' ? (
+              <>
+                <span className="holdnote__line pixel">
+                  <span className="holdnote__dot" aria-hidden="true" />
+                  Akyu paused the page for a few seconds so you can watch this
+                </span>
+                <span className="holdnote__skip">
+                  <span className="holdnote__bar" aria-hidden="true">
+                    <i />
+                  </span>
+                  <span className="small">Keep scrolling to skip</span>
+                </span>
+              </>
+            ) : (
+              <span className="holdnote__line pixel">Page is all yours again</span>
+            )}
+          </div>
+        )}
       </div>
 
       <figcaption className="demo__meta">

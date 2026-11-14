@@ -32,11 +32,11 @@ export const capabilities = {
   /** The end-of-day recap of where the time went. */
   dayRecap: 'launch',
   /** Akyu reads the email in front and drafts a reply. */
-  emailReply: 'later',
+  emailReply: 'launch',
   /** Akyu fixes typos and wording in a message you are writing. */
   fixMessage: 'launch',
   /** Akyu explains an error or dialog in plain words. */
-  explainThis: 'later',
+  explainThis: 'launch',
 } satisfies Record<string, Availability>
 
 export type Capability = keyof typeof capabilities
@@ -77,7 +77,8 @@ export const site = {
    * That return visit is what gets counted as a deposit.
    * While this is empty the page says deposits are not open yet.
    */
-  checkoutUrl: '',
+  // Dodo Payments TEST-mode link. Swap for the live link (checkout.dodopayments.com) before launch.
+  checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NrvngKOVx0Y12WUZv5Je?quantity=1',
 
   /** Name of the query flag the checkout redirects back with (see above). */
   depositReturnFlag: 'reserved',
@@ -107,9 +108,11 @@ export const site = {
   /** The handwritten note above the pricing. Set `show` to false to hide it. */
   founder: {
     show: true,
-    name: 'A.K Lall',
+    name: 'Akshit Kumar Lall',
     /** How the note is signed off. */
-    signature: 'A.K',
+    signature: 'Akshit Kumar Lall',
+    /** The founder's own website, linked next to the name. Set to '' to show no link. */
+    website: 'https://akshitkumarlall.com',
   },
 
   waitlist: {
@@ -119,7 +122,7 @@ export const site = {
      * e.g. 'https://formspree.io/f/abcdwxyz'
      * While this is empty the waitlist form is hidden on the live site.
      */
-    endpoint: '',
+    endpoint: 'https://formspree.io/f/myewkowz',
     /** Extra fields some services need, e.g. { access_key: '...' } for Web3Forms. */
     extraFields: {} as Record<string, string>,
   },
@@ -135,7 +138,11 @@ export const site = {
   supportEmail: '',
 
   /** Counts visits, CTA clicks and deposits. See README for what each event means. */
-  analytics: { provider: 'none' } as AnalyticsConfig,
+  analytics: {
+    provider: 'umami',
+    scriptSrc: 'https://cloud.umami.is/script.js',
+    websiteId: '9cc3f284-656d-4757-a95e-d60b64d4a95b',
+  } as AnalyticsConfig,
 
   /**
    * The 20-second demo. Put the file in /public (e.g. public/demo.mp4) and set

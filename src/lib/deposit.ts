@@ -55,3 +55,23 @@ export function consumeDepositReturn(): Purchase {
   }
   return kind
 }
+
+/**
+ * The checkout link with a way back. Dodo Payments static links (and several
+ * other providers) accept a redirect_url: we point it at this exact page with
+ * the return flag, so whatever address the site is published at, the buyer
+ * lands on the thank-you message. A redirect_url already in the link wins.
+ */
+export function checkoutHref(link: string, flag: string): string {
+  try {
+    const url = new URL(link)
+    if (url.hostname.endsWith('dodopayments.com') && !url.searchParams.has('redirect_url')) {
+      const back = new URL(window.location.pathname, window.location.origin)
+      back.searchParams.set(flag, '1')
+      url.searchParams.set('redirect_url', back.toString())
+    }
+    return url.toString()
+  } catch {
+    return link
+  }
+}

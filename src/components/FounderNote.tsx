@@ -5,7 +5,7 @@ import './FounderNote.css'
 
 /**
  * A handwritten letter from the founder, pinned above the pricing.
- * Written in A.K's own voice: edit the words freely, they are the founder's,
+ * Written in Akshit's own voice: edit the words freely, they are the founder's,
  * not the product's. Keep anything about refunds in step with the Preorder box.
  */
 export function FounderNote() {
@@ -19,7 +19,7 @@ export function FounderNote() {
         <figure className="founder__paper">
           <span className="founder__tape" aria-hidden="true" />
           <blockquote className="hand founder__note">
-            <p className="founder__hi">Hey, I'm A.K.</p>
+            <p className="founder__hi">Hey, I'm Akshit Kumar Lall.</p>
             <p>
               I'm a college student, and I'm building Akyu <mark>by hand</mark>. Line by line, late at night, between classes and
               assignments. <mark>It isn't vibe coded.</mark> Every pixel of that little ghost, every nudge, every word on this page is
@@ -43,7 +43,17 @@ export function FounderNote() {
           </blockquote>
           <figcaption className="founder__sign">
             <span className="hand founder__sig">{site.founder.signature}</span>
-            <span className="small soft">{site.founder.name}, founder of Akyu</span>
+            <span className="small soft">
+              {site.founder.name}, founder of Akyu
+              {site.founder.website && (
+                <>
+                  {' · '}
+                  <a className="link" href={site.founder.website} rel="noopener">
+                    {site.founder.website.replace(/^https?:\/\//, '')}
+                  </a>
+                </>
+              )}
+            </span>
             <span className="founder__ghost" aria-hidden="true">
               <GhostSprite unit={3} mood="happy" />
             </span>
