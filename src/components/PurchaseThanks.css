@@ -1,0 +1,66 @@
+.thanks {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(30 27 75 / 0.55);
+  animation: thanks-fade 200ms steps(4, end) both;
+}
+
+.thanks__card {
+  width: min(28rem, 100%);
+  max-height: calc(100dvh - 2rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--paper);
+  animation: thanks-pop 300ms steps(5, end) both;
+}
+
+.thanks__in {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.thanks__in h2 {
+  margin: 0;
+  font-size: var(--step-1);
+}
+
+.thanks__in p {
+  margin: 0;
+}
+
+.thanks__ok {
+  color: var(--mint-deep);
+  font-size: 1.25rem;
+}
+
+.thanks__signed span {
+  display: block;
+  margin-top: 0.15rem;
+}
+
+@keyframes thanks-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes thanks-pop {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thanks,
+  .thanks__card {
+    animation: none;
+  }
+}

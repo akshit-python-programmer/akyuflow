@@ -12,6 +12,7 @@ import { HowItWorks } from './components/HowItWorks'
 import { NudgeSection } from './components/NudgeSection'
 import { Preorder } from './components/Preorder'
 import { Privacy } from './components/Privacy'
+import { PurchaseThanks } from './components/PurchaseThanks'
 import { ScreenHelp } from './components/ScreenHelp'
 import { SetupChecklist } from './components/SetupChecklist'
 import type { Purchase } from './lib/deposit'
@@ -49,6 +50,7 @@ export function App({ purchase }: AppProps) {
       </main>
       <Footer />
       <Companion />
+      <PurchaseThanks purchase={purchase} />
     </>
   )
 }
