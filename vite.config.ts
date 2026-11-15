@@ -10,5 +10,16 @@ export default defineConfig({
     // The one big chunk is three.js for the 3D ghost. It is loaded on demand,
     // after the page is already usable, so its size is expected.
     chunkSizeWarningLimit: 1000,
+    // Each page is its own HTML file, so GitHub Pages serves /privacy/, /terms/,
+    // /about/ and /contact/ directly, with no server-side routing.
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        privacy: 'privacy/index.html',
+        terms: 'terms/index.html',
+        about: 'about/index.html',
+        contact: 'contact/index.html',
+      },
+    },
   },
 })

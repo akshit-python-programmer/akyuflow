@@ -85,6 +85,17 @@ and sends its text to a cloud AI service to write the answer; plan text goes to 
 account and licence checks contact a server. Confirm these against the app before publishing. If
 the app changes, change those places together, and do not add claims that are only probably true.
 
+## The other pages
+
+About, Contact, Privacy and Terms are separate pages at `about/`, `contact/`, `privacy/` and
+`terms/`. Each folder holds a small `index.html`; the words are in [`src/pages`](src/pages), and
+the footer links to all four. The facts they state (payment provider, form provider, "last
+updated", governing law) are under `legal` in [`src/site.config.ts`](src/site.config.ts). The
+Contact form posts to `contact.endpoint`, or to `waitlist.endpoint` while that is empty.
+
+The Privacy and Terms pages were written to be clear, not by a lawyer. Read them against what you
+actually do, and have them checked before you rely on them.
+
 ## The demos
 
 Every demo is scripted in the browser: fixed text and simple rules, with no AI service and no

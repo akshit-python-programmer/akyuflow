@@ -132,10 +132,38 @@ export const site = {
    * statement on the page: the Privacy section and the FAQ answers about what
    * Akyu can see and read. Until then the dev-mode checklist reminds you.
    */
-  privacyConfirmed: false,
+  privacyConfirmed: true,
 
   /** Public contact address, used for refund requests. Leave empty to show none. */
-  supportEmail: '',
+  supportEmail: 'akshitkumarlal@gmail.com',
+
+  /**
+   * The Contact page's message form. It posts the same way the waitlist does.
+   * Leave `endpoint` empty to reuse waitlist.endpoint; set it to send messages
+   * somewhere else.
+   */
+  contact: {
+    endpoint: '',
+    extraFields: { _subject: 'New message from the Akyu site', _captcha: 'false', _template: 'table' } as Record<string, string>,
+  },
+
+  /**
+   * Facts the Privacy and Terms pages state. Keep them true: change them here
+   * when you change provider, and bump `updated` whenever either page's words change.
+   */
+  legal: {
+    /** Shown as "Last updated" on both pages. */
+    updated: '15 November 2026',
+    /** Who takes the payment at checkout. */
+    paymentProvider: 'Dodo Payments',
+    /** Who delivers the waitlist and contact forms to your inbox. */
+    formProvider: 'FormSubmit',
+    /**
+     * e.g. 'India'. While empty, the Terms page says nothing about governing law.
+     * Fill it in once you have decided (ideally with legal advice).
+     */
+    governingLaw: '',
+  },
 
   /** Counts visits, CTA clicks and deposits. See README for what each event means. */
   analytics: {

@@ -2,6 +2,7 @@ import { GhostSprite } from '../ghost/GhostSprite'
 import { short } from '../lib/format'
 import { ghostLook, recap, setGhostHidden, useVisit } from '../lib/visit'
 import { site } from '../site.config'
+import { SiteLinks } from './SiteLinks'
 import './Footer.css'
 
 export function Footer() {
@@ -41,6 +42,7 @@ export function Footer() {
         </div>
 
         <div className="footer__meta small soft">
+          <SiteLinks root="./" />
           <p>Akyu is a desktop app. Windows first, Mac to follow. It is not released yet.</p>
           {email && (
             <p>

@@ -1,0 +1,369 @@
+/*
+  The plain pages: About, Contact, Privacy, Terms.
+  One narrow column of the page's own voice. The ghost's pixel face is kept for
+  labels only, as on the home page.
+*/
+
+.page {
+  padding-block: clamp(2.5rem, 7vw, 5rem) clamp(4rem, 9vw, 7rem);
+}
+
+.page__footer {
+  margin-top: 0;
+  padding-block: 2.5rem 3.5rem;
+}
+
+.page__footer .footer__meta {
+  gap: 0.6rem;
+}
+
+.doc {
+  max-width: 44rem;
+}
+
+.doc--about,
+.doc--contact {
+  max-width: none;
+}
+
+.doc--about > section,
+.doc--about > h1 {
+  max-width: 46rem;
+}
+
+.doc__kicker {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  padding: 0.15em 0.6em 0.1em;
+  border: 2px solid var(--ink);
+  background: var(--mint-wash);
+  font-size: 1.2rem;
+}
+
+.doc h1 {
+  font-size: var(--step-2);
+  line-height: 1.1;
+}
+
+.doc--about h1,
+.doc--contact h1 {
+  font-size: var(--step-3);
+  line-height: 1.07;
+}
+
+.doc__mark {
+  padding: 0 0.1em;
+  background: linear-gradient(transparent 58%, var(--mint-pale) 58%);
+  color: inherit;
+}
+
+.doc__updated {
+  margin-top: 0.9rem;
+}
+
+.doc__lede {
+  max-width: 40ch;
+}
+
+.doc > section {
+  margin-top: clamp(2.5rem, 6vw, 3.75rem);
+}
+
+.doc section h2 {
+  margin-bottom: 0.9rem;
+  font-size: clamp(1.4rem, 1.2rem + 0.9vw, 1.75rem);
+}
+
+.doc section h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.doc section p + p,
+.doc section ul + p,
+.doc section p + ul {
+  margin-top: 0.85rem;
+}
+
+/* A list whose bullets are single pixels of the ghost's mint. */
+.doc__list {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 62ch;
+}
+
+.doc__list li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.doc__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: var(--mint-deep);
+}
+
+/* The short version: the whole page in four lines, for anyone who will not read the rest. */
+.doc__short {
+  --px: 4px;
+  margin-top: 2rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+  background: var(--mint-wash);
+}
+
+.doc__short-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+}
+
+.doc__short .doc__list li::before {
+  background: var(--ink);
+}
+
+.doc__aside {
+  padding-left: 1rem;
+  border-left: 4px solid var(--mint);
+}
+
+/* ---------- about ---------- */
+
+.doc__beliefs {
+  display: grid;
+  gap: 1.5rem 2.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .doc--about > section:has(.doc__beliefs) {
+    max-width: none;
+  }
+
+  .doc__beliefs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.doc__beliefs li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.doc__beliefs h3 {
+  margin: 0 0 0.3rem;
+}
+
+.doc__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.doc__maker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.25rem 1.75rem;
+}
+
+.doc__maker > svg {
+  flex: none;
+  margin-top: 0.25rem;
+}
+
+.doc__maker > div {
+  flex: 1 1 18rem;
+}
+
+.doc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.75rem;
+}
+
+/* ---------- contact ---------- */
+
+.contact__grid {
+  display: grid;
+  gap: 3rem;
+  margin-top: clamp(2rem, 5vw, 3.25rem);
+}
+
+@media (min-width: 56rem) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.contact__box-in {
+  padding: clamp(1.25rem, 3.5vw, 2rem);
+}
+
+.contact__form {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.contact__pair {
+  display: grid;
+  gap: 1.4rem 1rem;
+}
+
+@media (min-width: 36rem) {
+  .contact__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.contact__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  padding: 0;
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.contact__topics {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.contact__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contact__chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.contact__chip input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.contact__chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.35em 0.9em;
+  border: 3px solid var(--ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.contact__chip:hover span {
+  background: var(--mint-wash);
+}
+
+.contact__chip input:checked + span {
+  background: var(--ink);
+  color: #fff;
+}
+
+.contact__chip input:focus-visible + span {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.contact__text {
+  min-height: 9rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.contact__hint {
+  margin-top: 0.5rem;
+}
+
+.contact__send {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.contact__problem {
+  flex: 1 1 14rem;
+  font-weight: 600;
+}
+
+.contact__done {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.5rem;
+  min-height: 12rem;
+}
+
+.contact__done h2 {
+  margin-bottom: 0.4rem;
+  font-size: var(--step-1);
+}
+
+.contact__closed {
+  padding: 0.9rem 1rem;
+  background: var(--mist);
+  font-weight: 600;
+}
+
+.contact__side {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.contact__side > div {
+  padding-left: 1.1rem;
+  border-left: 4px solid var(--mint);
+}
+
+.contact__h {
+  margin-bottom: 0.35rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.contact__side p + p {
+  margin-top: 0.35rem;
+}
+
+/* The bot trap, kept off screen (same as the waitlist's). */
+.waitlist__trap {
+  position: absolute;
+  left: -200vw;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media (max-width: 34rem) {
+  .header__nav .btn {
+    display: none;
+  }
+
+  .header__nav .link {
+    display: inline;
+  }
+}
