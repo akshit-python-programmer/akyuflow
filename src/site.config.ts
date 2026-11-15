@@ -122,7 +122,7 @@ export const site = {
      * e.g. 'https://formspree.io/f/abcdwxyz'
      * While this is empty the waitlist form is hidden on the live site.
      */
-    endpoint: 'https://formsubmit.co/ajax/akshitkumarlal@gmail.com',
+    endpoint: 'https://formsubmit.co/ajax/akyuflow@gmail.com',
     /** Extra fields some services need, e.g. { access_key: '...' } for Web3Forms. */
     extraFields: { _subject: 'New Akyu waitlist signup', _captcha: 'false', _template: 'table' } as Record<string, string>,
   },
@@ -135,7 +135,7 @@ export const site = {
   privacyConfirmed: true,
 
   /** Public contact address, used for refund requests. Leave empty to show none. */
-  supportEmail: 'akshitkumarlal@gmail.com',
+  supportEmail: 'akyuflow@gmail.com',
 
   /**
    * The Contact page's message form. It posts the same way the waitlist does.
