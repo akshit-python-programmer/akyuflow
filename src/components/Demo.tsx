@@ -179,7 +179,7 @@ const STORY =
   'Animated illustration. Someone is writing a report with the Akyu ghost and its timer in the corner of the screen. ' +
   'The microphone button next to the ghost is pressed and the person asks Akyu what to reply. Another screen shows ' +
   'an email that says “We have a meeting today.” Akyu reads the screen, suggests a short reply, adds to-dos and plans ' +
-  'the day around the meeting: finish the report, prepare, then the meeting. Later, a video site takes over the ' +
+  'the day around the meeting: finish the report, prepare, then the meeting. Then a video site takes over the ' +
   'screen and the ghost asks “Still on the report?” with three buttons: Back to it, 5-min break, and This is part ' +
   'of the task. Back to it is pressed and the report returns.'
 
@@ -589,7 +589,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
         <p className="small soft">
           {part === 'drift'
             ? 'Akyu checking in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released yet.'
-            : 'Akyu at work: ask it out loud about an email and it reads your screen, replies and plans; later it checks in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released yet.'}
+            : 'Akyu at work: ask it out loud about an email and it reads your screen, replies and plans, and it checks in when you drift. This is a drawn illustration, not a screen recording: Akyu is not released yet.'}
         </p>
         <div className="demo__ctl">
           <span className="demo__played" ref={played} aria-hidden="true" />

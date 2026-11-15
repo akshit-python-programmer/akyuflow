@@ -22,7 +22,7 @@ export function FounderNote() {
             <p className="founder__hi">Hey, I'm Akshit Kumar Lall.</p>
             <p>
               I'm a college student, and I'm building Akyu <mark>by hand</mark>. Line by line, late at night, between classes and
-              assignments. <mark>It isn't vibe coded.</mark> Every pixel of that little ghost, every nudge, every word on this page is
+              assignments. Every pixel of that little ghost, every nudge, every word on this page is
               something I sat with until it felt right.
             </p>
             <p>

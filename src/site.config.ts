@@ -122,9 +122,9 @@ export const site = {
      * e.g. 'https://formspree.io/f/abcdwxyz'
      * While this is empty the waitlist form is hidden on the live site.
      */
-    endpoint: 'https://formspree.io/f/myewkowz',
+    endpoint: 'https://formsubmit.co/ajax/akshitkumarlal@gmail.com',
     /** Extra fields some services need, e.g. { access_key: '...' } for Web3Forms. */
-    extraFields: {} as Record<string, string>,
+    extraFields: { _subject: 'New Akyu waitlist signup', _captcha: 'false', _template: 'table' } as Record<string, string>,
   },
 
   /**

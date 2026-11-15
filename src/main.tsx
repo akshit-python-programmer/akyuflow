@@ -7,7 +7,9 @@ import './styles/base.css'
 import { App } from './App'
 import { consumeDepositReturn } from './lib/deposit'
 import { initAnalytics } from './lib/track'
+import { visitorSource } from './lib/utm'
 
+visitorSource() // remember the UTM tags from the arrival link for the waitlist
 initAnalytics()
 // Counts the purchase if this visit is the return trip from checkout (?reserved=1 or ?founder=1).
 const purchase = consumeDepositReturn()

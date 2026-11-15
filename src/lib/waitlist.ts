@@ -1,4 +1,5 @@
 import { site } from '../site.config'
+import { visitorSource } from './utm'
 import { headlineVariant } from './variant'
 
 export type WaitlistResult = { ok: true } | { ok: false; reason: 'not-connected' | 'rejected' | 'network' }
@@ -13,6 +14,7 @@ export async function joinWaitlist(email: string, answer?: string): Promise<Wait
   // Stored with every signup: which headline they saw, and (on the follow-up) their answer.
   body.set('headline_variant', headlineVariant())
   if (answer) body.set('first_thing_to_hand_over', answer)
+  for (const [name, value] of Object.entries(visitorSource())) body.set(name, value)
   for (const [name, value] of Object.entries(site.waitlist.extraFields)) body.set(name, value)
 
   try {
