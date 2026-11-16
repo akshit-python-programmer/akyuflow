@@ -43,6 +43,21 @@
   line-height: var(--rule);
 }
 
+.founder__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(9rem, 12.5rem);
+  gap: clamp(1rem, 4vw, 2rem);
+  align-items: start;
+}
+
+.founder__intro-copy p + p {
+  margin-top: var(--rule);
+}
+
+.founder__intro + p {
+  margin-top: var(--rule);
+}
+
 .founder__note p {
   max-width: none;
   text-wrap: pretty;
@@ -55,6 +70,47 @@
 .founder__hi {
   font-size: 1.35em;
   font-weight: 650;
+}
+
+.founder__portrait {
+  position: relative;
+  justify-self: end;
+  width: 100%;
+  margin: 0.5rem 0 0;
+  padding: 0.45rem 0.45rem 0.65rem;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 5px 0 var(--ink);
+  rotate: 2deg;
+}
+
+.founder__portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 38%;
+  filter: grayscale(1);
+}
+
+.founder__portrait figcaption {
+  padding-top: 0.35rem;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.founder__photo-tape {
+  position: absolute;
+  z-index: 1;
+  top: -0.65rem;
+  left: 50%;
+  width: 4rem;
+  height: 1.15rem;
+  translate: -50% 0;
+  rotate: -4deg;
+  background: rgb(169 242 221 / 0.8);
 }
 
 .founder__note u {
@@ -99,4 +155,17 @@
     0 62% / 100% 0.7em no-repeat;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+@media (max-width: 38rem) {
+  .founder__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .founder__portrait {
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, 14rem);
+    margin-bottom: 0.5rem;
+  }
 }

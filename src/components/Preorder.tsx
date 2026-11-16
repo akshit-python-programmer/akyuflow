@@ -3,7 +3,7 @@ import { GhostSprite } from '../ghost/GhostSprite'
 import { checkoutHref, type Purchase } from '../lib/deposit'
 import { dollars, shipDateLabel } from '../lib/format'
 import { track } from '../lib/track'
-import { checkoutOpen, site } from '../site.config'
+import { checkoutOpen, lifetimeOpen, site } from '../site.config'
 import { reserveLabel, showWaitlist } from './Cta'
 import { PixelBox } from './PixelBox'
 import { WaitlistForm } from './WaitlistForm'
@@ -40,6 +40,7 @@ export function Preorder({ purchase }: PreorderProps) {
   const locked = dollars(site.price.lockedPerMonth)
   const normal = dollars(site.price.normalPerMonth)
   const save = site.price.normalPerMonth - site.price.lockedPerMonth
+  const founderPrice = dollars(site.lifetime.price)
   const email = site.supportEmail.trim()
 
   useEffect(() => {
@@ -52,11 +53,11 @@ export function Preorder({ purchase }: PreorderProps) {
         <div className="preorder__copy">
           <h2>Reserve Akyu for {deposit}.</h2>
           <p className="lede">
-            <strong>Akyu is not released yet.</strong> It ships {ship}.
+            <strong>Akyu is not released yet.</strong> The Windows version ships {ship}, on Christmas Day.
           </p>
           <p className="preorder__more">
-            A {deposit} refundable deposit locks your price at {locked} a month for your first year. Seats are limited. The
-            normal price is {normal} a month.
+            A {deposit} refundable reservation supports development and locks your price at {locked} a month for your
+            first year. Seats are limited. The normal price is {normal} a month.
           </p>
           <div className="preorder__perks">
             <h3 className="preorder__perks-title">What your {deposit} gets you</h3>
@@ -74,7 +75,7 @@ export function Preorder({ purchase }: PreorderProps) {
                   2
                 </span>
                 <span>
-                  <strong>Sneak peeks of live demos.</strong> Watch Akyu work before anyone else does.
+                  <strong>Sneak peeks of live demos.</strong> See Akyu taking shape before launch.
                 </span>
               </li>
               <li>
@@ -82,7 +83,7 @@ export function Preorder({ purchase }: PreorderProps) {
                   3
                 </span>
                 <span>
-                  <strong>A community for your feedback.</strong> Tell us what to fix, keep or add, and shape what ships.
+                  <strong>A community for your feedback.</strong> Tell me what to fix, keep or add, and help shape what ships.
                 </span>
               </li>
             </ul>
@@ -203,6 +204,52 @@ export function Preorder({ purchase }: PreorderProps) {
           </div>
         </PixelBox>
       </div>
+
+      <PixelBox shadow className="lifetime">
+        <div className="lifetime__in">
+          <div className="lifetime__grid">
+            <div>
+              <span className="lifetime__tag pixel">Founder Program</span>
+              <h2 className="lifetime__title">Try the beta now. Help shape what comes next.</h2>
+              <p className="lifetime__why">
+                Become a founding supporter with a one-time payment of {founderPrice} and get lifetime use of Akyu,
+                with no monthly fee. Your feedback will help guide development before the Windows launch.
+              </p>
+            </div>
+            <div className="lifetime__offer">
+              <p className="lifetime__price">
+                <strong className="preorder__sum">{founderPrice}</strong>
+                <span className="small soft">One time · lifetime access</span>
+              </p>
+              <ul className="lifetime__list">
+                {site.lifetime.betaAccess && <li>Access to the current beta before launch</li>}
+                <li>Share feedback and help shape Akyu's development</li>
+                <li>Lifetime use with no monthly fee</li>
+              </ul>
+              {site.lifetime.betaAccess && <p className="lifetime__beta">The beta is unfinished and may have bugs or missing features.</p>}
+              {purchase === 'lifetime' ? (
+                <p className="lifetime__beta" role="status">
+                  You're in! {site.lifetime.betaDelivery}
+                </p>
+              ) : lifetimeOpen ? (
+                <a
+                  className="btn"
+                  href={checkoutHref(site.lifetime.checkoutUrl, site.lifetime.returnFlag)}
+                  onClick={() => {
+                    track('cta_click', { cta: 'founder_program', placement: 'preorder' })
+                    track('checkout_start', { placement: 'founder_program' })
+                  }}
+                >
+                  <span className="btn__face">Join the Founder Program for {founderPrice}</span>
+                </a>
+              ) : (
+                <p className="preorder__closed">Founder Program spots are not open yet.</p>
+              )}
+              {site.lifetime.refundNote.trim() && <p className="small soft">{site.lifetime.refundNote}</p>}
+            </div>
+          </div>
+        </div>
+      </PixelBox>
 
     </section>
   )

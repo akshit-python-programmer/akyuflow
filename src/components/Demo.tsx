@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, typ
 import { GhostSprite, useBlink } from '../ghost/GhostSprite'
 import { INK, type Mood } from '../ghost/sprite'
 import { clock } from '../lib/format'
+import { pageNavigationPending, registerPageHold } from '../lib/hold'
 import { setOnStage } from '../lib/visit'
 import { site } from '../site.config'
 import { Glass } from './Glass'
@@ -256,6 +257,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
     let intent = 0
     let poll = 0
     let lockY = 0
+    let unregisterPageHold = () => {}
     // Where the page must sit so the whole scene is in view, clear of the sticky header.
     const target = () => {
       const header = document.querySelector('header')?.getBoundingClientRect().height ?? 0
@@ -310,6 +312,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
     function release() {
       if (state !== 'holding') return
       state = 'done'
+      unregisterPageHold()
       window.clearInterval(poll)
       window.clearTimeout(nudgeTimer)
       setHeld('done')
@@ -323,7 +326,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (state !== 'waiting' || entry.intersectionRatio < 0.6) return
+        if (state !== 'waiting' || entry.intersectionRatio < 0.6 || pageNavigationPending()) return
         state = 'holding'
         observer.disconnect()
         // 'instant' beats any smooth-scroll setting, so the page lands in one step.
@@ -340,6 +343,7 @@ function DemoScene({ part }: { part: 'all' | 'drift' }) {
         window.addEventListener('touchstart', touchStart, { passive: true })
         window.addEventListener('touchmove', stop, { passive: false })
         window.addEventListener('keydown', keys)
+        unregisterPageHold = registerPageHold(release)
         poll = window.setInterval(() => {
           if (t.current >= HOLD_UNTIL) release()
         }, 100)

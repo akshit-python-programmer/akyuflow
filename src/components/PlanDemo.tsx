@@ -8,7 +8,7 @@ import { CURSOR_COLORS, CURSOR_ROWS } from './Demo'
 import { OsBar, OsTask } from './Os'
 import { PixelArt } from './PixelArt'
 import { PixelBox } from './PixelBox'
-import { holdPage } from '../lib/hold'
+import { holdPage, pageNavigationPending } from '../lib/hold'
 import './PlanDemo.css'
 
 export const EXAMPLES = [
@@ -94,7 +94,7 @@ export function PlanDemo() {
       return { x: btn.left - box.left + btn.width * 0.55, y: btn.top - box.top + btn.height * 0.5, h: box.height }
     }
     const start = () => {
-      if (ran || phaseRef.current !== 'idle') return
+      if (ran || phaseRef.current !== 'idle' || pageNavigationPending()) return
       ran = true
       if (calm()) {
         planRef.current(EXAMPLES[0])

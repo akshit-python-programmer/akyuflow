@@ -48,6 +48,17 @@ export function Faq() {
       ),
     },
     {
+      q: 'Can I try the beta now?',
+      a: (
+        <p>
+          Yes. The Founder Program is a one-time {dollars(site.lifetime.price)} payment for lifetime use of Akyu and
+          access to the beta before launch. The beta is unfinished and may have bugs or missing features. The {deposit}{' '}
+          reservation is refundable and includes progress updates, early demos and a place to share feedback, but not
+          beta access.
+        </p>
+      ),
+    },
+    {
       // Keep in step with the Privacy section. Confirm with the app before publishing (site.privacyConfirmed).
       q: "What can Akyu see, and what can't it?",
       a: (

@@ -1,3 +1,35 @@
+let navigationTarget: Element | null = null
+let navigationTimer = 0
+const activeHolds = new Set<() => void>()
+
+/** Lets in-page navigation pass through animated sections without being held. */
+export function preparePageNavigation(target: Element) {
+  navigationTarget = target
+  window.clearTimeout(navigationTimer)
+  navigationTimer = window.setTimeout(() => {
+    navigationTarget = null
+  }, 10_000)
+  for (const release of [...activeHolds]) release()
+}
+
+/** True until the requested destination is reached or the navigation times out. */
+export function pageNavigationPending(): boolean {
+  if (!navigationTarget) return false
+  const box = navigationTarget.getBoundingClientRect()
+  const header = document.querySelector('header')?.getBoundingClientRect().bottom ?? 0
+  if (box.top <= window.innerHeight * 0.75 && box.bottom > header) {
+    window.clearTimeout(navigationTimer)
+    navigationTarget = null
+    return false
+  }
+  return true
+}
+
+export function registerPageHold(release: () => void): () => void {
+  activeHolds.add(release)
+  return () => activeHolds.delete(release)
+}
+
 /**
  * Keeps the page still on `el` while something plays, and turns any attempt to scroll
  * into a nudge that the caller can use (to speed the scene up, say).
@@ -13,6 +45,7 @@ export function holdPage(
   let lockY = 0
   let released = false
   let lastTouchY: number | null = null
+  let unregisterHold = () => {}
 
   const target = () => {
     const header = document.querySelector('header')?.getBoundingClientRect().height ?? 0
@@ -56,6 +89,7 @@ export function holdPage(
   function release() {
     if (released) return
     released = true
+    unregisterHold()
     window.removeEventListener('wheel', wheel)
     window.removeEventListener('touchstart', touchStart)
     window.removeEventListener('touchmove', touchMove)
@@ -63,7 +97,12 @@ export function holdPage(
     window.removeEventListener('scroll', keep)
     window.removeEventListener('resize', refit)
   }
+  const releaseForNavigation = () => {
+    release()
+    options.onRelease?.()
+  }
 
+  unregisterHold = registerPageHold(releaseForNavigation)
   lockY = target()
   window.scrollTo({ top: lockY, behavior: 'instant' })
   // Layout can settle a moment later (fonts, images): measure again once it has.

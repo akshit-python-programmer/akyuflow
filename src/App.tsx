@@ -16,6 +16,7 @@ import { PurchaseThanks } from './components/PurchaseThanks'
 import { ScreenHelp } from './components/ScreenHelp'
 import { SetupChecklist } from './components/SetupChecklist'
 import type { Purchase } from './lib/deposit'
+import { preparePageNavigation } from './lib/hold'
 import { startVisit } from './lib/visit'
 
 interface AppProps {
@@ -26,6 +27,17 @@ interface AppProps {
 export function App({ purchase }: AppProps) {
   useEffect(() => {
     startVisit()
+    const onPageLinkClick = (event: MouseEvent) => {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      const link = target.closest<HTMLAnchorElement>('a[href^="#"]')
+      if (!link) return
+      const id = link.getAttribute('href')?.slice(1)
+      const destination = id ? document.getElementById(id) : null
+      if (destination) preparePageNavigation(destination)
+    }
+    document.addEventListener('click', onPageLinkClick, true)
+    return () => document.removeEventListener('click', onPageLinkClick, true)
   }, [])
 
   return (

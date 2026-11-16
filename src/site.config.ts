@@ -54,7 +54,7 @@ export const site = {
    * "14 December 2026"; any other text is shown exactly as written.
    * This is the Windows launch.
    */
-  shipDate: 'late December 2026',
+  shipDate: '2026-12-25',
 
   /** When the Mac version follows the Windows launch. Same format as shipDate. */
   macShipDate: 'January 2027',
@@ -77,7 +77,7 @@ export const site = {
    * That return visit is what gets counted as a deposit.
    * While this is empty the page says deposits are not open yet.
    */
-  // Dodo Payments TEST-mode link. Swap for the live link (checkout.dodopayments.com) before launch.
+//   checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Nrvo3faHyhuRANtIGIcn?quantity=1',
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NrvngKOVx0Y12WUZv5Je?quantity=1',
 
   /** Name of the query flag the checkout redirects back with (see above). */
@@ -92,7 +92,8 @@ export const site = {
   lifetime: {
     /** One-off price in US dollars. */
     price: 199,
-    checkoutUrl: '',
+    // checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ns3pD9Lh8xFpxkDlK0gJ?quantity=1',
+    checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0Ns3ojkjs7a64tpaTpsbA?quantity=1',
     returnFlag: 'founder',
     /**
      * Shown under the price. Make sure it matches what your checkout and you
@@ -153,7 +154,7 @@ export const site = {
    */
   legal: {
     /** Shown as "Last updated" on both pages. */
-    updated: '15 November 2026',
+    updated: '16 November 2026',
     /** Who takes the payment at checkout. */
     paymentProvider: 'Dodo Payments',
     /** Who delivers the waitlist and contact forms to your inbox. */

@@ -23,12 +23,12 @@ Everything lives in [`src/site.config.ts`](src/site.config.ts).
 | Setting | What to paste | Until you do |
 | --- | --- | --- |
 | `checkoutUrl` | Hosted checkout link for the $5 deposit (Stripe Payment Link, Lemon Squeezy, Gumroad, Razorpay page...) | The page says "Deposits are not open yet" |
-| `lifetime.checkoutUrl` | Checkout link for the $199 founding supporter deal. Set its after-payment redirect to the site with `?founder=1` | The page shows the offer but says founding spots are not open yet |
+| `lifetime.checkoutUrl` | Checkout link for the $200 founding supporter deal. Set its after-payment redirect to the site with `?founder=1` | The page shows the offer but says founding spots are not open yet |
 | `waitlist.endpoint` | A form endpoint that accepts a POST and answers JSON (Formspree, Web3Forms, Getform, Kit...) | The waitlist form and its links are hidden |
 | `analytics` | Umami or Plausible script details | Nothing is counted |
 | `supportEmail` | Public address for refund requests | No address is shown |
 | `demoVideo.src` | Your 20-second recording, e.g. `./demo.mp4` placed in `public/` | The hero plays a drawn illustration and says so |
-| `shipDate` | Currently `2026-12` | |
+| `shipDate` | Currently `2026-12-25` (Windows launch) | |
 | `privacyConfirmed` | `true`, once you have checked every privacy statement against the real app | The dev-mode bar keeps reminding you |
 
 ### What is promised at launch

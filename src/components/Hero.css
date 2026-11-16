@@ -36,8 +36,47 @@
   margin-top: 2.25rem;
 }
 
-.hero__note {
-  margin-top: 1.25rem;
+.hero__platforms-wrap {
+  margin-top: 1.5rem;
+}
+
+.hero__platform-label {
+  margin-bottom: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero__platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.hero__platform {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 12.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.hero__platform img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+.hero__platform span {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.hero__platform small {
+  color: var(--ink-soft);
+  font-size: var(--step--1);
 }
 
 /* The ghost and the time it is keeping. */

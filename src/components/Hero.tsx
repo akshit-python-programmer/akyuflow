@@ -6,6 +6,8 @@ import { ReserveLink, WaitlistLink } from './Cta'
 import { Demo } from './Demo'
 import { isLaunch } from './DemoTag'
 import { Pronounce } from './Pronounce'
+import windowsLogo from '../../windows.png'
+import macOSLogo from '../../mac-os-logo.png'
 import './Hero.css'
 
 export function Hero() {
@@ -35,9 +37,25 @@ export function Hero() {
             <ReserveLink placement="hero" />
             <WaitlistLink placement="hero" />
           </div>
-          <p className="hero__note small soft">
-            Not released yet. Windows ships {shipDateLabel()}. Mac follows in {shipDateLabel(site.macShipDate)}.
-          </p>
+          <div className="hero__platforms-wrap">
+            <p className="hero__platform-label pixel small soft">Platform availability</p>
+            <ul className="hero__platforms" aria-label="Platform availability">
+              <li className="hero__platform">
+                <img src={windowsLogo} alt="" />
+                <span>
+                  <strong>Windows</strong>
+                  <small>Launching {shipDateLabel()}</small>
+                </span>
+              </li>
+              <li className="hero__platform">
+                <img src={macOSLogo} alt="" />
+                <span>
+                  <strong>macOS</strong>
+                  <small>Coming {shipDateLabel(site.macShipDate)}</small>
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="hero__ghost">

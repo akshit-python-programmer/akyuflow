@@ -30,7 +30,7 @@ export function TermsPage() {
       <div className="doc__short notch">
         <h2 className="doc__short-title pixel">The short version</h2>
         <ul className="doc__list">
-          <li>Akyu is not released yet. Paying now reserves it; it does not give you the app today.</li>
+          <li>Akyu is not fully released yet. A founding supporter payment includes access to the unfinished beta.</li>
           <li>The {deposit} deposit is refundable in full, any time before launch.</li>
           <li>Ship dates are plans, not guarantees.</li>
           <li>Akyu is a productivity tool. It is not a medical device and does not treat anything.</li>
@@ -95,8 +95,8 @@ export function TermsPage() {
           </li>
           {site.lifetime.betaAccess && (
             <li>
-              <strong>Beta access.</strong> Founding supporters get the beta before launch. A beta is unfinished: it
-              will have bugs and missing pieces.
+              <strong>Beta access.</strong> Founding supporters get access to the beta before launch. A beta is
+              unfinished: it may have bugs and missing pieces.
             </li>
           )}
           {refundNote && (
