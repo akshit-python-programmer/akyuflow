@@ -123,9 +123,8 @@ export const site = {
      * e.g. 'https://formspree.io/f/abcdwxyz'
      * While this is empty the waitlist form is hidden on the live site.
      */
-    endpoint: 'https://formsubmit.co/ajax/akyuflow@gmail.com',
-    /** Extra fields some services need, e.g. { access_key: '...' } for Web3Forms. */
-    extraFields: { _subject: 'New Akyu waitlist signup', _captcha: 'false', _template: 'table' } as Record<string, string>,
+    endpoint: 'https://api.web3forms.com/submit',
+    extraFields: { access_key: 'cd2520bb-cc41-4abc-85d3-8cbbea81d347', subject: 'New Akyu waitlist signup' } as Record<string, string>,
   },
 
   /**
@@ -158,7 +157,7 @@ export const site = {
     /** Who takes the payment at checkout. */
     paymentProvider: 'Dodo Payments',
     /** Who delivers the waitlist form to your inbox. */
-    waitlistFormProvider: 'FormSubmit',
+    waitlistFormProvider: 'Web3Forms',
     /** Who delivers the contact form to your inbox. */
     contactFormProvider: 'Web3Forms',
     /**

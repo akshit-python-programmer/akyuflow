@@ -11,6 +11,7 @@ const PROBLEM: Record<Exclude<WaitlistResult, { ok: true }>['reason'], string> =
   'not-connected': 'The waitlist is not connected yet. Set waitlist.endpoint in src/site.config.ts.',
   rejected: "The waitlist didn't accept that address. Check it and try again.",
   network: "Couldn't reach the waitlist. Check your connection and try again.",
+  timeout: "We didn't receive confirmation in time. Please check your connection and try again.",
 }
 
 export function WaitlistForm({ placement }: { placement: string }) {
@@ -52,7 +53,7 @@ export function WaitlistForm({ placement }: { placement: string }) {
   if (status === 'done') {
     return (
       <div id="waitlist" role="status">
-        <p className="waitlist__done">You're on the waitlist. We'll email you when Akyu ships.</p>
+        <p className="waitlist__done">Successfully submitted. You're on the waitlist; we'll email you when Akyu ships.</p>
         {joined && (
           <div className="plandemo__chips" role="group" aria-label="What would you hand to Akyu first?">
             <span className="small soft">{answer ? 'Thanks, that helps.' : 'What would you hand to Akyu first?'}</span>

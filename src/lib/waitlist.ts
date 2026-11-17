@@ -2,7 +2,7 @@ import { site } from '../site.config'
 import { visitorSource } from './utm'
 import { headlineVariant } from './variant'
 
-export type WaitlistResult = { ok: true } | { ok: false; reason: 'not-connected' | 'rejected' | 'network' }
+export type WaitlistResult = { ok: true } | { ok: false; reason: 'not-connected' | 'rejected' | 'network' | 'timeout' }
 
 /** Posts one email address to the form endpoint named in site.config.ts. */
 export async function joinWaitlist(email: string, answer?: string): Promise<WaitlistResult> {
@@ -17,14 +17,33 @@ export async function joinWaitlist(email: string, answer?: string): Promise<Wait
   for (const [name, value] of Object.entries(visitorSource())) body.set(name, value)
   for (const [name, value] of Object.entries(site.waitlist.extraFields)) body.set(name, value)
 
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), 15000)
+
   try {
     const response = await fetch(endpoint, {
       method: 'POST',
       body,
       headers: { Accept: 'application/json' },
+      signal: controller.signal,
     })
-    return response.ok ? { ok: true } : { ok: false, reason: 'rejected' }
+    if (!response.ok) return { ok: false, reason: 'rejected' }
+
+    let result: unknown
+    try {
+      result = await response.json()
+    } catch {
+      return { ok: false, reason: 'rejected' }
+    }
+
+    if (typeof result !== 'object' || result === null || !('success' in result) || result.success !== true) {
+      return { ok: false, reason: 'rejected' }
+    }
+    return { ok: true }
   } catch {
+    if (controller.signal.aborted) return { ok: false, reason: 'timeout' }
     return { ok: false, reason: 'network' }
+  } finally {
+    window.clearTimeout(timeout)
   }
 }

@@ -24,8 +24,8 @@ Everything lives in [`src/site.config.ts`](src/site.config.ts).
 | --- | --- | --- |
 | `checkoutUrl` | Hosted checkout link for the $5 deposit (Stripe Payment Link, Lemon Squeezy, Gumroad, Razorpay page...) | The page says "Deposits are not open yet" |
 | `lifetime.checkoutUrl` | Checkout link for the $200 founding supporter deal. Set its after-payment redirect to the site with `?founder=1` | The page shows the offer but says founding spots are not open yet |
-| `waitlist.endpoint` | A form endpoint that accepts a POST and answers JSON (Formspree, Web3Forms, Getform, Kit...) | The waitlist form and its links are hidden |
-| `contact.endpoint` | Contact form endpoint (currently Web3Forms; its access key is in `contact.extraFields`) | The contact form reuses `waitlist.endpoint` |
+| `waitlist.endpoint` | Web3Forms endpoint; its access key is in `waitlist.extraFields` | The waitlist form and its links are hidden |
+| `contact.endpoint` | Web3Forms endpoint; its access key is in `contact.extraFields` | The contact form reuses `waitlist.endpoint` |
 | `analytics` | Umami or Plausible script details | Nothing is counted |
 | `supportEmail` | Public address for refund requests | No address is shown |
 | `demoVideo.src` | Your 20-second recording, e.g. `./demo.mp4` placed in `public/` | The hero plays a drawn illustration and says so |
@@ -92,8 +92,8 @@ About, Contact, Privacy and Terms are separate pages at `about/`, `contact/`, `p
 `terms/`. Each folder holds a small `index.html`; the words are in [`src/pages`](src/pages), and
 the footer links to all four. The facts they state (payment provider, form providers, "last
 updated", governing law) are under `legal` in [`src/site.config.ts`](src/site.config.ts). The
-Contact form posts to `contact.endpoint`, or to `waitlist.endpoint` while that is empty. The
-waitlist currently uses FormSubmit and the contact form uses Web3Forms.
+The waitlist and Contact forms post to Web3Forms and show a success message only after the service
+confirms the submission.
 
 The Privacy and Terms pages were written to be clear, not by a lawyer. Read them against what you
 actually do, and have them checked before you rely on them.
