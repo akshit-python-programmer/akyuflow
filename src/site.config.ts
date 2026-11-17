@@ -77,8 +77,8 @@ export const site = {
    * That return visit is what gets counted as a deposit.
    * While this is empty the page says deposits are not open yet.
    */
-//   checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Nrvo3faHyhuRANtIGIcn?quantity=1',
-  checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NrvngKOVx0Y12WUZv5Je?quantity=1',
+  checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Nrvo3faHyhuRANtIGIcn?quantity=1',
+//   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NrvngKOVx0Y12WUZv5Je?quantity=1',
 
   /** Name of the query flag the checkout redirects back with (see above). */
   depositReturnFlag: 'reserved',
@@ -92,8 +92,8 @@ export const site = {
   lifetime: {
     /** One-off price in US dollars. */
     price: 199,
-    // checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ns3pD9Lh8xFpxkDlK0gJ?quantity=1',
-    checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0Ns3ojkjs7a64tpaTpsbA?quantity=1',
+    checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ns3pD9Lh8xFpxkDlK0gJ?quantity=1',
+    // checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0Ns3ojkjs7a64tpaTpsbA?quantity=1',
     returnFlag: 'founder',
     /**
      * Shown under the price. Make sure it matches what your checkout and you
