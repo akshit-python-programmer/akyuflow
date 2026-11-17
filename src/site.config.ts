@@ -144,8 +144,8 @@ export const site = {
    * somewhere else.
    */
   contact: {
-    endpoint: '',
-    extraFields: { _subject: 'New message from the Akyu site', _captcha: 'false', _template: 'table' } as Record<string, string>,
+    endpoint: 'https://api.web3forms.com/submit',
+    extraFields: { access_key: 'cd2520bb-cc41-4abc-85d3-8cbbea81d347', subject: 'New message from the Akyu site' } as Record<string, string>,
   },
 
   /**
@@ -154,11 +154,13 @@ export const site = {
    */
   legal: {
     /** Shown as "Last updated" on both pages. */
-    updated: '16 November 2026',
+    updated: '17 November 2026',
     /** Who takes the payment at checkout. */
     paymentProvider: 'Dodo Payments',
-    /** Who delivers the waitlist and contact forms to your inbox. */
-    formProvider: 'FormSubmit',
+    /** Who delivers the waitlist form to your inbox. */
+    waitlistFormProvider: 'FormSubmit',
+    /** Who delivers the contact form to your inbox. */
+    contactFormProvider: 'Web3Forms',
     /**
      * e.g. 'India'. While empty, the Terms page says nothing about governing law.
      * Fill it in once you have decided (ideally with legal advice).

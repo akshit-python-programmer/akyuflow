@@ -16,7 +16,8 @@ const ANALYTICS_NAME = { umami: 'Umami', plausible: 'Plausible', none: '' } as c
 
 export function PrivacyPage() {
   const analytics = ANALYTICS_NAME[site.analytics.provider]
-  const forms = site.legal.formProvider
+  const waitlistFormProvider = site.legal.waitlistFormProvider
+  const contactFormProvider = site.legal.contactFormProvider
   const pay = site.legal.paymentProvider
   const email = site.supportEmail.trim()
 
@@ -105,8 +106,14 @@ export function PrivacyPage() {
               </p>
             )}
             <p>
-              Both forms are delivered to our inbox by {forms}, a form service, so what you submit passes through its
-              servers. You can ask to be taken off the waitlist, or to have a message deleted, at any time.
+              {waitlistOpen && (
+                <>The waitlist form is delivered to our inbox by {waitlistFormProvider}. </>
+              )}
+              {contactOpen && (
+                <>The contact form is delivered to our inbox by {contactFormProvider}. </>
+              )}
+              What you submit passes through the form service's servers. You can ask to be taken off the waitlist, or to
+              have a message deleted, at any time.
             </p>
           </>
         )}

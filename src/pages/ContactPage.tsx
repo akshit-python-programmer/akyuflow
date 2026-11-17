@@ -24,6 +24,7 @@ function ContactForm() {
   const [trap, setTrap] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [problem, setProblem] = useState('')
+  const nameInput = useRef<HTMLInputElement>(null)
   const emailInput = useRef<HTMLInputElement>(null)
   const textInput = useRef<HTMLTextAreaElement>(null)
 
@@ -36,6 +37,7 @@ function ContactForm() {
   async function onSubmit(event: FormEvent) {
     event.preventDefault()
     if (status === 'sending') return
+    if (!name.trim()) return fail('Enter your name.', nameInput.current)
     const address = email.trim()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
       return fail("That doesn't look like an email address. Check it so a reply can reach you.", emailInput.current)
@@ -67,16 +69,21 @@ function ContactForm() {
       <div className="contact__pair">
         <div>
           <label className="contact__label" htmlFor="contact-name">
-            Your name <span className="soft">(optional)</span>
+            Your name
           </label>
           <input
+            ref={nameInput}
             id="contact-name"
             className="field"
             type="text"
             name="name"
+            required
             autoComplete="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value)
+              if (status === 'error') setStatus('idle')
+            }}
           />
         </div>
         <div>
@@ -89,6 +96,7 @@ function ContactForm() {
             className="field"
             type="email"
             name="email"
+            required
             autoComplete="email"
             inputMode="email"
             spellCheck={false}
@@ -124,6 +132,7 @@ function ContactForm() {
           id="contact-message"
           className="field contact__text"
           name="message"
+          required
           rows={6}
           value={text}
           onChange={(e) => {
