@@ -26,7 +26,7 @@ export function Faq() {
       q: 'Does Akyu run on Mac or Linux?',
       a: (
         <p>
-          Windows comes first, in {ship}. The Mac version follows in {shipDateLabel(site.macShipDate)}. There is no
+          Windows comes first, {/^\d/.test(ship) ? 'on' : 'in'} {ship}. The Mac version follows in {shipDateLabel(site.macShipDate)}. There is no
           Linux version planned.
         </p>
       ),

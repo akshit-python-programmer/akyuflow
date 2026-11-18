@@ -1,4 +1,5 @@
 import { site } from '../site.config'
+import { audience } from './audience'
 import { track } from './track'
 
 /** What the visitor has just paid for, if anything. */
@@ -68,6 +69,8 @@ export function checkoutHref(link: string, flag: string): string {
     if (url.hostname.endsWith('dodopayments.com') && !url.searchParams.has('redirect_url')) {
       const back = new URL(window.location.pathname, window.location.origin)
       back.searchParams.set(flag, '1')
+      // Buyers come back to the same version of the page they paid from.
+      if (audience() === 'productivity') back.searchParams.set('for', 'productivity')
       url.searchParams.set('redirect_url', back.toString())
     }
     return url.toString()

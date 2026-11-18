@@ -103,7 +103,7 @@ export const site = {
     /** Founding supporters get the beta straight away. Set to false to drop the promise. */
     betaAccess: true,
     /** Shown on the thank-you screen after paying: tell them how the beta reaches them. */
-    betaDelivery: 'Your beta download link is on its way to your email.',
+    betaDelivery: "I'll email your beta access to the address you paid with.",
   },
 
   /** The handwritten note above the pricing. Set `show` to false to hide it. */
@@ -153,7 +153,7 @@ export const site = {
    */
   legal: {
     /** Shown as "Last updated" on both pages. */
-    updated: '17 November 2026',
+    updated: '18 November 2026',
     /** Who takes the payment at checkout. */
     paymentProvider: 'Dodo Payments',
     /** Who delivers the waitlist form to your inbox. */

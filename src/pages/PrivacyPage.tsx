@@ -68,7 +68,8 @@ export function PrivacyPage() {
             </p>
             <p>
               On top of that, the page reports when a button is pressed, when one of the demos is started or finished,
-              and which of two headlines you were shown. Your email address is never sent to analytics.
+              and which version of the page you are reading: the one written for ADHD brains or the general productivity
+              one. Your email address is never sent to analytics.
             </p>
           </>
         ) : (
@@ -76,9 +77,8 @@ export function PrivacyPage() {
         )}
 
         <h3>What is kept in your browser</h3>
-        <p>The site stores three small things in your own browser. None of them is a cookie.</p>
+        <p>The site can store two small things in your own browser. Neither of them is a cookie.</p>
         <ul className="doc__list">
-          <li>Which of two headlines you were shown, so you see the same one next time.</li>
           <li>
             The campaign tags from the link you arrived by, if it had any. These are cleared when you close the tab.
           </li>
@@ -97,15 +97,16 @@ export function PrivacyPage() {
             <h3>The waitlist and the contact form</h3>
             {waitlistOpen && (
               <p>
-                If you join the waitlist, we receive your email address, which headline you saw, the campaign tags from
-                your link if there were any, and your answer to the one follow-up question if you choose to answer it.
+                If you join the waitlist, we receive your email address, which version of the page you were reading, the
+                campaign tags from your link if there were any, and your answer to the one follow-up question if you
+                choose to answer it.
                 We use the address to tell you when Akyu ships and to send news about it.
               </p>
             )}
             {contactOpen && (
               <p>
-                If you send a message from the contact page, we receive what you typed: your name if you gave one, your
-                email address, the topic and the message. We use them to reply.
+                If you send a message from the contact page, we receive what you typed: your name, your email address,
+                the topic and the message. We use them to reply.
               </p>
             )}
             <p>

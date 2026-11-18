@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="robots" content="noindex" />
+    <title>Page not found · Akyu</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!--
+      GitHub Pages serves this file for any missing address, at any depth, so
+      every link here starts at the site root and the styles are inline.
+    -->
+    <style>
+      :root {
+        --paper: #ffffff;
+        --ink: #1e1b4b;
+        --ink-soft: #57547f;
+        --mint: #5fe3c0;
+        --mint-pale: #a9f2dd;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        min-height: 100dvh;
+        margin: 0;
+        padding: 2rem 1rem;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-size: 1.125rem;
+        line-height: 1.6;
+      }
+
+      main {
+        width: min(100%, 32rem);
+      }
+
+      img {
+        display: block;
+        width: 88px;
+        height: auto;
+        margin-bottom: 1.5rem;
+        image-rendering: pixelated;
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(2rem, 1.5rem + 2.5vw, 2.75rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        margin: 0;
+        color: var(--ink-soft);
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem 1.5rem;
+        margin-top: 1.75rem;
+      }
+
+      a {
+        color: var(--ink);
+        font-weight: 600;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.22em;
+      }
+
+      a:hover {
+        background: var(--mint-pale);
+      }
+
+      a.home {
+        padding: 0.7em 1.4em;
+        background: var(--ink);
+        box-shadow: 0 5px 0 var(--mint);
+        color: #fff;
+        text-decoration: none;
+      }
+
+      a.home:hover {
+        background: var(--ink);
+        translate: 0 2px;
+        box-shadow: 0 3px 0 var(--mint);
+      }
+
+      a:focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/favicon.svg" alt="" width="88" height="88" />
+      <h1>This page drifted off.</h1>
+      <p>The address may be mistyped, or the page may have moved. No harm done.</p>
+      <nav aria-label="Ways back">
+        <a class="home" href="/">Back to the home page</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </main>
+  </body>
+</html>
