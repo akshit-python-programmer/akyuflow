@@ -1,5 +1,6 @@
 import { CapTag } from './DemoTag'
 import type { Capability } from '../site.config'
+import { copy } from '../lib/copy'
 import './Familiar.css'
 
 interface Moment {
@@ -43,16 +44,15 @@ const MOMENTS: readonly Moment[] = [
 ]
 
 export function Familiar() {
+  const c = copy()
+
   return (
-    <section className="section familiar" id="adhd" data-recap="Sound familiar?">
+    <section className="section familiar" id="adhd" data-recap={c.familiar.recap}>
       <div className="wrap">
         <h2>
-          Sound familiar? <span className="familiar__soft">Akyu was made for exactly this.</span>
+          {c.familiar.title} <span className="familiar__soft">{c.familiar.soft}</span>
         </h2>
-        <p className="lede familiar__lede">
-          Plans that fall apart, tasks that won't start, messages that take forever. Akyu is a personal assistant that
-          takes the managing off your plate and works with an ADHD brain instead of against it.
-        </p>
+        <p className="lede familiar__lede">{c.familiar.lede}</p>
         <ul className="familiar__list">
           {MOMENTS.map((m) => (
             <li key={m.feel} className="familiar__item">
@@ -67,9 +67,7 @@ export function Familiar() {
             </li>
           ))}
         </ul>
-        <p className="familiar__fine small soft">
-          Akyu is a productivity tool, not a treatment for ADHD. Plenty of people without a diagnosis lose time too.
-        </p>
+        <p className="familiar__fine small soft">{c.familiar.fine}</p>
       </div>
     </section>
   )

@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { PixelBox } from '../components/PixelBox'
 import { GhostSprite } from '../ghost/GhostSprite'
+import { audienceHref } from '../lib/audience'
 import { contactOpen, sendMessage, type ContactResult } from '../lib/contact'
 import { dollars } from '../lib/format'
 import { site } from '../site.config'
@@ -225,7 +226,7 @@ export function ContactPage() {
             <h2 className="contact__h pixel">Your message</h2>
             <p>
               It is used to reply to you and for nothing else. The{' '}
-              <a className="link" href={`${HOME}privacy/`}>
+              <a className="link" href={audienceHref(`${HOME}privacy/`)}>
                 privacy policy
               </a>{' '}
               has the detail.

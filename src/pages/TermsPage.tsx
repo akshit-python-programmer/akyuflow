@@ -1,3 +1,5 @@
+import { audienceHref } from '../lib/audience'
+import { copy } from '../lib/copy'
 import { dollars, shipDateLabel } from '../lib/format'
 import { lifetimeOpen, site, waitlistOpen } from '../site.config'
 import { HOME } from './PageShell'
@@ -20,6 +22,7 @@ export function TermsPage() {
   const pay = site.legal.paymentProvider
   const law = site.legal.governingLaw.trim()
   const refundNote = site.lifetime.refundNote.trim()
+  const c = copy()
 
   return (
     <article className="doc">
@@ -79,7 +82,7 @@ export function TermsPage() {
         </ul>
         <p>
           To ask for a refund, write through the{' '}
-          <a className="link" href={`${HOME}contact/`}>
+          <a className="link" href={audienceHref(`${HOME}contact/`)}>
             contact page
           </a>{' '}
           and name the email address you paid with.
@@ -128,10 +131,7 @@ export function TermsPage() {
 
       <section>
         <h2>Not medical advice</h2>
-        <p>
-          Akyu is built for ADHD brains and time blindness, but it is a productivity tool. It is not a medical device,
-          and it does not diagnose, treat or cure anything. Nothing on this site is medical advice.
-        </p>
+        <p>{c.pages.termsMedical}</p>
       </section>
 
       <section>
@@ -162,11 +162,11 @@ export function TermsPage() {
         </p>
         <p>
           Questions go through the{' '}
-          <a className="link" href={`${HOME}contact/`}>
+          <a className="link" href={audienceHref(`${HOME}contact/`)}>
             contact page
           </a>
           . How your information is handled is in the{' '}
-          <a className="link" href={`${HOME}privacy/`}>
+          <a className="link" href={audienceHref(`${HOME}privacy/`)}>
             privacy policy
           </a>
           .

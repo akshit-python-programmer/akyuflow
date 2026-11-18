@@ -1,5 +1,7 @@
 import { site, waitlistOpen } from '../site.config'
+import { audienceHref } from '../lib/audience'
 import { contactOpen } from '../lib/contact'
+import { copy } from '../lib/copy'
 import { HOME } from './PageShell'
 
 /*
@@ -20,6 +22,7 @@ export function PrivacyPage() {
   const contactFormProvider = site.legal.contactFormProvider
   const pay = site.legal.paymentProvider
   const email = site.supportEmail.trim()
+  const c = copy()
 
   return (
     <article className="doc">
@@ -45,7 +48,7 @@ export function PrivacyPage() {
         <p>
           Akyu is built by one person, {site.founder.name}. “We” on this page means that one person. To ask about
           anything here, use the{' '}
-          <a className="link" href={`${HOME}contact/`}>
+          <a className="link" href={audienceHref(`${HOME}contact/`)}>
             contact page
           </a>
           .
@@ -141,11 +144,7 @@ export function PrivacyPage() {
         </p>
 
         <h3>Always on</h3>
-        <p>
-          To notice drift, Akyu reads the name of the app you have in front and the title of its window. In a browser,
-          that title usually includes the name of the page you are on. These go into an activity log that is stored
-          only on your PC.
-        </p>
+        <p>{c.pages.privacyAlways}</p>
 
         <h3>Only when you ask</h3>
         <p>
@@ -177,7 +176,7 @@ export function PrivacyPage() {
         </ul>
         <p>
           Write through the{' '}
-          <a className="link" href={`${HOME}contact/`}>
+          <a className="link" href={audienceHref(`${HOME}contact/`)}>
             contact page
           </a>
           {email && (

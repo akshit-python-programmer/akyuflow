@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { dollars, shipDateLabel } from '../lib/format'
+import { copy } from '../lib/copy'
 import { site } from '../site.config'
 import { showWaitlist } from './Cta'
 import { isLaunch } from './DemoTag'
@@ -9,6 +10,7 @@ export function Faq() {
   const ship = shipDateLabel()
   const deposit = dollars(site.price.deposit)
   const email = site.supportEmail.trim()
+  const c = copy()
 
   const items: ReadonlyArray<{ q: string; a: ReactNode }> = [
     {
@@ -102,13 +104,8 @@ export function Faq() {
       ),
     },
     {
-      q: 'Is Akyu a treatment for ADHD?',
-      a: (
-        <p>
-          No. Akyu is a personal assistant that helps you plan, follow through and stay aware of time, built for ADHD
-          brains. It is not a medical device, and it does not diagnose or treat anything.
-        </p>
-      ),
+      q: c.faq.otherQuestion,
+      a: <p>{c.faq.otherAnswer}</p>,
     },
   ]
 

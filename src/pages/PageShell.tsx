@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { reserveLabel } from '../components/Cta'
 import { SiteLinks, type PageSlug } from '../components/SiteLinks'
 import { GhostSprite } from '../ghost/GhostSprite'
+import { audienceHref } from '../lib/audience'
 import { checkoutOpen, site } from '../site.config'
 import '../components/Header.css'
 import '../components/Footer.css'
@@ -21,16 +22,16 @@ export function PageShell({ current, children }: { current: PageSlug; children: 
       </a>
       <header className="header">
         <div className="wrap header__in">
-          <a className="header__brand" href={HOME} aria-label="Akyu, back to the home page">
+          <a className="header__brand" href={audienceHref(HOME)} aria-label="Akyu, back to the home page">
             <GhostSprite unit={2} level={0.6} />
             <span className="pixel">akyu</span>
           </a>
           <nav className="header__nav" aria-label="Get Akyu">
-            <a className="link" href={HOME}>
+            <a className="link" href={audienceHref(HOME)}>
               Back to the home page
             </a>
             {checkoutOpen && (
-              <a className="btn btn--small" href={`${HOME}#reserve`}>
+              <a className="btn btn--small" href={audienceHref(`${HOME}#reserve`)}>
                 <span className="btn__face">{reserveLabel}</span>
               </a>
             )}

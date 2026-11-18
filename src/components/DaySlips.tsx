@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { DemoTag } from './DemoTag'
 import { PixelBox } from './PixelBox'
 import { PlanDemo } from './PlanDemo'
+import { copy } from '../lib/copy'
 import './DaySlips.css'
 
 const RECAP: ReadonlyArray<{ label: string; minutes: number; kind: 'task' | 'break' | 'else' }> = [
@@ -46,17 +47,16 @@ function RecapArt() {
 }
 
 export function DaySlips() {
+  const c = copy()
+
   return (
     <section className="section slips" id="slips" data-recap="Plan and replan">
       <div className="wrap">
         <p>
           <span className="captag pixel">1 · Runs your day</span>
         </p>
-        <h2>Say it in plain words. Akyu plans your day, and replans it when it slips.</h2>
-        <p className="lede slips__lede">
-          Akyu turns what you tell it into a timed plan. Something ran long, or something came up? One click, and it
-          replans the rest of your day.
-        </p>
+        <h2>{c.plan.title}</h2>
+        <p className="lede slips__lede">{c.plan.lede}</p>
 
         <div className="slips__demo">
           <PlanDemo />

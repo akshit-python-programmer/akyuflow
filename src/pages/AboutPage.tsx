@@ -1,6 +1,8 @@
 import { reserveLabel } from '../components/Cta'
 import { isLaunch } from '../components/DemoTag'
 import { GhostSprite } from '../ghost/GhostSprite'
+import { audienceHref } from '../lib/audience'
+import { copy } from '../lib/copy'
 import { shipDateLabel } from '../lib/format'
 import { checkoutOpen, site } from '../site.config'
 import { HOME } from './PageShell'
@@ -34,12 +36,14 @@ export function AboutPage() {
   const ship = shipDateLabel()
   const mac = shipDateLabel(site.macShipDate)
   const website = site.founder.website.trim()
+  const c = copy()
 
   return (
     <article className="doc doc--about">
       <p className="doc__kicker pixel">About</p>
       <h1>
-        A personal assistant for time and focus, <mark className="doc__mark">built for ADHD brains</mark>.
+        {c.pages.aboutHeadline.lead}
+        <mark className="doc__mark">{c.pages.aboutHeadline.mark}</mark>.
       </h1>
       <p className="lede doc__lede">
         Akyu is a tiny ghost that lives on your screen. Tell it your day in plain words and it plans it, replans it
@@ -57,9 +61,7 @@ export function AboutPage() {
           screen, and gently checks in if you wander off. Ask, and it fixes the wording of a message you are stuck on
           {isLaunch('emailReply') ? ' or drafts a reply' : ''}.
         </p>
-        <p className="doc__aside small soft">
-          Akyu is a productivity tool. It is not a medical device, and it does not diagnose or treat anything.
-        </p>
+        <p className="doc__aside small soft">{c.pages.aboutAside}</p>
       </section>
 
       <section>
@@ -90,7 +92,7 @@ export function AboutPage() {
               this site all come from the same desk.
             </p>
             <p>
-              <a className="link" href={`${HOME}#founder`}>
+              <a className="link" href={audienceHref(`${HOME}#founder`)}>
                 Read the founder's note
               </a>
               {website && (
@@ -114,11 +116,11 @@ export function AboutPage() {
         </p>
         <div className="doc__actions">
           {checkoutOpen && (
-            <a className="btn" href={`${HOME}#reserve`}>
+            <a className="btn" href={audienceHref(`${HOME}#reserve`)}>
               <span className="btn__face">{reserveLabel}</span>
             </a>
           )}
-          <a className="link" href={`${HOME}contact/`}>
+          <a className="link" href={audienceHref(`${HOME}contact/`)}>
             Ask a question
           </a>
         </div>

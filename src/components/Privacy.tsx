@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { INK } from '../ghost/sprite'
+import { copy } from '../lib/copy'
 import { PixelArt } from './PixelArt'
 import { PixelBox } from './PixelBox'
 import './Privacy.css'
@@ -42,6 +43,7 @@ const LOCK_COLORS = { '#': INK, o: '#5fe3c0' }
 export function Privacy() {
   const [open, setOpen] = useState(false)
   const detailId = useId()
+  const c = copy()
 
   return (
     <section className="section privacy" id="privacy" data-recap="Privacy">
@@ -82,10 +84,7 @@ export function Privacy() {
           <div className="privacy__part">
             <p className="privacy__kind pixel">Always on</p>
             <h3>App name and window title. Stored only on your PC.</h3>
-            <p>
-              To notice drift, Akyu reads the name of the app you have in front and the title of its window. It keeps
-              them in an activity log that is stored only on your PC.
-            </p>
+            <p>{c.privacy.always}</p>
             <PixelBox className="privacy__pc">
               <div className="privacy__pc-in">
                 <p className="privacy__where pixel">Stays on your PC</p>

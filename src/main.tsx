@@ -5,10 +5,12 @@ import '@fontsource/jersey-15/400.css'
 import '@fontsource-variable/caveat/wght.css'
 import './styles/base.css'
 import { App } from './App'
+import { applyAudience } from './lib/audience'
 import { consumeDepositReturn } from './lib/deposit'
 import { initAnalytics } from './lib/track'
 import { visitorSource } from './lib/utm'
 
+applyAudience() // ?for=productivity swaps the title and description too
 visitorSource() // remember the UTM tags from the arrival link for the waitlist
 initAnalytics()
 // Counts the purchase if this visit is the return trip from checkout (?reserved=1 or ?founder=1).

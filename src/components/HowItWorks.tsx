@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { GhostSprite } from '../ghost/GhostSprite'
+import { copy, type Copy } from '../lib/copy'
 import './HowItWorks.css'
 
 function PlanArt() {
@@ -61,36 +62,40 @@ function AskArt() {
   )
 }
 
-const STEPS: ReadonlyArray<{ title: string; body: string; art: ReactNode }> = [
-  {
-    title: 'Talk to Akyu',
-    body: 'Press the mic and say what you need, or type it. Akyu answers in a few words.',
-    art: <AskArt />,
-  },
-  {
-    title: 'It plans your day and your week',
-    body: 'Say what today holds. Akyu turns it into a timed plan and a to-do list, and replans when something runs over.',
-    art: <PlanArt />,
-  },
-  {
-    title: 'It stays beside you and keeps time',
-    body: 'It stays on your screen showing your time, and asks if you are still on task when you drift.',
-    art: <TimerArt />,
-  },
-  {
-    title: "Stuck? It helps with what's on your screen",
-    body: 'Stuck on an email, a message or an error? Akyu looks at the window in front and works from what it sees. Only when you ask.',
-    art: <ReadArt />,
-  },
-]
+function steps(c: Copy): ReadonlyArray<{ title: string; body: string; art: ReactNode }> {
+  return [
+    {
+      title: 'Talk to Akyu',
+      body: 'Press the mic and say what you need, or type it. Akyu answers in a few words.',
+      art: <AskArt />,
+    },
+    {
+      title: 'It plans your day and your week',
+      body: 'Say what today holds. Akyu turns it into a timed plan and a to-do list, and replans when something runs over.',
+      art: <PlanArt />,
+    },
+    {
+      title: 'It stays beside you and keeps time',
+      body: c.how.stepThree,
+      art: <TimerArt />,
+    },
+    {
+      title: "Stuck? It helps with what's on your screen",
+      body: 'Stuck on an email, a message or an error? Akyu looks at the window in front and works from what it sees. Only when you ask.',
+      art: <ReadArt />,
+    },
+  ]
+}
 
 export function HowItWorks() {
+  const c = copy()
+
   return (
     <section className="section how" id="how" data-recap="How it works">
       <div className="wrap">
         <h2>How it works</h2>
         <ol className="how__steps">
-          {STEPS.map((step, i) => (
+          {steps(c).map((step, i) => (
             <li className="how__step" key={step.title}>
               <div className="how__art" aria-hidden="true">
                 {step.art}

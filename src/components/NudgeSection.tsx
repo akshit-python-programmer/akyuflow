@@ -1,5 +1,6 @@
 import type { Choice } from '../lib/visit'
 import { useVisit } from '../lib/visit'
+import { copy } from '../lib/copy'
 import { Demo } from './Demo'
 import { DemoTag } from './DemoTag'
 import { CHOICES } from './NudgePanel'
@@ -13,6 +14,7 @@ const MEANING: Record<Choice, string> = {
 
 export function NudgeSection() {
   const visit = useVisit()
+  const c = copy()
 
   return (
     <section className="section nudgesec" id="nudge" data-recap="The nudge">
@@ -21,10 +23,8 @@ export function NudgeSection() {
           <p>
             <span className="captag pixel">2 · Stays by your side</span>
           </p>
-          <h2 className="nudgesec__title">And while you work, Akyu keeps you company.</h2>
-          <p className="nudgesec__lede">
-            If you drift, Akyu just asks. Three buttons, all the same size. None of them is the wrong answer. No guilt, no streaks.
-          </p>
+          <h2 className="nudgesec__title">{c.nudge.title}</h2>
+          <p className="nudgesec__lede">{c.nudge.lede}</p>
           <dl className="nudgesec__meanings">
             {CHOICES.map((choice) => (
               <div key={choice.id}>

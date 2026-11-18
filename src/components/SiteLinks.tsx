@@ -1,3 +1,4 @@
+import { audienceHref } from '../lib/audience'
 import './SiteLinks.css'
 
 /** The site's other pages. Each is its own folder with an index.html, so plain relative links work anywhere it is hosted. */
@@ -23,7 +24,11 @@ export function SiteLinks({ root, current }: SiteLinksProps) {
       <ul>
         {PAGES.map(([slug, label]) => (
           <li key={slug}>
-            <a className="link" href={`${root}${slug}/`} aria-current={slug === current ? 'page' : undefined}>
+            <a
+              className="link"
+              href={audienceHref(`${root}${slug}/`)}
+              aria-current={slug === current ? 'page' : undefined}
+            >
               {label}
             </a>
           </li>

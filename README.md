@@ -61,7 +61,8 @@ Visits are counted by the analytics script itself. The page sends these events o
 | `demo_action` | Something done inside a demo (tick, notes, shorter, formal, insert, send, use, not_understood) | `demo`, `action` |
 | `day_strip_click` | A moment in "A day with Akyu" is pressed | `moment` (`9:00`, `10:40`...) |
 
-`demo_start` by `demo` is the quickest read on which capability visitors care about.
+`demo_start` by `demo` is the quickest read on which capability visitors care about. Every event
+also carries `audience` (`adhd` or `productivity`), so the two voices can be compared.
 
 Email addresses are never sent to analytics. The `deposit` count is what the browser saw, so treat
 your payment provider's dashboard as the source of truth for money. In Plausible, add each event
@@ -85,6 +86,23 @@ window title, and that log is stored only on the PC; only when asked, it reads t
 and sends its text to a cloud AI service to write the answer; plan text goes to a cloud AI service;
 account and licence checks contact a server. Confirm these against the app before publishing. If
 the app changes, change those places together, and do not add claims that are only probably true.
+
+### Two voices: ADHD, and productivity
+
+The page speaks to ADHD brains by default, and there is nothing to add to the address for that.
+`?for=productivity` gives the same page in a general voice for people who came looking for an AI
+productivity assistant: the headline, the section headings, the FAQ answer about ADHD and a few
+lines on the About, Terms and Privacy pages are reworded, and nothing else changes.
+
+```text
+https://<you>.github.io/<repo>/?for=productivity
+```
+
+Every link the page hands out (the footer, "Read the founder's note", "Reserve for $5") carries the
+switch along, so a visitor stays in the same voice. The words for both voices live in
+[`src/lib/copy.ts`](src/lib/copy.ts); the switch itself, and the page title and description that go
+with it, are in [`src/lib/audience.ts`](src/lib/audience.ts). Change both entries when a section
+changes so the two voices keep saying the same true things.
 
 ## The other pages
 

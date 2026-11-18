@@ -1,5 +1,5 @@
 import { site } from '../site.config'
-import { headlineVariant } from './variant'
+import { audience } from './audience'
 
 /**
  * One small wrapper around whichever analytics service site.config.ts names.
@@ -12,7 +12,8 @@ import { headlineVariant } from './variant'
  *   waitlist_signup the email form was accepted
  *   waitlist_answer the visitor picked what they would hand to Akyu first { answer }
  *
- * Every event also carries { headline: 'a' | 'b' }, the hero headline test.
+ * Every event also carries { audience: 'adhd' | 'productivity' }: which voice
+ * the page was read in.
  *
  * Email addresses are never passed to analytics.
  */
@@ -79,8 +80,8 @@ export function initAnalytics() {
 }
 
 export function track(event: string, base?: Props) {
-  // Every event says which hero headline the visitor saw.
-  const props: Props = { ...base, headline: headlineVariant() }
+  // Every event says which voice the page was read in.
+  const props: Props = { ...base, audience: audience() }
   // Lets any other tool on the page (a tag manager, a test) listen in.
   window.dispatchEvent(new CustomEvent('akyu:track', { detail: { event, props } }))
   if (import.meta.env.DEV) console.info('[akyu:track]', event, props)
